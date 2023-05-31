@@ -1,6 +1,16 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import "@/styles/globals.css";
+import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
+import Head from "next/head";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+export default function App({ Component, pageProps }: AppProps<{ session: Session }>) {
+  return (
+    <SessionProvider session={pageProps.session}>
+      <Head>
+        <title>Sheeeeeeesh Appointment</title>
+      </Head>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
 }
