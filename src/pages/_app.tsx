@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }: AppProps<{ session: Sessio
   return (
     <SessionProvider session={pageProps.session}>
       <Head>
-        <title>Sheeeeeeesh Appointment</title>
+        <title>OGCAS</title>
       </Head>
       <Component {...pageProps} />
     </SessionProvider>
