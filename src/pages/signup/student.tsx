@@ -9,6 +9,7 @@ import { GetServerSidePropsContext } from "next/types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import Student from "@/models/Student";
+import Image from "next/image";
 
 type Props = {};
 
@@ -63,7 +64,16 @@ export default function StudentSignupPage({}: Props) {
     return (
       <div className="flex items-center justify-center w-screen h-screen bg-foreground">
         <div className="w-[45rem] flex flex-col items-center justify-center gap-6 h-full p-4">
-          <h1>eOGC</h1>
+          <div className="flex items-center justify-center gap-2 pb-6">
+            <Image
+              src="/msuiit_logo.png"
+              alt="iit logo"
+              width={60}
+              height={60}
+              className="w-auto"
+            />
+            <h1>eOGC</h1>
+          </div>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex justify-center gap-4">
               <Input
@@ -95,7 +105,7 @@ export default function StudentSignupPage({}: Props) {
               <Input name="email" defaultValue={session.data.user?.email + ""}>
                 Email
               </Input>
-              <div className="flex grow gap-4">
+              <div className="flex gap-4 grow">
                 <Input name="phone" className="grow">
                   Phone
                 </Input>
@@ -141,9 +151,9 @@ export default function StudentSignupPage({}: Props) {
             >
               Address
             </Input>
-            <div className="grow flex justify-end">
+            <div className="flex justify-end grow">
               <Button
-                className="flex gap-3 items-center px-6 bg-primarydark hover:bg-primarydark/80 hover:text-white text-white"
+                className="flex items-center gap-3 px-6 text-white bg-primarydark hover:bg-primarydark/80 hover:text-white"
                 disabled={buttonLoad}
               >
                 {buttonLoad ? (

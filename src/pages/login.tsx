@@ -51,7 +51,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 right-0 text-xs">All rights reserved. Juliard Actub</div>
+        <div className="absolute bottom-0 text-xs">All Rights Reserved</div>
       </>
     );
   return <></>;
