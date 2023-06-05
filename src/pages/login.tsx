@@ -7,6 +7,7 @@ import Image from "next/image";
 import Button from "@/components/button";
 import Student from "@/models/Student";
 import Staff from "@/models/Staff";
+import { isKeyObject } from "util/types";
 
 export async function getServerSideProps({
   req,
@@ -24,7 +25,21 @@ export async function getServerSideProps({
           permanent: false,
         },
       };
-  }
+    else if (student)
+      return {
+        redirect: {
+          destination: "/studentview",
+          permanent: false,
+        },
+      };
+    else if (staff)
+      return {
+        redirect: {
+          destination: "/staffview",
+          permanent: false,
+        },
+      };
+    }
   return {
     props: {},
   };

@@ -1,3 +1,5 @@
+import Staff from "@/models/Staff";
+import Student from "@/models/Student";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -9,6 +11,45 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret:"GnEg0dJ8F1tXBm1sspUtyVC+6yn+1DmqxlsAg45w5sM=",
+  callbacks: {
+    async session({ session, token }: { session: any; token: any }) {
+      const student = await Student.findOne({ email: session.user.email });
+      const staff = await Staff.findOne({ email: session.user.email });
+
+      if (student) {
+        const { _doc } = student;
+        const { password, __v, ...user } = _doc;
+        user.usertype = "student";
+        return {
+          ...session,
+          user,
+        }
+      }
+      else if (staff) {
+        const { _doc } = staff;
+        const { password, __v, ...user } = _doc;
+        user.usertype = "staff";
+        return {
+          ...session,
+          user,
+        }
+      }
+      // {
+      //   user: {
+      //     name: 'JULIARD ACTUB',
+      //     email: 'juliard.actub@g.msuiit.edu.ph',
+      //     image: 'https://lh3.googleusercontent.com/a/AAcHTtd4nCnaD-1RQ6ivBm8CeDhZYbajUzwpmxdzOME1uw=s96-c'
+      //   },
+      //   expires: '2023-07-05T16:31:54.174Z'
+      // }
+
+      return {
+        ...session,
+        test: "fuck"
+      }
+
+    },
+  }
 };
 
 export default NextAuth(authOptions);
