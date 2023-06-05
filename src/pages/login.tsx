@@ -5,6 +5,8 @@ import { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import Image from "next/image";
 import Button from "@/components/button";
+import Student from "@/models/Student";
+import Staff from "@/models/Staff";
 
 export async function getServerSideProps({
   req,
@@ -12,12 +14,16 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions);
   if (session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+    const student = await Student.findOne({ email: session?.user?.email });
+    const staff = await Staff.findOne({ email: session?.user?.email });
+
+    if (!(student && staff))
+      return {
+        redirect: {
+          destination: "/signup",
+          permanent: false,
+        },
+      };
   }
   return {
     props: {},
