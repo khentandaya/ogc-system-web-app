@@ -42,43 +42,44 @@ export default function HomePage() {
     <div className="flex flex-col gap-28">
       <Navbar />
       <Content />
-      {console.log(session.data?.user)}
     </div>
   );
 
   function Navbar() {
     return (
       <>
-        <div className="flex items-center w-screen h-auto py-4 border border-b-2 shadow-sm justify-evenly">
-          <div className="flex justify-end w-1/3 pr-14">
-            <Image
-              src="/msuiit_logo.png"
-              alt="iit logo"
-              width={60}
-              height={60}
-              className="w-auto"
-            />
-          </div>
-          <div className="flex justify-start w-2/3 gap-20">
-            <Link className="hover:text-primary" href="/">
-              Home
-            </Link>
-            <Link
-              className="hover:text-primary"
-              href="/forms/needs-assesment-form"
-            >
-              Take Needs Assesment
-            </Link>
-            <Link className="hover:text-primary" href="/">
-              Book Appointment
-            </Link>
-            <Link
-              className="hover:text-primary"
-              onClick={() => signOut()}
-              href="/"
-            >
-              Logout
-            </Link>
+        <div className="flex justify-center w-screen h-auto py-4 border border-b-2 shadow-sm items-cente">
+          <div className="flex w-[80%] gap-10 items-center justify-around">
+            <div className="">
+              <Image
+                src="/msuiit_logo.png"
+                alt="iit logo"
+                width={60}
+                height={60}
+                className="w-auto"
+              />
+            </div>
+            <div className="flex justify-start w-2/3 gap-20 text-lg">
+              <Link className="hover:text-primary" href="/">
+                Home
+              </Link>
+              <Link
+                className="hover:text-primary"
+                href="/forms/needs-assesment-form"
+              >
+                Take Needs Assesment
+              </Link>
+              <Link className="hover:text-primary" href="/">
+                Book Appointment
+              </Link>
+              <Link
+                className="hover:text-primary"
+                onClick={() => signOut()}
+                href="/"
+              >
+                Logout
+              </Link>
+            </div>
           </div>
         </div>
       </>
@@ -88,7 +89,7 @@ export default function HomePage() {
   function Content() {
     return (
       <div className="flex flex-col items-center justify-center px-36">
-        {/* <div className="flex items-center justify-center w-[70%] gap-10 p-10 bg-slate-400">
+        <div className="flex items-center justify-center w-full gap-10 p-10 bg-slate-400">
           <div className="w-[50%] bg-green-400">
             <Image
               alt="students"
@@ -109,16 +110,6 @@ export default function HomePage() {
               Book your Appointment <LuArrowRight />
             </Button>
           </div>
-        </div> */}
-        <div>
-          <Image
-            alt="students"
-            src={"/hero_student.jpg"}
-            width={600}
-            height={600}
-            className="w-auto"
-            priority
-          />
         </div>
       </div>
     );

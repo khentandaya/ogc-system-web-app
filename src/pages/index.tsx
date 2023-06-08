@@ -24,7 +24,7 @@ export default function HomePage() {
   const session = useSession();
   return (
     <main>
-      {session.status === "authenticated" ? (
+      {/* {session.status === "authenticated" ? (
         <Image
           src={session.data?.user?.image + ""}
           alt={"avatar"}
@@ -34,7 +34,7 @@ export default function HomePage() {
         />
       ) : (
         ""
-      )}
+      )} */}
       Hi!, {session.data?.user?.name} <br />
       <button onClick={() => signOut()}>logout</button><br />
     </main>
