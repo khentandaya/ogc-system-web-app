@@ -4,39 +4,36 @@ import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
+import Student from "@/models/Student";
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+}: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) {
     return {
-      redirect : {
+      redirect: {
         destination: "/login",
         permanent: false,
-      } 
+      },
     };
   }
+
+  const student = await Student.findOne({ email: session?.user?.email });
+  if (student) {
+    return {
+      redirect: {
+        destination: "/studentview",
+      },
+    };
+  }
+
   return {
-    props: {}
+    redirect: {
+      destination: "/staffview",
+    },
   };
 }
 
-export default function HomePage() {
-  const session = useSession();
-  return (
-    <main>
-      {/* {session.status === "authenticated" ? (
-        <Image
-          src={session.data?.user?.image + ""}
-          alt={"avatar"}
-          width={40}
-          height={40}
-          className="w-auto"
-        />
-      ) : (
-        ""
-      )} */}
-      Hi!, {session.data?.user?.name} <br />
-      <button onClick={() => signOut()}>logout</button><br />
-    </main>
-  );
-}
+export default function HomePage() {}

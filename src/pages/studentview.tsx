@@ -1,14 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import Button from "@/components/button";
 import { LuArrowRight } from "react-icons/lu";
 import Student from "@/models/Student";
-import Staff from "@/models/Staff";
+import StudentNav from "@/components/studentNav";
 
 export async function getServerSideProps({
   req,
@@ -38,53 +37,14 @@ export async function getServerSideProps({
 
 export default function HomePage() {
   const session = useSession();
-  return (
-    <div className="flex flex-col gap-28">
-      <Navbar />
-      <Content />
-    </div>
-  );
 
-  function Navbar() {
+  if (session.status === "authenticated")
     return (
-      <>
-        <div className="flex justify-center w-screen h-auto py-4 border border-b-2 shadow-sm items-cente">
-          <div className="flex w-[80%] gap-10 items-center justify-around">
-            <div className="">
-              <Image
-                src="/msuiit_logo.png"
-                alt="iit logo"
-                width={60}
-                height={60}
-                className="w-auto"
-              />
-            </div>
-            <div className="flex justify-start w-2/3 gap-20 text-lg">
-              <Link className="hover:text-primary" href="/">
-                Home
-              </Link>
-              <Link
-                className="hover:text-primary"
-                href="/forms/needs-assesment-form"
-              >
-                Take Needs Assesment
-              </Link>
-              <Link className="hover:text-primary" href="/">
-                Book Appointment
-              </Link>
-              <Link
-                className="hover:text-primary"
-                onClick={() => signOut()}
-                href="/"
-              >
-                Logout
-              </Link>
-            </div>
-          </div>
-        </div>
-      </>
+      <div className="flex flex-col gap-28">
+        <StudentNav />
+        <Content />
+      </div>
     );
-  }
 
   function Content() {
     return (

@@ -39,7 +39,7 @@ export async function getServerSideProps({
           permanent: false,
         },
       };
-    }
+  }
   return {
     props: {},
   };
@@ -61,7 +61,11 @@ export default function LoginPage() {
             />
             <p className="text-center">Welcome to eOGC (tentative)</p>
             <div className="flex gap-3">
-              <Button onClick={() => signIn("google", { callbackUrl: "/" })}>
+              <Button
+                onClick={() => {
+                  signIn("google", { callbackUrl: "/" });
+                }}
+              >
                 Login
               </Button>
               <Button

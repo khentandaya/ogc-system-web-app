@@ -9,7 +9,7 @@ import { GetServerSidePropsContext } from "next/types";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import Staff from "@/models/Staff";
-import Image from "next/Image";
+import Image from "next/image";
 
 type Props = {};
 
@@ -20,6 +20,7 @@ export async function getServerSideProps({
   const session = await getServerSession(req, res, authOptions);
   if (session) {
     const staff = await Staff.findOne({ email: session?.user?.email });
+    // const staff = await axios.get(`/api/staff?email=${session?.user?.email}`);
     if (staff)
       return {
         redirect: {
@@ -39,7 +40,7 @@ export default function StaffSignupPage({}: Props) {
   const user = session.data?.user;
   const fullNameArr = user?.name?.split(" ");
   const firstNameArr = fullNameArr?.filter(
-    (e, i) => i !== fullNameArr.length - 1
+    (_, i) => i !== fullNameArr.length - 1
   );
   const firstName = firstNameArr?.toString().replaceAll(",", " ")
     ? firstNameArr?.toString().replaceAll(",", " ")
