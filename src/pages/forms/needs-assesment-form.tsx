@@ -1,7 +1,4 @@
-import React from "react";
 import StudentNav from "@/components/studentNav";
-import Image from "next/image";
-import Input from "@/components/input";
 import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -10,6 +7,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import Student from "@/models/Student";
 import { useSession } from "next-auth/react";
+import StudentType from "@/types/Student";
+import Checkbox from "@/components/checkbox";
 
 type Props = {};
 
@@ -37,61 +36,262 @@ export async function getServerSideProps({
 export default function NeedsAssesmentForm({
   studentString,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const student = JSON.parse(studentString);
-  // console.log(student);
-
+  const student: StudentType = JSON.parse(studentString);
   const session = useSession();
-  console.log(session);
 
   if (session.status === "authenticated")
     return (
-      <div className="flex flex-col items-center justify-center gap-12">
+      <div className="flex flex-col items-center justify-center">
         <StudentNav />
-        <div className="flex flex-col gap-2 h-[35rem] w-[75%]">
-          <p className="">Student Individual Data and Needs Profile Form</p>
-          <div className="flex flex-col w-full h-full gap-5 p-4 shadow-xl rounded-xl">
-            <Image
-              alt="user-profile"
-              src={session.data?.user?.image + ""}
-              width={100}
-              height={100}
-              className="border-[3px] object-fill shadow-xl border-secondary rounded-3xl"
-            />
+        <div className="flex w-screen px-14 pt-9">
+          <div className="pb-4 relative border-b-[3px] border-slate-300 w-full">
+            <p className="text-3xl font-bold">
+              <span className="bg-gradient-to-tr from-[#28407f] w-fit bg-clip-text to-[#01bfa8]">
+                <span className="text-transparent">
+                  Needs Assessment
+                </span>
+              </span>
+              <br />
+              <span className="text-base font-semibold text-slate-600">
+                We Ensure that your data is confidential
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className="flex pl-14 pt-9 w-screen">
+          <div className="flex px-14 w-full gap-6 pt-2 flex-col">
+            <div className="flex flex-col w-full px-6">
+              <span className="text-lg font-bold">Assessment Form</span>
+              <div className="flex pl-32 pr-10 py-7 max-w-[55rem] flex-col gap-10">
+                <div className="flex flex-col gap-4 justify-around">
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                    I have the need to improve the following___________ (Please
+                    check all that apply to you)
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="studyHabits"
+                      >
+                        Study habits
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="careerDecisions"
+                      >
+                        Career decisions
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="memorySkills"
+                      >
+                        Memory skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Reading Speed
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="noteTaking"
+                      >
+                        Note-taking
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="mathSkills"
+                      >
+                        Math skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="testSkills"
+                      >
+                        Test skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="timeManagement"
+                      >
+                        Time management
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Reading <br />
+                        Comprehension
+                      </Checkbox>
+                      <Checkbox name="needToImprovetheFollowing" value="others">
+                        Others
+                      </Checkbox>
+                    </div>
+                  </div>
 
-            <div className="flex items-center justify-between">
-              <Input
-                className=""
-                name="idnumber"
-                defaultValue={student.idNumber}
-                required
-              >
-                ID Number
-              </Input>
-              <Input className="" name="course" required>
-                Course
-              </Input>
-              <Input className="" name="ay" required>
-                AY
-              </Input>
-              <div className="flex flex-col gap-1">
-                <label className="px-1">College</label>
-                <select
-                  className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
-                  name="college"
-                  defaultValue={student.college}
-                >
-                  <option value="ccs">CCS</option>
-                  <option value="ced">CED</option>
-                  <option value="chs">CHS</option>
-                  <option value="csm">CSM</option>
-                  <option value="coe">COE</option>
-                  <option value="ceba">CEBA</option>
-                  <option value="cass">CASS</option>
-                </select>
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                    I need assistance in terms of___________ (Please check all
+                    that apply to you)
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="studyHabits"
+                      >
+                        Study habits
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="careerDecisions"
+                      >
+                        Career decisions
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="memorySkills"
+                      >
+                        Memory skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Reading Speed
+                      </Checkbox>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                    Personal-Social:
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="studyHabits"
+                      >
+                        Study habits
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="careerDecisions"
+                      >
+                        Career decisions
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="memorySkills"
+                      >
+                        Memory skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Reading Speed
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="noteTaking"
+                      >
+                        Note-taking
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="mathSkills"
+                      >
+                        Math skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="testSkills"
+                      >
+                        Test skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="timeManagement"
+                      >
+                        Time management
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Reading <br />
+                        Comprehension
+                      </Checkbox>
+                      <Checkbox name="needToImprovetheFollowing" value="others">
+                        Others
+                      </Checkbox>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                    In the past, when you experienced feeling depressed or when
+                    you were pushed to the limit, how did you respond? (Please
+                    check all that apply to you)
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="studyHabits"
+                      >
+                        Study habits
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="careerDecisions"
+                      >
+                        Career decisions
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="memorySkills"
+                      >
+                        Memory skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Reading Speed
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="noteTaking"
+                      >
+                        Note-taking
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="mathSkills"
+                      >
+                        Math skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="testSkills"
+                      >
+                        Test skills
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="timeManagement"
+                      >
+                        Time management
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Reading <br />
+                        Comprehension
+                      </Checkbox>
+                      <Checkbox name="needToImprovetheFollowing" value="others">
+                        Others
+                      </Checkbox>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div></div>
-            <div></div>
           </div>
         </div>
       </div>

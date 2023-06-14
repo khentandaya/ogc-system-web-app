@@ -39,7 +39,7 @@ export default function StudentSignupPage({}: Props) {
   const user = session.data?.user;
   const fullNameArr = user?.name?.split(" ");
   const firstNameArr = fullNameArr?.filter(
-    (e, i) => i !== fullNameArr.length - 1
+    (_, i) => i !== fullNameArr.length - 1
   );
   const firstName = firstNameArr?.toString().replaceAll(",", " ")
     ? firstNameArr?.toString().replaceAll(",", " ")
@@ -95,7 +95,7 @@ export default function StudentSignupPage({}: Props) {
               <Input
                 className="w-16"
                 maxLength={1}
-                name="initials"
+                name="middleInitial"
                 placeholder="T"
               >
                 Initial
@@ -106,15 +106,15 @@ export default function StudentSignupPage({}: Props) {
                 Email
               </Input>
               <div className="flex gap-4 grow">
-                <Input name="phone" className="grow">
+                <Input name="phone" className="grow" required>
                   Phone
                 </Input>
-                <Input name="idNumber" placeholder="2018-2302" required>
+                <Input name="idNumber" placeholder="2000-0000" required>
                   ID Number
                 </Input>
               </div>
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-1 grow">
+              <div className="flex items-center gap-4">
+                <div className="flex flex-col gap-[12px] grow">
                   <label className="px-1">College</label>
                   <select
                     className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
@@ -132,7 +132,7 @@ export default function StudentSignupPage({}: Props) {
                 <Input className="grow" type="date" name="birthdate" required>
                   Birthdate
                 </Input>
-                <div className="flex flex-col gap-1 grow">
+                <div className="flex flex-col gap-[12px] grow">
                   <label className="px-1">Gender</label>
                   <select
                     className="px-2 outline-0 bg-foreground py-2 border-[2.5px] h-15 w-50 rounded-xl border-slate-300"

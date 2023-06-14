@@ -4,7 +4,7 @@ mongoose.connect("mongodb+srv://kazueyah:kjH4ryRp4sF2ysc8@cluster0.irqxuw2.mongo
 const schema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  initals: { type: String },
+  middleInitial: { type: String },
   idNumber: { type: String, required: true },
   email: { type: String },
   college: { type: String },

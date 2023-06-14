@@ -14,6 +14,7 @@ export default async function StaffHandler(
     case "GET":
       const staff = await Staff.findOne(req.query);
       res.status(200).json(staff);
+      return;
 
     default:
       return;

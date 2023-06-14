@@ -23,6 +23,7 @@ export const authOptions: NextAuthOptions = {
         return {
           user: {
             image: session.user.image,
+            name: session.user.name,
             ...user,
           },
         };
@@ -33,6 +34,7 @@ export const authOptions: NextAuthOptions = {
         return {
           user: {
             image: session.user.image,
+            name: session.user.name,
             ...user,
           },
         };

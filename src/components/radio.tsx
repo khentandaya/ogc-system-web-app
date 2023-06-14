@@ -6,11 +6,11 @@ type Props = React.DetailedHTMLProps<
   HTMLInputElement
 > & {};
 
-export default function Input({ className, children, ...props }: Props) {
+export default function Radio({ className, children, ...props }: Props) {
   return (
-    <div className={cn("flex flex-col gap-[12px]", className)}>
+    <div className={cn("flex gap-1 items-center text-sm text-slate-600", className)}>
+      <input type="radio" className="w-5 h-5" {...props} />
       <label className="px-1">{children}</label>
-      <input className="px-2 outline-0 py-2 border-[2.5px] h-15 w-50 rounded-xl border-slate-300" {...props} />
     </div>
   );
 }

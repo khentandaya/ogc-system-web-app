@@ -5,13 +5,13 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import {
   AiOutlineHome,
-  AiOutlineUser,
+  AiOutlineTeam,
   AiTwotoneCalendar,
-  AiOutlineForm,
+  AiOutlineAreaChart,
   AiOutlineLogout,
 } from "react-icons/ai";
 
-export default function StudentNav() {
+export default function StaffNav() {
   const router = useRouter();
   return (
     <>
@@ -29,43 +29,33 @@ export default function StudentNav() {
           <div className="flex justify-start gap-20 text-base">
             <Link
               className={`${
-                router.asPath == "/studentview" ? "text-[#017869]" : ""
+                router.asPath == "/studentview" ? "text-primary" : ""
               } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
-              href="/studentview"
+              href="/"
             >
               <AiOutlineHome />
               Home
             </Link>
             <Link
-              className={`${
-                router.asPath == "/forms/student-profile" ? "text-[#017869]" : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
-              href="/forms/student-profile"
+              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              href="/"
             >
-              <AiOutlineUser />
-              Student Profile
+              <AiOutlineTeam />
+              Student Query
             </Link>
             <Link
-              className={`${
-                router.asPath == "/forms/needs-assesment-form"
-                  ? "text-[#017869]"
-                  : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
-              href="/forms/needs-assesment-form"
-            >
-              <AiOutlineForm className="animate-pulse" />
-              Take Needs Assesment
-            </Link>
-            <Link
-              className={` ${
-                router.asPath == "/appointments/student-appointment"
-                  ? "text-[#017869]"
-                  : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
-              href="/appointments/student-appointment"
+              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              href="/"
             >
               <AiTwotoneCalendar />
-              Book Appointment
+              Appointment Schedule
+            </Link>
+            <Link
+              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              href="/"
+            >
+              <AiOutlineAreaChart />
+              Analytics
             </Link>
             <Link
               className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"

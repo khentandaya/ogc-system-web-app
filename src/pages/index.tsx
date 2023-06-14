@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import Student from "@/models/Student";
+import Staff from "@/models/Staff";
 
 export async function getServerSideProps({
   req,
@@ -21,6 +22,7 @@ export async function getServerSideProps({
   }
 
   const student = await Student.findOne({ email: session?.user?.email });
+  const staff = await Staff.findOne({ email: session?.user?.email });
   if (student) {
     return {
       redirect: {
@@ -29,9 +31,17 @@ export async function getServerSideProps({
     };
   }
 
+  else if(staff) {
+    return {
+      redirect: {
+        destination: "/staffview"
+      }
+    }
+  }
+
   return {
     redirect: {
-      destination: "/staffview",
+      destination: "/signup",
     },
   };
 }

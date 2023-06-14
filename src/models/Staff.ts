@@ -6,7 +6,7 @@ mongoose.connect(
 const schema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  initals: { type: String },
+  middleinital: { type: String },
   email: { type: String },
   college: { type: String },
   phone: { type: String },

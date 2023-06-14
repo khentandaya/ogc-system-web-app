@@ -50,7 +50,7 @@ export default function LoginPage() {
   if (session.status === "unauthenticated")
     return (
       <>
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center sm:flex-col justify-center h-screen">
           <div className="flex flex-col items-center justify-center gap-5">
             <Image
               src="/msuiit_logo.png"
@@ -59,7 +59,7 @@ export default function LoginPage() {
               height={120}
               className="w-auto"
             />
-            <p className="text-center">Welcome to eOGC (tentative)</p>
+            <p className="text-center font-semibold">Welcome to eOGC (tentative)</p>
             <div className="flex gap-3">
               <Button
                 onClick={() => {

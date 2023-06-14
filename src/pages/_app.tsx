@@ -4,11 +4,14 @@ import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import Head from "next/head";
 
-export default function App({ Component, pageProps }: AppProps<{ session: Session }>) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps<{ session: Session }>) {
   return (
     <SessionProvider session={pageProps.session}>
       <Head>
-        <title>OGCAS</title>
+        <title>eOGC</title>
       </Head>
       <Component {...pageProps} />
     </SessionProvider>
