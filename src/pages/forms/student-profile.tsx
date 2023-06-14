@@ -42,11 +42,11 @@ export default function StudentProfile({
   const student: StudentType = JSON.parse(studentString);
 
   const session = useSession();
-  console.log(session);
+  console.log(session.data?.user);
 
   if (session.status === "authenticated")
     return (
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center flex-col">
         <StudentNav />
         <div className="flex w-screen px-14 pt-9">
           <div className="pb-4 relative border-b-[3px] border-slate-300 w-full">
@@ -56,7 +56,6 @@ export default function StudentProfile({
                   Student Individual Data
                 </span>
               </span>
-
               <br />
               <span className="text-base font-semibold text-slate-600">
                 We Ensure that your data is confidential
@@ -64,15 +63,16 @@ export default function StudentProfile({
             </p>
           </div>
         </div>
-        <div className="flex pl-14 pt-9 w-screen">
+
+        <div className="flex w-full gap-20 pl-20 pt-9">
           <StudentSideNav />
-          <div className="flex px-14 w-full gap-6 pt-2 flex-col">
+          <div className="flex gap-6 pt-2 flex-col">
             <div
               id="studentdata"
-              className="flex flex-col border-b border-slate-200 w-full px-6"
+              className="flex flex-col border-b border-slate-200 pl-6"
             >
               <span className="text-lg font-bold">Student Data</span>
-              <div className="flex pl-32 pr-10 py-7 max-w-[55rem] flex-col gap-10">
+              <div className="flex pl-32 pr-10 py-7 flex-col gap-10">
                 <Image
                   src={session.data?.user?.image + ""}
                   alt={"user_avatar"}
@@ -80,7 +80,7 @@ export default function StudentProfile({
                   height={120}
                   className="rounded-full shadow-xl border-4"
                 />
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input
                     className="grow"
                     name="idNumber"
@@ -89,19 +89,19 @@ export default function StudentProfile({
                   >
                     ID Number
                   </Input>
-                  <Input className="w-[10rem]" name="course" required>
+                  <Input className="w-36" name="course" required>
                     Course
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input className="grow" name="sasescore">
                     MSU-SASE Score
                   </Input>
-                  <Input className="w-[10rem]" name="ay">
+                  <Input className="w-36" name="ay">
                     AY
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input
                     className="grow"
                     name="lastname"
@@ -119,7 +119,7 @@ export default function StudentProfile({
                     First Name
                   </Input>
                   <Input
-                    className="w-[10rem]"
+                    className="w-36"
                     name="middleinitial"
                     defaultValue={session.data.user.middleInitial}
                     required
@@ -128,7 +128,7 @@ export default function StudentProfile({
                   </Input>
                 </div>
                 <div className="flex gap-4 justify-start">
-                  <Input className="w-[10rem]" name="studentstatus">
+                  <Input className="w-36" name="studentstatus">
                     Student Status
                   </Input>
                 </div>
@@ -146,7 +146,7 @@ export default function StudentProfile({
                   <Input className="grow" name="citizenship" required>
                     Citizenship
                   </Input>
-                  <Input className="w-[10rem]" name="sex" required>
+                  <Input className="w-36" name="sex" required>
                     Sex
                   </Input>
                 </div>
@@ -163,7 +163,7 @@ export default function StudentProfile({
                     Religious Affiliation
                   </Input>
                   <Input
-                    className="w-[10rem]"
+                    className="w-36"
                     type="date"
                     name="birthDate"
                     required
@@ -171,17 +171,17 @@ export default function StudentProfile({
                     Date of Birth
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input className="grow" name="placeOfBirth" required>
                     Place of Birth
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input className="grow" name="addressIligan" required>
                     Address (In Iligan City)
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input
                     className="grow"
                     name="homeAddress"
@@ -191,7 +191,7 @@ export default function StudentProfile({
                     Home Address
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <div className="flex flex-col gap-[30px] grow">
                     Civil Status
                     <div className="grid grid-cols-3 gap-7 justify-between">
@@ -216,7 +216,7 @@ export default function StudentProfile({
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input className="grow" name="staysWith">
                     Stays with
                   </Input>
@@ -224,7 +224,7 @@ export default function StudentProfile({
                     No. Children
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <Input className="grow" name="talentSkills">
                     Talent/Skills
                   </Input>
@@ -232,7 +232,7 @@ export default function StudentProfile({
                     Leisure/Recreational Activities
                   </Input>
                 </div>
-                <div className="flex gap-4 justify-around">
+                <div className="flex gap-4">
                   <div className="flex flex-col gap-[30px] grow">
                     Working Student
                     <div className="grid grid-cols-2 gap-7 justify-between">

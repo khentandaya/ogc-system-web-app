@@ -15,7 +15,7 @@ export default function StaffNav() {
   const router = useRouter();
   return (
     <>
-      <div className="flex justify-center w-screen h-[85px] py-2 border border-b-2 shadow-sm items-cente">
+      <div className="flex justify-center bg-white w-screen h-[85px] py-2 border border-b-2 shadow-sm items-center">
         <div className="flex w-[80%] gap-4 items-center justify-evenly">
           <div className="">
             <Image
@@ -29,9 +29,9 @@ export default function StaffNav() {
           <div className="flex justify-start gap-20 text-base">
             <Link
               className={`${
-                router.asPath == "/studentview" ? "text-primary" : ""
+                router.asPath == "/staffview" ? "text-[#017869]" : ""
               } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
-              href="/"
+              href="/staffview"
             >
               <AiOutlineHome />
               Home

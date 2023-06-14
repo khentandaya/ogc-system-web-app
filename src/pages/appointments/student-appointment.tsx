@@ -38,7 +38,9 @@ export default function StudentAppointment() {
   console.log(timeslots);
 
   return (
+    
     <div className="flex flex-col gap-[5rem] items-center justify-center">
+
       <StudentNav />
       <div className="items-center justify-center">
         <DayPicker
@@ -47,9 +49,16 @@ export default function StudentAppointment() {
           onSelect={(date) => setSelectedDay(date)}
         />
         {selectedDay ? (
-          <div className="border">
+          <div className="flex flex-col gap-2 border px-4 py-3 rounded-lg shadow-md">
             <p>Available Timeslots:</p>
-            <select className="">
+            <select className="w-full outline-none border-b border-slate-400 p-3">
+              <option value="test">test</option>
+              <option value="test">test</option>
+              <option value="test">test</option>
+              <option value="test">test</option>
+              <option value="test">test</option>
+              <option value="test">test</option>
+              <option value="test">test</option>
               <option value="test">test</option>
             </select>
           </div>

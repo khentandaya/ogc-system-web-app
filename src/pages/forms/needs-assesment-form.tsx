@@ -58,9 +58,9 @@ export default function NeedsAssesmentForm({
             </p>
           </div>
         </div>
-        <div className="flex pl-14 pt-9 w-screen">
-          <div className="flex px-14 w-full gap-6 pt-2 flex-col">
-            <div className="flex flex-col w-full px-6">
+        <div className="flex w-full pl-36 pt-9">
+          <div className="flex gap-6 pt-2 flex-col">
+            <div className="flex flex-col px-6">
               <span className="text-lg font-bold">Assessment Form</span>
               <div className="flex pl-32 pr-10 py-7 max-w-[55rem] flex-col gap-10">
                 <div className="flex flex-col gap-4 justify-around">

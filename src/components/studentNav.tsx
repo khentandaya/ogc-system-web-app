@@ -15,7 +15,7 @@ export default function StudentNav() {
   const router = useRouter();
   return (
     <>
-      <div className="flex justify-center w-screen h-[85px] py-2 border border-b-2 shadow-sm items-cente">
+      <div className="flex justify-center bg-white w-screen h-[85px] py-2 border border-b-2 shadow-sm items-center">
         <div className="flex w-[80%] gap-4 items-center justify-evenly">
           <div className="">
             <Image
@@ -26,7 +26,7 @@ export default function StudentNav() {
               className="w-auto"
             />
           </div>
-          <div className="flex justify-start gap-20 text-base">
+          <div className="flex justify-start gap-16 text-base">
             <Link
               className={`${
                 router.asPath == "/studentview" ? "text-[#017869]" : ""
