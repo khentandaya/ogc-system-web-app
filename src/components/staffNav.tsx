@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import {
   AiOutlineHome,
-  AiOutlineTeam,
+  AiOutlineSearch,
   AiTwotoneCalendar,
   AiOutlineAreaChart,
   AiOutlineLogout,
@@ -37,10 +37,12 @@ export default function StaffNav() {
               Home
             </Link>
             <Link
-              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
-              href="/"
+              className={`${
+                router.asPath == "/student-query" ? "text-[#017869]" : ""
+              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+              href="/student-query"
             >
-              <AiOutlineTeam />
+              <AiOutlineSearch size={19}/>
               Student Query
             </Link>
             <Link

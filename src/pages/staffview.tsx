@@ -64,7 +64,7 @@ export default function StaffView() {
           </p>
         </div>
         <div className="h-[15rem] grid grid-cols-3 mt-10 gap-16 w-full">
-          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 shadow-lg bg-gradient-to-tr from-[#1267FB] to-[#71A4FD]">
+          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#1267FB] to-[#71A4FD]">
             <p className="flex text-3xl font-semibold justify-start">
               Students
             </p>
@@ -73,7 +73,7 @@ export default function StaffView() {
               24
             </p>
           </div>
-          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 shadow-lg bg-gradient-to-tr from-[#19913C] to-[#37DD68]">
+          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#19913C] to-[#37DD68]">
             <p className="flex text-3xl font-semibold justify-start">
               Approved
             </p>
@@ -82,7 +82,7 @@ export default function StaffView() {
               3
             </p>
           </div>
-          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 shadow-lg bg-gradient-to-tr from-[#FB1412] to-[#FD7371]">
+          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#FB1412] to-[#FD7371]">
             <p className="flex text-3xl font-semibold justify-start">
               Cancelled
             </p>

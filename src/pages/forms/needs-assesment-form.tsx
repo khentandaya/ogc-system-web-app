@@ -224,6 +224,7 @@ export default function NeedsAssesmentForm({
                     </div>
                   </div>
 
+
                   <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
                     In the past, when you experienced feeling depressed or when
                     you were pushed to the limit, how did you respond? (Please
@@ -289,6 +290,199 @@ export default function NeedsAssesmentForm({
                       </Checkbox>
                     </div>
                   </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                   I find myself ___________ (Please check any of the following items which describe you)
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="studyHabits"
+                      >
+                        Afraid of failing in subjects
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="careerDecisions"
+                      >
+                        Having difficulty finding child care (for married students)
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="memorySkills"
+                      >
+                        Afraid I might not fit at MSU-IIT
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Having difficulty socializing with people
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="noteTaking"
+                      >
+                        Panicking during test
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="mathSkills"
+                      >
+                        Getting along with teachers
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="testSkills"
+                      >
+                        Struggling with sexual identify
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="timeManagement"
+                      >
+                        Always feeling tired
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having health problems
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having no financial/emotion support from family and friends
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Taking things seriously
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Anxious to approach teachers
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having problems with spouse
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Afraid I might not fit with my degree course
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Unsure of college procedures
+
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having difficulty participating in class
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having difficulty participating in online class
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having difficulty managing money
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Struggling in the meeting requirement deadlines
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Struggling to make my family undestand college demands
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Missing my family/home
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Adjusting w/boardmates
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having problems at home
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having trouble sleeping
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Afraid to speak up in class
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Gets easily distracted
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having no close friend in school
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Having suicidal thoughts
+                      </Checkbox>
+                      
+                      <Checkbox name="needToImprovetheFollowing" value="others">
+                        Others
+                      </Checkbox>
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
             </div>
