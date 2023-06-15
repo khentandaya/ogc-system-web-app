@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StudentNav from "@/components/studentNav";
 import Image from "next/image";
 import Input from "@/components/input";
@@ -14,6 +14,9 @@ import Button from "@/components/button";
 import StudentType from "@/types/Student";
 import StudentSideNav from "@/components/studentSideNav";
 import Radio from "@/components/radio";
+import axios from "axios";
+import { AiOutlineSave, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { set } from "mongoose";
 
 export async function getServerSideProps({
   req,
@@ -40,16 +43,60 @@ export default function StudentProfile({
   studentString,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const student: StudentType = JSON.parse(studentString);
-
+  const [buttonLoad, setButtonLoad] = useState(false);
+  const [studentData, setStudentData] = useState<any>({});
   const session = useSession();
-  console.log(session.data?.user);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!(e.target instanceof HTMLFormElement)) return;
+    setButtonLoad(true);
+    const form = new FormData(e.target);
+    const formJSON = Object.fromEntries(form.entries());
+    console.log(formJSON);
+    await axios.post("/api/studentprofile", formJSON);
+    setStudentData((old: any)=>({...old, updatedAt: new Date().toISOString()}))
+    setButtonLoad(false);
+  };
+
+  const formatDateForInput = (date: any) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const formatUserFriendlyDate = (dateString: any) => {
+    const date = new Date(dateString);
+    const options: object = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    };
+    
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  useEffect(() => {
+    if (session.data) {
+      axios
+        .get(`/api/studentprofile/${session?.data?.user.idNumber}`)
+        .then(({ data }) => {
+          setStudentData(data);
+        });
+    }
+  }, [session]);
 
   if (session.status === "authenticated")
     return (
       <div className="flex items-center justify-center flex-col">
         <StudentNav />
         <div className="flex w-screen px-14 pt-9">
-          <div className="pb-4 relative border-b-[3px] border-slate-300 w-full">
+          <div className="pb-4 flex justify-between items-center border-b-[3px] border-slate-300 w-full">
             <p className="text-3xl font-bold">
               <span className="bg-gradient-to-tr from-[#28407f] w-fit bg-clip-text to-[#01bfa8]">
                 <span className="text-transparent">
@@ -61,12 +108,30 @@ export default function StudentProfile({
                 We Ensure that your data is confidential
               </span>
             </p>
+            <div className="flex text-sm italic items-center gap-4 justify-between px-2">
+              {studentData ? `Last Updated on: ${formatUserFriendlyDate(studentData.updatedAt)}` : ""}
+              <Button
+                type="submit"
+                form="studentForm"
+                className="flex items-center px-3 h-[2.5rem] gap-2 bg-[#3CFEE7] hover:bg-white hover:text-[#017869] text-gray-500 font-semibold transition-all duration-200"
+              >
+                {buttonLoad ? (
+                  <AiOutlineLoading3Quarters className="animate-spin" />
+                ) : (
+                  <AiOutlineSave size={25} />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
 
         <div className="flex w-full gap-20 pl-20 pt-9">
           <StudentSideNav />
-          <div className="flex gap-6 pt-2 flex-col">
+          <form
+            id="studentForm"
+            onSubmit={handleSubmit}
+            className="flex gap-6 pt-2 flex-col"
+          >
             <div
               id="studentdata"
               className="flex flex-col border-b border-slate-200 pl-6"
@@ -80,27 +145,6 @@ export default function StudentProfile({
                   height={120}
                   className="rounded-full shadow-xl border-4"
                 />
-                <div className="flex gap-4">
-                  <Input
-                    className="grow"
-                    name="idNumber"
-                    defaultValue={session.data.user.idNumber}
-                    required
-                  >
-                    ID Number
-                  </Input>
-                  <Input className="w-36" name="course" required>
-                    Course
-                  </Input>
-                </div>
-                <div className="flex gap-4">
-                  <Input className="grow" name="sasescore">
-                    MSU-SASE Score
-                  </Input>
-                  <Input className="w-36" name="ay">
-                    AY
-                  </Input>
-                </div>
                 <div className="flex gap-4">
                   <Input
                     className="grow"
@@ -127,8 +171,47 @@ export default function StudentProfile({
                     M.I
                   </Input>
                 </div>
+                <div className="flex gap-4">
+                  <Input
+                    className="grow"
+                    name="course"
+                    defaultValue={studentData.course}
+                    required
+                  >
+                    Course
+                  </Input>
+                  <Input
+                    className="w-36"
+                    name="idNumber"
+                    defaultValue={session.data.user.idNumber}
+                    required
+                  >
+                    ID Number
+                  </Input>
+                </div>
+                <div className="flex gap-4">
+                  <Input
+                    className="grow"
+                    name="sasescore"
+                    defaultValue={studentData.sasescore}
+                  >
+                    MSU-SASE Score
+                  </Input>
+                  <Input
+                    className="w-36"
+                    name="ay"
+                    defaultValue={studentData.ay}
+                  >
+                    AY
+                  </Input>
+                </div>
+
                 <div className="flex gap-4 justify-start">
-                  <Input className="w-36" name="studentstatus">
+                  <Input
+                    className="w-36"
+                    name="studentstatus"
+                    defaultValue={studentData.studentstatus}
+                  >
                     Student Status
                   </Input>
                 </div>
@@ -140,13 +223,27 @@ export default function StudentProfile({
               <span className="text-lg font-bold">Personal Data</span>
               <div className="flex pl-32 pr-10 py-7 max-w-[55rem] flex-col gap-10">
                 <div className="flex gap-4">
-                  <Input className="grow" name="nickname">
+                  <Input
+                    className="grow"
+                    name="nickname"
+                    defaultValue={studentData.nickname}
+                  >
                     Nickname
                   </Input>
-                  <Input className="grow" name="citizenship" required>
+                  <Input
+                    className="grow"
+                    name="citizenship"
+                    defaultValue={studentData.citizenship}
+                    required
+                  >
                     Citizenship
                   </Input>
-                  <Input className="w-36" name="sex" required>
+                  <Input
+                    className="w-36"
+                    name="sex"
+                    defaultValue={student.gender}
+                    required
+                  >
                     Sex
                   </Input>
                 </div>
@@ -159,25 +256,42 @@ export default function StudentProfile({
                   >
                     Contact Number
                   </Input>
-                  <Input className="grow" name="religiousAffiliation" required>
+                  <Input
+                    className="grow"
+                    name="religiousAffiliation"
+                    defaultValue={studentData.religiousAffiliation}
+                    required
+                  >
                     Religious Affiliation
                   </Input>
                   <Input
                     className="w-36"
                     type="date"
                     name="birthDate"
+                    defaultValue={formatDateForInput(
+                      new Date(student.birthdate)
+                    )}
                     required
                   >
                     Date of Birth
                   </Input>
                 </div>
                 <div className="flex gap-4">
-                  <Input className="grow" name="placeOfBirth" required>
+                  <Input
+                    className="grow"
+                    name="placeOfBirth"
+                    defaultValue={studentData.placeOfBirth}
+                    required
+                  >
                     Place of Birth
                   </Input>
                 </div>
                 <div className="flex gap-4">
-                  <Input className="grow" name="addressIligan" required>
+                  <Input
+                    className="grow"
+                    name="addressIligan"
+                    defaultValue={studentData.addressIligan}
+                  >
                     Address (In Iligan City)
                   </Input>
                 </div>
@@ -195,40 +309,118 @@ export default function StudentProfile({
                   <div className="flex flex-col gap-[30px] grow">
                     Civil Status
                     <div className="grid grid-cols-3 gap-7 justify-between">
-                      <Radio name="civilStatus" value="single">
+                      <Radio
+                        name="civilStatus"
+                        checked={studentData.civilStatus === "single"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            civilStatus: "single",
+                          }));
+                        }}
+                        value="single"
+                      >
                         Single
                       </Radio>
-                      <Radio name="civilStatus" value="married">
+                      <Radio
+                        name="civilStatus"
+                        checked={studentData.civilStatus === "married"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            civilStatus: "married",
+                          }));
+                        }}
+                        value="married"
+                      >
                         Married
                       </Radio>
-                      <Radio name="civilStatus" value="notLegallyMarried">
+                      <Radio
+                        name="civilStatus"
+                        checked={
+                          studentData.civilStatus === "notLegallyMarried"
+                        }
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            civilStatus: "notLegallyMarried",
+                          }));
+                        }}
+                        value="notLegallyMarried"
+                      >
                         Not Legally Married
                       </Radio>
-                      <Radio name="civilStatus" value="separated">
+                      <Radio
+                        name="civilStatus"
+                        checked={studentData.civilStatus === "separated"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            civilStatus: "separated",
+                          }));
+                        }}
+                        value="separated"
+                      >
                         Separated
                       </Radio>
-                      <Radio name="civilStatus" value="widowed">
+                      <Radio
+                        name="civilStatus"
+                        checked={studentData.civilStatus === "widowed"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            civilStatus: "widowed",
+                          }));
+                        }}
+                        value="widowed"
+                      >
                         Widowed
                       </Radio>
-                      <Radio name="civilStatus" value="others">
+                      <Radio
+                        name="civilStatus"
+                        checked={studentData.civilStatus === "others"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            civilStatus: "others",
+                          }));
+                        }}
+                        value="others"
+                      >
                         Others
                       </Radio>
                     </div>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <Input className="grow" name="staysWith">
+                  <Input
+                    className="grow"
+                    name="staysWith"
+                    defaultValue={studentData.staysWith}
+                  >
                     Stays with
                   </Input>
-                  <Input className="grow" name="noChildren">
+                  <Input
+                    className="grow"
+                    name="noChildren"
+                    defaultValue={studentData.noChildren}
+                  >
                     No. Children
                   </Input>
                 </div>
                 <div className="flex gap-4">
-                  <Input className="grow" name="talentSkills">
+                  <Input
+                    className="grow"
+                    name="talentSkills"
+                    defaultValue={studentData.talentSkills}
+                  >
                     Talent/Skills
                   </Input>
-                  <Input className="grow" name="leisureRecreational">
+                  <Input
+                    className="grow"
+                    name="leisureRecreational"
+                    defaultValue={studentData.leisureRecreational}
+                  >
                     Leisure/Recreational Activities
                   </Input>
                 </div>
@@ -236,31 +428,81 @@ export default function StudentProfile({
                   <div className="flex flex-col gap-[30px] grow">
                     Working Student
                     <div className="grid grid-cols-2 gap-7 justify-between">
-                      <Radio name="workingStudent" value="fulltime">
+                      <Radio
+                        name="workingStudent"
+                        checked={studentData.workingStudent === "fulltime"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            workingStudent: "fulltime",
+                          }));
+                        }}
+                        value="fulltime"
+                      >
                         Yes, fulltime
                       </Radio>
-                      <Radio name="workingStudent" value="parttime">
+                      <Radio
+                        name="workingStudent"
+                        checked={studentData.workingStudent === "parttime"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            workingStudent: "parttime",
+                          }));
+                        }}
+                        value="parttime"
+                      >
                         Yes, parttime
                       </Radio>
-                      <Radio name="workingStudent" value="planningToWork">
+                      <Radio
+                        name="workingStudent"
+                        checked={
+                          studentData.workingStudent === "planningToWork"
+                        }
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            workingStudent: "single",
+                          }));
+                        }}
+                        value="planningToWork"
+                      >
                         No, but planning to work
                       </Radio>
-                      <Radio name="workingStudent" value="noPlanToWork">
+                      <Radio
+                        name="workingStudent"
+                        checked={studentData.workingStudent === "noPlanToWork"}
+                        onClick={() => {
+                          setStudentData((old: any) => ({
+                            ...old,
+                            workingStudent: "noPlanToWork",
+                          }));
+                        }}
+                        value="noPlanToWork"
+                      >
                         No, and have no plan to work
                       </Radio>
                     </div>
                   </div>
                 </div>
-                <Input className="grow" name="genderIdentity">
+                <Input
+                  className="grow"
+                  name="genderIdentity"
+                  defaultValue={studentData.genderIdentity}
+                >
                   Gender Identity
                 </Input>
-                <Input className="grow" name="talentSkills">
+                <Input
+                  className="grow"
+                  name="toWhomareYouAttracted"
+                  defaultValue={studentData.toWhomareYouAttracted}
+                >
                   To whom are you attracted to romantically, emotionally, and
                   sexually?
                 </Input>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     );

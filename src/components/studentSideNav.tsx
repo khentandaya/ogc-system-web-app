@@ -15,15 +15,6 @@ export default function StudentSideNav({}: Props) {
           <ol className="cursor-pointer hover:text-primary">
             <ScrollLink href="#personaldata">Personal Data</ScrollLink>
           </ol>
-          <ol className="cursor-pointer hover:text-primary">Family Data</ol>
-          <ol className="cursor-pointer hover:text-primary">Academic</ol>
-          <ol className="cursor-pointer hover:text-primary">Career Data</ol>
-          <ol className="cursor-pointer hover:text-primary">
-            Distant Learning Resources
-          </ol>
-          <ol className="cursor-pointer hover:text-primary">
-            Psychological well-being
-          </ol>
         </li>
       </div>
     </div>

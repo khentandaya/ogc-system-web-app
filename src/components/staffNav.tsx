@@ -38,12 +38,12 @@ export default function StaffNav() {
             </Link>
             <Link
               className={`${
-                router.asPath == "/student-query" ? "text-[#017869]" : ""
+                router.asPath == "/staff/student-query" ? "text-[#017869]" : ""
               } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
-              href="/student-query"
+              href="/staff/student-query"
             >
               <AiOutlineSearch size={19}/>
-              Student Query
+              Students
             </Link>
             <Link
               className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"

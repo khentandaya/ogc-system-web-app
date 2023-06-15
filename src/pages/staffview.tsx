@@ -43,7 +43,7 @@ export default function StaffView() {
 
   if (session.status === "authenticated")
     return (
-      <div className="flex mx-32 items-center justify-center flex-col gap-6">
+      <div className="flex mx-32 items-center justify-center flex-col gap-14">
         <StaffNav />
         <div className="flex gap-3 items-center w-full justify-between">
           <div className="w-[18rem] flex items-center gap-5">
@@ -60,7 +60,7 @@ export default function StaffView() {
             <span className="cursor-default rounded-xl px-3 font- font-semibold text-white bg-primary">
               {session.data.user.college?.toUpperCase()}
             </span>
-            | College
+            | Admin
           </p>
         </div>
         <div className="h-[15rem] grid grid-cols-3 mt-10 gap-16 w-full">

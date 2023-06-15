@@ -7,8 +7,19 @@ export default async function StudentsHandler(
 ) {
   switch (req.method) {
     case "GET":
-      const student = await Student.find(req.query);
-      res.status(200).json(student);
+      // const student = await Student.find(req.query);
+      // res.status(200).json(student);
+      const { search, ...query } = req.query;
+      let allUsers = [];
+      if (search) {
+        const regex = new RegExp(`.*${search}.*`, "i");
+        allUsers = await Student.find({
+          $or: [{ firstName: { $regex: regex } }, { lastName: { $regex: regex } }, { idNumber: { $regex: regex }}, { college: { $regex: regex }}],
+        });
+      } else allUsers = await Student.find(query);
+
+      res.status(200).json(allUsers);
+      res.end();
 
     default:
       return;

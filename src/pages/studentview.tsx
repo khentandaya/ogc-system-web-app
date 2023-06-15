@@ -42,7 +42,7 @@ export default function StudentView() {
 
   if (session.status === "authenticated")
     return (
-      <div className="flex flex-col gap-24">
+      <div className="h-screen flex flex-col">
         <StudentNav />
         <Content />
       </div>
@@ -51,15 +51,17 @@ export default function StudentView() {
   function Content() {
     return (
       <>
-        <div className="grid items-center grid-cols-2 w-screen">
+        <div className="grid items-center grid-cols-2 w-screen grow relative overflow-hidden">
+          <div className="w-[15rem] h-[15rem] absolute -bottom-20 -right-20 blur-3xl rounded-full bg-cyan-200"></div>
           <div className="flex justify-end items-center">
             <Image
               src={"/landing.png"}
               alt={"landing"}
               width={550}
-              height={550}
+              height={550} 
               className=""
             />
+
           </div>
           <div className="py-10 pl-4 flex w-[28rem] flex-col gap-8">
             <div className="bg-gradient-to-tr from-[#28407f] w-fit bg-clip-text to-[#01bfa8]">
@@ -67,18 +69,18 @@ export default function StudentView() {
             </div>
 
             <p className="leading-7 text-gray-500 text-left text-sm">
-              We provide a safe and supportive environment where you can freely
+              {`We provide a safe and supportive environment where you can freely
               express yourself and work towards finding solutions. Our
               counselors are dedicated to helping you navigate life's challenges
               and empower you on your journey towards growth. Don't face
               difficulties alone – book your counseling appointment today and
-              take the first step towards positive change
+              take the first step towards positive change`}
             </p>
             <Link
               onClick={() => setButtonLoad(true)}
               href="/appointments/student-appointment"
             >
-              <Button className="flex items-center gap-2 bg-[#3CFEE7] hover:bg-white hover:text-[#017869] text-gray-500 font-semibold transition-all duration-100">
+              <Button className="flex items-center gap-2 bg-[#28407f] hover:bg-white hover:text-[#017869] text-[#FDFDFD] font-semibold transition-all duration-100">
                 Book an Appointment
                 {buttonLoad ? (
                   <AiOutlineLoading3Quarters className="animate-spin" />

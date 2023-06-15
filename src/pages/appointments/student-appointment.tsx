@@ -2,7 +2,6 @@ import StudentNav from "@/components/studentNav";
 import { useTimeslot } from "@/hooks/useTimeslot";
 import { useState } from "react";
 import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -39,7 +38,7 @@ export default function StudentAppointment() {
 
   return (
     
-    <div className="flex flex-col gap-[5rem] items-center justify-center">
+    <div className="flex flex-col gap-[2rem] items-center justify-center">
 
       <StudentNav />
       <div className="items-center justify-center">
