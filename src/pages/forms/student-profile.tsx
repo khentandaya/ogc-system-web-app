@@ -55,7 +55,10 @@ export default function StudentProfile({
     const formJSON = Object.fromEntries(form.entries());
     console.log(formJSON);
     await axios.post("/api/studentprofile", formJSON);
-    setStudentData((old: any)=>({...old, updatedAt: new Date().toISOString()}))
+    setStudentData((old: any) => ({
+      ...old,
+      updatedAt: new Date().toISOString(),
+    }));
     setButtonLoad(false);
   };
 
@@ -70,16 +73,16 @@ export default function StudentProfile({
   const formatUserFriendlyDate = (dateString: any) => {
     const date = new Date(dateString);
     const options: object = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric'
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
     };
-    
-    return date.toLocaleDateString('en-US', options);
-  }
+
+    return date.toLocaleDateString("en-US", options);
+  };
 
   useEffect(() => {
     if (session.data) {
@@ -109,7 +112,11 @@ export default function StudentProfile({
               </span>
             </p>
             <div className="flex text-sm italic items-center gap-4 justify-between px-2">
-              {studentData ? `Last Updated on: ${formatUserFriendlyDate(studentData.updatedAt)}` : ""}
+              {studentData
+                ? `Last Updated on: ${formatUserFriendlyDate(
+                    studentData.updatedAt
+                  )}`
+                : ""}
               <Button
                 type="submit"
                 form="studentForm"
@@ -175,7 +182,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="course"
-                    defaultValue={studentData?.course ? studentData.course: ""}
+                    defaultValue={studentData?.course ? studentData.course : ""}
                     required
                   >
                     Course
@@ -193,27 +200,53 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="sasescore"
-                    defaultValue={studentData?.sasescore ? studentData.sasescore : ""}
+                    defaultValue={
+                      studentData?.sasescore ? studentData.sasescore : ""
+                    }
                   >
                     MSU-SASE Score
                   </Input>
                   <Input
                     className="w-36"
                     name="ay"
-                    defaultValue={studentData?.ay?studentData.ay:""}
+                    defaultValue={studentData?.ay ? studentData.ay : ""}
                   >
                     AY
                   </Input>
                 </div>
 
                 <div className="flex gap-4 justify-start">
-                  <Input
-                    className="w-36"
-                    name="studentstatus"
-                    defaultValue={studentData?.studentstatus?studentData.studentstatus:""}
-                  >
-                    Student Status
-                  </Input>
+                  <div className="flex flex-col gap-[12px] w-36">
+                    <label className="px-1">College</label>
+                    <select
+                      className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
+                      name="college"
+                      defaultValue={student?.college}
+                      required
+                    >
+                      <option value="ccs">CCS</option>
+                      <option value="ced">CED</option>
+                      <option value="chs">CHS</option>
+                      <option value="csm">CSM</option>
+                      <option value="coe">COE</option>
+                      <option value="ceba">CEBA</option>
+                      <option value="cass">CASS</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-[12px] w-36">
+                    <label className="px-1">Year level</label>
+                    <select
+                      className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
+                      name="yrlevel"
+                      defaultValue={studentData?.yrlevel ? studentData?.yrlevel : "" }
+                      required
+                    >
+                      <option value="1st">1st</option>
+                      <option value="2nd">2nd</option>
+                      <option value="3rd">3rd</option>
+                      <option value="4th">4th</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -226,14 +259,18 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="nickname"
-                    defaultValue={studentData?.nickname?studentData.nickname:""}
+                    defaultValue={
+                      studentData?.nickname ? studentData.nickname : ""
+                    }
                   >
                     Nickname
                   </Input>
                   <Input
                     className="grow"
                     name="citizenship"
-                    defaultValue={studentData?.citizenship? studentData.citizenship:""}
+                    defaultValue={
+                      studentData?.citizenship ? studentData.citizenship : ""
+                    }
                     required
                   >
                     Citizenship
@@ -259,7 +296,11 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="religiousAffiliation"
-                    defaultValue={studentData?.religiousAffiliation? studentData.religiousAffiliation:""}
+                    defaultValue={
+                      studentData?.religiousAffiliation
+                        ? studentData.religiousAffiliation
+                        : ""
+                    }
                     required
                   >
                     Religious Affiliation
@@ -280,7 +321,9 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="placeOfBirth"
-                    defaultValue={studentData?.placeOfBirth ? studentData.placeOfBirth:""}
+                    defaultValue={
+                      studentData?.placeOfBirth ? studentData.placeOfBirth : ""
+                    }
                     required
                   >
                     Place of Birth
@@ -290,7 +333,11 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="addressIligan"
-                    defaultValue={studentData?.addressIligan? studentData.addressIligan:""}
+                    defaultValue={
+                      studentData?.addressIligan
+                        ? studentData.addressIligan
+                        : ""
+                    }
                   >
                     Address (In Iligan City)
                   </Input>
@@ -396,14 +443,18 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="staysWith"
-                    defaultValue={studentData?.staysWith?studentData.staysWith:""}
+                    defaultValue={
+                      studentData?.staysWith ? studentData.staysWith : ""
+                    }
                   >
                     Stays with
                   </Input>
                   <Input
                     className="grow"
                     name="noChildren"
-                    defaultValue={studentData?.noChildren? studentData.noChildren:""}
+                    defaultValue={
+                      studentData?.noChildren ? studentData.noChildren : ""
+                    }
                   >
                     No. Children
                   </Input>
@@ -412,14 +463,20 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="talentSkills"
-                    defaultValue={studentData?.talentSkills?studentData.talentSkills:""}
+                    defaultValue={
+                      studentData?.talentSkills ? studentData.talentSkills : ""
+                    }
                   >
                     Talent/Skills
                   </Input>
                   <Input
                     className="grow"
                     name="leisureRecreational"
-                    defaultValue={studentData?.leisureRecreational?studentData.leisureRecreational:""}
+                    defaultValue={
+                      studentData?.leisureRecreational
+                        ? studentData.leisureRecreational
+                        : ""
+                    }
                   >
                     Leisure/Recreational Activities
                   </Input>
@@ -488,14 +545,22 @@ export default function StudentProfile({
                 <Input
                   className="grow"
                   name="genderIdentity"
-                  defaultValue={studentData?.genderIdentity?studentData.genderIdentity:""}
+                  defaultValue={
+                    studentData?.genderIdentity
+                      ? studentData.genderIdentity
+                      : ""
+                  }
                 >
                   Gender Identity
                 </Input>
                 <Input
                   className="grow"
                   name="toWhomareYouAttracted"
-                  defaultValue={studentData?.toWhomareYouAttracted?studentData.toWhomareYouAttracted:""}
+                  defaultValue={
+                    studentData?.toWhomareYouAttracted
+                      ? studentData.toWhomareYouAttracted
+                      : ""
+                  }
                 >
                   To whom are you attracted to romantically, emotionally, and
                   sexually?

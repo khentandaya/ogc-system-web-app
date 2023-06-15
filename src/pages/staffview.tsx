@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
@@ -11,6 +11,7 @@ import {
   AiOutlineCarryOut,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
+import axios from "axios";
 
 export async function getServerSideProps({
   req,
@@ -40,6 +41,13 @@ export async function getServerSideProps({
 
 export default function StaffView() {
   const session = useSession();
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/studentprofile").then(({ data }) => {
+      setStudents(data);
+    });
+  }, []);
 
   if (session.status === "authenticated")
     return (
@@ -70,7 +78,7 @@ export default function StaffView() {
             </p>
             <p className="flex pl-10 text-3xl font-bold justify-between items-end">
               <AiOutlineTeam size={80} />
-              24
+              {students.length}
             </p>
           </div>
           <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#19913C] to-[#37DD68]">
@@ -78,8 +86,7 @@ export default function StaffView() {
               Approved
             </p>
             <p className="flex pl-10  text-3xl font-bold justify-between items-end">
-              <AiOutlineCarryOut size={80} />
-              3
+              <AiOutlineCarryOut size={80} />3
             </p>
           </div>
           <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#FB1412] to-[#FD7371]">
@@ -87,8 +94,7 @@ export default function StaffView() {
               Cancelled
             </p>
             <p className="flex pl-10 text-3xl font-bold justify-between items-end">
-              <AiOutlineCloseCircle size={80}/>
-              1
+              <AiOutlineCloseCircle size={80} />1
             </p>
           </div>
         </div>

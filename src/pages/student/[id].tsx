@@ -53,7 +53,6 @@ export default function StudentInfo({}: Props) {
   
   return (
     <div className="flex flex-col">
-        {student?.firstname}
       <StaffNav />
     </div>
   );

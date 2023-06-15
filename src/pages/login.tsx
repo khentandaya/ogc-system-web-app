@@ -50,10 +50,10 @@ export default function LoginPage() {
   if (session.status === "unauthenticated")
     return (
       <>
-        <div className="flex items-center sm:flex-col justify-center h-screen">
+        <div className="flex items-center justify-center h-screen">
           <div className="flex flex-col items-center justify-center gap-5">
             <Image
-              src="/msuiit_logo.png"
+              src="/eogc_logo.png"
               alt="iit logo"
               width={120}
               height={120}

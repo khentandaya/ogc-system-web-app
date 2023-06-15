@@ -97,12 +97,13 @@ export default function StudentSignupPage({}: Props) {
                 maxLength={1}
                 name="middleInitial"
                 placeholder="T"
+                required
               >
                 Initial
               </Input>
             </div>
             <div className="flex flex-col gap-4">
-              <Input name="email" defaultValue={session.data.user?.email + ""}>
+              <Input name="email" defaultValue={session.data.user?.email + ""} required>
                 Email
               </Input>
               <div className="flex gap-4 grow">
@@ -119,6 +120,7 @@ export default function StudentSignupPage({}: Props) {
                   <select
                     className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
                     name="college"
+                    required
                   >
                     <option value="ccs">CCS</option>
                     <option value="ced">CED</option>
@@ -137,6 +139,7 @@ export default function StudentSignupPage({}: Props) {
                   <select
                     className="px-2 outline-0 bg-foreground py-2 border-[2.5px] h-15 w-50 rounded-xl border-slate-300"
                     name="gender"
+                    required
                   >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -148,6 +151,7 @@ export default function StudentSignupPage({}: Props) {
             <Input
               name="address"
               placeholder="House No./Blg Block, Street, Town, City, Province, Zip"
+              required
             >
               Address
             </Input>

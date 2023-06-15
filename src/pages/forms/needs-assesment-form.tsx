@@ -9,6 +9,7 @@ import Student from "@/models/Student";
 import { useSession } from "next-auth/react";
 import StudentType from "@/types/Student";
 import Checkbox from "@/components/checkbox";
+import Radio from "@/components/radio";
 
 type Props = {};
 
@@ -137,26 +138,75 @@ export default function NeedsAssesmentForm({
                         name="needToImprovetheFollowing"
                         value="studyHabits"
                       >
-                        Study habits
+                        Personal budget
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="careerDecisions"
                       >
-                        Career decisions
+                        Grants/scholarships
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="memorySkills"
                       >
-                        Memory skills
+                        Loans
                       </Checkbox>
+
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="readingSpeed"
                       >
-                        Reading Speed
+                        Coping with peer pressure
                       </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Sexual harassment
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Student-teacher conflict
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Depression/Sadness
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Motivation
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Self-image (how you feel about yourself)
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Grief/loss due to parental separation
+                      </Checkbox>
+
+                      <Checkbox name="needToImprovetheFollowing" value="others">
+                      Others, please specify:<br/>
+                      ___________________
+                      </Checkbox>
+
                     </div>
                   </div>
 
@@ -167,57 +217,71 @@ export default function NeedsAssesmentForm({
                         name="needToImprovetheFollowing"
                         value="studyHabits"
                       >
-                        Study habits
+                        Stress management
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="careerDecisions"
                       >
-                        Career decisions
+                        Substance absolute
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="memorySkills"
                       >
-                        Memory skills
+                        Dealing with relationships (Boy/Girl)
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="readingSpeed"
                       >
-                        Reading Speed
+                        Anxiety
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="noteTaking"
                       >
-                        Note-taking
+                        Handling conflicts/anger
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="mathSkills"
                       >
-                        Math skills
+                        Coping with physical disability
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="testSkills"
                       >
-                        Test skills
+                        Student-teacher/school personnel relationship
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="timeManagement"
                       >
-                        Time management
+                        Grief/loss due to death
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="readingComprehension"
                       >
-                        Reading <br />
-                        Comprehension
+                        Physical/psychological abuse
                       </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Bullying
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Cyber-bullying
+                      </Checkbox>
+
                       <Checkbox name="needToImprovetheFollowing" value="others">
                         Others
                       </Checkbox>
@@ -234,57 +298,285 @@ export default function NeedsAssesmentForm({
                         name="needToImprovetheFollowing"
                         value="studyHabits"
                       >
-                        Study habits
+                        Tried to be funny and make light of it all
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="careerDecisions"
                       >
-                        Career decisions
+                        Talked to a teacher or counselor in school
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="memorySkills"
                       >
-                        Memory skills
+                        Ate food
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="readingSpeed"
                       >
-                        Reading Speed
+                        Tried to stay away from home
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="noteTaking"
                       >
-                        Note-taking
+                        Drank beer, wine, liquor
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="mathSkills"
                       >
-                        Math skills
+                        Used drugs not prescribed by doctor
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="testSkills"
                       >
-                        Test skills
+                        Listened to music
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="timeManagement"
                       >
-                        Time management
+                        Watched movies or TV shows
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="readingComprehension"
                       >
-                        Reading <br />
-                        Comprehension
+                        Smoked
                       </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Tried to solve my problem.
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Read books, novels, etc.
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Worked hard on school work/projects
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Attempted to end my life
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Got more involved in school activities
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Tried to make my own decision
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Talked things out with parents
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Cried
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Tried to improve myself (get body in shape, get good grades, etc.)
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Strolled around on a car/jeepney-ride
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                         Tried to think of the good things in life
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Prayed
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                         Thought it would be better dead
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Talked to a minister/priest/pastor
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Told myself the problem is not important
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Blamed others for what went wrong
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Played video games
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Surfed the internet
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Hurt myself
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Talked to a friend
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Daydreamed about how I would like things to be
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Got professional counseling
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Went to church
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Slept
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Got angry
+                      </Checkbox>
+
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingComprehension"
+                      >
+                        Kept my silence
+                      </Checkbox>
+
+                      <Checkbox name="needToImprovetheFollowing" value="others">
+                        Others
+                      </Checkbox>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                   I can easily discuss my problems with my  ___________ (Please check only one.)
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="studyHabits"
+                      >
+                        Guidance counselor in school
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="careerDecisions"
+                      >
+                        Parents
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="memorySkills"
+                      >
+                        Teacher(s)
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="readingSpeed"
+                      >
+                        Brothers/Sisters
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="noteTaking"
+                      >
+                        Friends/Relatives
+                      </Checkbox>
+                      <Checkbox
+                        name="needToImprovetheFollowing"
+                        value="mathSkills"
+                      >
+                        Nobody
+                      </Checkbox>
+                      
                       <Checkbox name="needToImprovetheFollowing" value="others">
                         Others
                       </Checkbox>
@@ -482,7 +774,120 @@ export default function NeedsAssesmentForm({
                     </div>
                   </div>
 
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                      I willfully came for counseling when i had a problem
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+               
+                      
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Always
+                      </Radio>
 
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Oftentimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Sometimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                       Never
+                      </Radio>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                    I experienced counseling upon referral by teachers, friends, parents, etc.
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+               
+                      
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Always
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Oftentimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Sometimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                       Never
+                      </Radio>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                    I know that help is available at the Guidance and Counseling Center of MSU-IIT.
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+               
+                      
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Always
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Oftentimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Sometimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                       Never
+                      </Radio>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                  I am shy to ask assistance/seek counseling from my guidance counselor.
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+               
+                      
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Always
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Oftentimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Sometimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                       Never
+                      </Radio>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                  I am afraid to go the Guidance and Counseling Center of MSU-IIT.
+                    <div className="grid grid-cols-4 gap-5 justify-between">
+               
+                      
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Always
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Oftentimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                        Sometimes
+                      </Radio>
+
+                      <Radio name="needToImprovetheFollowing" value="others">
+                       Never
+                      </Radio>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

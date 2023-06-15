@@ -19,7 +19,7 @@ export default function StudentNav() {
         <div className="flex w-[80%] gap-4 items-center justify-evenly">
           <div className="">
             <Image
-              src="/msuiit_logo.png"
+              src="/eogc_logo.png"
               alt="iit logo"
               width={60}
               height={60}

@@ -21,9 +21,21 @@ export default async function handler(
       return;
 
     case "GET":
-      const id = req.query.id;
-      const info = await StudentProfile.findOne({ idNumber: id });
-      res.status(200).json(info);
+      const { search, ...query } = req.query;
+      let allUsers = [];
+      if (search) {
+        const regex = new RegExp(`.*${search}.*`, "i");
+        allUsers = await StudentProfile.find({
+          $or: [
+            { firstname: { $regex: regex } },
+            { lastname: { $regex: regex } },
+            { idNumber: { $regex: regex } },
+            { college: { $regex: regex } },
+          ],
+        });
+      } else allUsers = await StudentProfile.find(query);
+
+      res.status(200).json(allUsers);
       res.end();
 
     default:

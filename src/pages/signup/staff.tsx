@@ -98,16 +98,17 @@ export default function StaffSignupPage({}: Props) {
                 maxLength={1}
                 name="middleinitial"
                 placeholder="T"
+                required
               >
                 Initial
               </Input>
             </div>
             <div className="flex flex-col gap-4">
-              <Input name="email" defaultValue={session.data.user?.email + ""}>
+              <Input name="email" defaultValue={session.data.user?.email + ""} required>
                 Email
               </Input>
               <div className="flex gap-4 grow">
-                <Input name="phone" className="grow">
+                <Input name="phone" className="grow" required>
                   Phone
                 </Input>
                 <Input name="idNumber" placeholder="2018-2302" required>
@@ -154,6 +155,7 @@ export default function StaffSignupPage({}: Props) {
             <Input
               name="address"
               placeholder="House No./Blg Block, Street, Town, City, Province, Zip"
+              required
             >
               Address
             </Input>

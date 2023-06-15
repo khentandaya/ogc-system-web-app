@@ -26,10 +26,11 @@ const schema = new mongoose.Schema(
     religiousAffiliation: { type: String },
     sasescore: { type: String },
     staysWith: { type: String },
-    studentstatus: { type: String },
     talentSkills: { type: String },
     toWhomareYouAttracted: { type: String },
     workingStudent: { type: String },
+    yrlevel: { type: String },
+    college: { type: String },
   },
   { timestamps: true }
 );
