@@ -175,7 +175,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="course"
-                    defaultValue={studentData.course}
+                    defaultValue={studentData?.course ? studentData.course: ""}
                     required
                   >
                     Course
@@ -193,14 +193,14 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="sasescore"
-                    defaultValue={studentData.sasescore}
+                    defaultValue={studentData?.sasescore ? studentData.sasescore : ""}
                   >
                     MSU-SASE Score
                   </Input>
                   <Input
                     className="w-36"
                     name="ay"
-                    defaultValue={studentData.ay}
+                    defaultValue={studentData?.ay?studentData.ay:""}
                   >
                     AY
                   </Input>
@@ -210,7 +210,7 @@ export default function StudentProfile({
                   <Input
                     className="w-36"
                     name="studentstatus"
-                    defaultValue={studentData.studentstatus}
+                    defaultValue={studentData?.studentstatus?studentData.studentstatus:""}
                   >
                     Student Status
                   </Input>
@@ -226,14 +226,14 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="nickname"
-                    defaultValue={studentData.nickname}
+                    defaultValue={studentData?.nickname?studentData.nickname:""}
                   >
                     Nickname
                   </Input>
                   <Input
                     className="grow"
                     name="citizenship"
-                    defaultValue={studentData.citizenship}
+                    defaultValue={studentData?.citizenship? studentData.citizenship:""}
                     required
                   >
                     Citizenship
@@ -241,7 +241,7 @@ export default function StudentProfile({
                   <Input
                     className="w-36"
                     name="sex"
-                    defaultValue={student.gender}
+                    defaultValue={student?.gender}
                     required
                   >
                     Sex
@@ -251,7 +251,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="contactNumber"
-                    defaultValue={student.phone}
+                    defaultValue={student?.phone}
                     required
                   >
                     Contact Number
@@ -259,7 +259,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="religiousAffiliation"
-                    defaultValue={studentData.religiousAffiliation}
+                    defaultValue={studentData?.religiousAffiliation? studentData.religiousAffiliation:""}
                     required
                   >
                     Religious Affiliation
@@ -269,7 +269,7 @@ export default function StudentProfile({
                     type="date"
                     name="birthDate"
                     defaultValue={formatDateForInput(
-                      new Date(student.birthdate)
+                      new Date(student?.birthdate)
                     )}
                     required
                   >
@@ -280,7 +280,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="placeOfBirth"
-                    defaultValue={studentData.placeOfBirth}
+                    defaultValue={studentData?.placeOfBirth ? studentData.placeOfBirth:""}
                     required
                   >
                     Place of Birth
@@ -290,7 +290,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="addressIligan"
-                    defaultValue={studentData.addressIligan}
+                    defaultValue={studentData?.addressIligan? studentData.addressIligan:""}
                   >
                     Address (In Iligan City)
                   </Input>
@@ -299,7 +299,7 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="homeAddress"
-                    defaultValue={student.address}
+                    defaultValue={student?.address}
                     required
                   >
                     Home Address
@@ -311,7 +311,7 @@ export default function StudentProfile({
                     <div className="grid grid-cols-3 gap-7 justify-between">
                       <Radio
                         name="civilStatus"
-                        checked={studentData.civilStatus === "single"}
+                        checked={studentData?.civilStatus === "single"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -324,7 +324,7 @@ export default function StudentProfile({
                       </Radio>
                       <Radio
                         name="civilStatus"
-                        checked={studentData.civilStatus === "married"}
+                        checked={studentData?.civilStatus === "married"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -338,7 +338,7 @@ export default function StudentProfile({
                       <Radio
                         name="civilStatus"
                         checked={
-                          studentData.civilStatus === "notLegallyMarried"
+                          studentData?.civilStatus === "notLegallyMarried"
                         }
                         onClick={() => {
                           setStudentData((old: any) => ({
@@ -352,7 +352,7 @@ export default function StudentProfile({
                       </Radio>
                       <Radio
                         name="civilStatus"
-                        checked={studentData.civilStatus === "separated"}
+                        checked={studentData?.civilStatus === "separated"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -365,7 +365,7 @@ export default function StudentProfile({
                       </Radio>
                       <Radio
                         name="civilStatus"
-                        checked={studentData.civilStatus === "widowed"}
+                        checked={studentData?.civilStatus === "widowed"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -378,7 +378,7 @@ export default function StudentProfile({
                       </Radio>
                       <Radio
                         name="civilStatus"
-                        checked={studentData.civilStatus === "others"}
+                        checked={studentData?.civilStatus === "others"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -396,14 +396,14 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="staysWith"
-                    defaultValue={studentData.staysWith}
+                    defaultValue={studentData?.staysWith?studentData.staysWith:""}
                   >
                     Stays with
                   </Input>
                   <Input
                     className="grow"
                     name="noChildren"
-                    defaultValue={studentData.noChildren}
+                    defaultValue={studentData?.noChildren? studentData.noChildren:""}
                   >
                     No. Children
                   </Input>
@@ -412,14 +412,14 @@ export default function StudentProfile({
                   <Input
                     className="grow"
                     name="talentSkills"
-                    defaultValue={studentData.talentSkills}
+                    defaultValue={studentData?.talentSkills?studentData.talentSkills:""}
                   >
                     Talent/Skills
                   </Input>
                   <Input
                     className="grow"
                     name="leisureRecreational"
-                    defaultValue={studentData.leisureRecreational}
+                    defaultValue={studentData?.leisureRecreational?studentData.leisureRecreational:""}
                   >
                     Leisure/Recreational Activities
                   </Input>
@@ -430,7 +430,7 @@ export default function StudentProfile({
                     <div className="grid grid-cols-2 gap-7 justify-between">
                       <Radio
                         name="workingStudent"
-                        checked={studentData.workingStudent === "fulltime"}
+                        checked={studentData?.workingStudent === "fulltime"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -443,7 +443,7 @@ export default function StudentProfile({
                       </Radio>
                       <Radio
                         name="workingStudent"
-                        checked={studentData.workingStudent === "parttime"}
+                        checked={studentData?.workingStudent === "parttime"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -457,7 +457,7 @@ export default function StudentProfile({
                       <Radio
                         name="workingStudent"
                         checked={
-                          studentData.workingStudent === "planningToWork"
+                          studentData?.workingStudent === "planningToWork"
                         }
                         onClick={() => {
                           setStudentData((old: any) => ({
@@ -471,7 +471,7 @@ export default function StudentProfile({
                       </Radio>
                       <Radio
                         name="workingStudent"
-                        checked={studentData.workingStudent === "noPlanToWork"}
+                        checked={studentData?.workingStudent === "noPlanToWork"}
                         onClick={() => {
                           setStudentData((old: any) => ({
                             ...old,
@@ -488,14 +488,14 @@ export default function StudentProfile({
                 <Input
                   className="grow"
                   name="genderIdentity"
-                  defaultValue={studentData.genderIdentity}
+                  defaultValue={studentData?.genderIdentity?studentData.genderIdentity:""}
                 >
                   Gender Identity
                 </Input>
                 <Input
                   className="grow"
                   name="toWhomareYouAttracted"
-                  defaultValue={studentData.toWhomareYouAttracted}
+                  defaultValue={studentData?.toWhomareYouAttracted?studentData.toWhomareYouAttracted:""}
                 >
                   To whom are you attracted to romantically, emotionally, and
                   sexually?

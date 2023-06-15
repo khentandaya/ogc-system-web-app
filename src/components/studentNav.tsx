@@ -38,7 +38,9 @@ export default function StudentNav() {
             </Link>
             <Link
               className={`${
-                router.asPath == "/forms/student-profile" ? "text-[#017869]" : ""
+                router.asPath == "/forms/student-profile"
+                  ? "text-[#017869]"
+                  : ""
               } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
               href="/forms/student-profile"
             >
@@ -67,14 +69,13 @@ export default function StudentNav() {
               <AiTwotoneCalendar />
               Book Appointment
             </Link>
-            <Link
-              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
-              href="/login"
-              onClick={() => signOut()}
+            <div
+              className="hover:text-[#017869] cursor-pointer transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              onClick={() => signOut({ callbackUrl: "/login" })}
             >
               Logout
               <AiOutlineLogout />
-            </Link>
+            </div>
           </div>
         </div>
       </div>

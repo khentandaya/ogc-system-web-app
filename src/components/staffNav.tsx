@@ -59,14 +59,13 @@ export default function StaffNav() {
               <AiOutlineAreaChart />
               Analytics
             </Link>
-            <Link
-              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
-              href="/login"
-              onClick={() => signOut()}
+            <div
+              className="hover:text-[#017869] cursor-pointer transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              onClick={() => signOut({callbackUrl:"/login"})}
             >
               Logout
               <AiOutlineLogout />
-            </Link>
+            </div>
           </div>
         </div>
       </div>
