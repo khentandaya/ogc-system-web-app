@@ -10,6 +10,10 @@ import { useSession } from "next-auth/react";
 import StudentType from "@/types/Student";
 import Checkbox from "@/components/checkbox";
 import Radio from "@/components/radio";
+import Button from "@/components/button";
+import { AiOutlineLoading3Quarters, AiOutlineSave } from "react-icons/ai";
+import { useState } from "react";
+import axios from "axios";
 
 type Props = {};
 
@@ -34,861 +38,1003 @@ export async function getServerSideProps({
   };
 }
 
+type Questions = {
+  needToImprovetheFollowing?: string[];
+  needsAssistance?: string[];
+  personalSocial?: string[];
+  pushedLimitsResponse?: string[];
+  discussProblemsWith?: string[];
+  iFindMyself?: string[];
+  cameForCounselingWhenProblem?: string;
+  experiencedCounseling?: string;
+  knowsTheHelpAvailable?: string;
+  shyToAskAssistance?: string;
+  afraidToGoGuidance?: string;
+};
+
 export default function NeedsAssesmentForm({
   studentString,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const student: StudentType = JSON.parse(studentString);
   const session = useSession();
+  const [buttonLoad, setButtonLoad] = useState(false);
+  const [answers, setAnswers] = useState<Questions>({
+    needToImprovetheFollowing: [],
+    needsAssistance: [],
+    personalSocial: [],
+    pushedLimitsResponse: [],
+    discussProblemsWith: [],
+    iFindMyself: [],
+    cameForCounselingWhenProblem: "",
+    experiencedCounseling: "",
+    knowsTheHelpAvailable: "",
+    shyToAskAssistance: "",
+    afraidToGoGuidance: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!(e.target instanceof HTMLFormElement)) return;
+    setButtonLoad(true);
+    const form = new FormData(e.target);
+    const formJSON = Object.fromEntries(form.entries());
+
+    setAnswers((old) => {
+      return {
+        needToImprovetheFollowing: old.needToImprovetheFollowing,
+        needsAssistance: old.needsAssistance,
+        personalSocial: old.personalSocial,
+        pushedLimitsResponse: old.pushedLimitsResponse,
+        discussProblemsWith: old.discussProblemsWith,
+        iFindMyself: old.iFindMyself,
+        cameForCounselingWhenProblem: formJSON.cameForCounselingWhenProblem,
+        experiencedCounseling: formJSON.experiencedCounseling,
+        knowsTheHelpAvailable: formJSON.knowsTheHelpAvailable,
+        shyToAskAssistance: formJSON.shyToAskAssistance,
+        afraidToGoGuidance: formJSON.afraidToGoGuidance,
+      };
+    });
+
+    e.target
+      .querySelectorAll("input[type=checkbox][name=needToImprovetheFollowing]")
+      .forEach((e) => {
+        setAnswers((old) => {
+          // check if ga exist
+          if (!old.needToImprovetheFollowing?.includes(e.value) && e.checked) {
+            return {
+              ...old,
+              needToImprovetheFollowing: [
+                ...old.needToImprovetheFollowing,
+                e.value,
+              ],
+            };
+          } else if (
+            old.needToImprovetheFollowing?.includes(e.value) &&
+            !e.checked
+          ) {
+            return {
+              ...old,
+              needToImprovetheFollowing: old.needToImprovetheFollowing.filter(
+                (x) => x !== e.value
+              ),
+            };
+          }
+          return {
+            ...old,
+          };
+        });
+      });
+
+    e.target
+      .querySelectorAll("input[type=checkbox][name=needsAssistance]")
+      .forEach((e) => {
+        setAnswers((old) => {
+          // check if ga exist
+          if (!old.needsAssistance?.includes(e.value) && e.checked) {
+            return {
+              ...old,
+              needsAssistance: [...old.needsAssistance, e.value],
+            };
+          } else if (old.needsAssistance?.includes(e.value) && !e.checked) {
+            return {
+              ...old,
+              needsAssistance: old.needsAssistance.filter((x) => x !== e.value),
+            };
+          }
+          return {
+            ...old,
+          };
+        });
+      });
+
+    e.target
+      .querySelectorAll("input[type=checkbox][name=personalSocial]")
+      .forEach((e) => {
+        setAnswers((old) => {
+          // check if ga exist
+          if (!old.personalSocial?.includes(e.value) && e.checked) {
+            return {
+              ...old,
+              personalSocial: [...old.personalSocial, e.value],
+            };
+          } else if (old.personalSocial?.includes(e.value) && !e.checked) {
+            return {
+              ...old,
+              personalSocial: old.personalSocial.filter((x) => x !== e.value),
+            };
+          }
+          return {
+            ...old,
+          };
+        });
+      });
+
+    e.target
+      .querySelectorAll("input[type=checkbox][name=pushedLimitsResponse]")
+      .forEach((e) => {
+        setAnswers((old) => {
+          // check if ga exist
+          if (!old.pushedLimitsResponse?.includes(e.value) && e.checked) {
+            return {
+              ...old,
+              pushedLimitsResponse: [...old.pushedLimitsResponse, e.value],
+            };
+          } else if (
+            old.pushedLimitsResponse?.includes(e.value) &&
+            !e.checked
+          ) {
+            return {
+              ...old,
+              pushedLimitsResponse: old.pushedLimitsResponse.filter(
+                (x) => x !== e.value
+              ),
+            };
+          }
+          return {
+            ...old,
+          };
+        });
+      });
+
+    e.target
+      .querySelectorAll("input[type=checkbox][name=discussProblemsWith]")
+      .forEach((e) => {
+        setAnswers((old) => {
+          // check if ga exist
+          if (!old.discussProblemsWith?.includes(e.value) && e.checked) {
+            return {
+              ...old,
+              discussProblemsWith: [...old.discussProblemsWith, e.value],
+            };
+          } else if (old.discussProblemsWith?.includes(e.value) && !e.checked) {
+            return {
+              ...old,
+              discussProblemsWith: old.discussProblemsWith.filter(
+                (x) => x !== e.value
+              ),
+            };
+          }
+          return {
+            ...old,
+          };
+        });
+      });
+
+    e.target
+      .querySelectorAll("input[type=checkbox][name=iFindMyself]")
+      .forEach((e) => {
+        setAnswers((old) => {
+          // check if ga exist
+          if (!old.iFindMyself?.includes(e.value) && e.checked) {
+            return {
+              ...old,
+              iFindMyself: [...old.iFindMyself, e.value],
+            };
+          } else if (old.iFindMyself?.includes(e.value) && !e.checked) {
+            return {
+              ...old,
+              iFindMyself: old.iFindMyself.filter((x) => x !== e.value),
+            };
+          }
+          return {
+            ...old,
+          };
+        });
+      });
+
+    setAnswers((old) => {
+      axios.post("/api/needsaform", old).then(({ data }) => {
+        console.log(data);
+        setButtonLoad(false);
+      });
+      return old;
+    });
+
+    // setStudentData((old: any) => ({
+    //   ...old,
+    //   updatedAt: new Date().toISOString(),
+    // }));
+    
+  };
 
   if (session.status === "authenticated")
     return (
       <div className="flex flex-col items-center justify-center">
         <StudentNav />
-        <div className="flex w-screen px-14 pt-9">
-          <div className="pb-4 relative border-b-[3px] border-slate-300 w-full">
+        <div className="sticky top-0 flex w-screen px-14 pt-9 backdrop-blur-3xl">
+          <div className="flex w-full items-center justify-between border-b-[3px] border-slate-300 pb-4">
             <p className="text-3xl font-bold">
-              <span className="bg-gradient-to-tr from-[#28407f] w-fit bg-clip-text to-[#01bfa8]">
-                <span className="text-transparent">
-                  Needs Assessment
-                </span>
+              <span className="w-fit bg-gradient-to-tr from-[#28407f] to-[#01bfa8] bg-clip-text">
+                <span className="text-transparent">Needs Assessment</span>
               </span>
               <br />
               <span className="text-base font-semibold text-slate-600">
                 We Ensure that your data is confidential
               </span>
             </p>
+            <Button
+              type="submit"
+              form="needsAssesmentForm"
+              className="top-10 flex h-[2.5rem] items-center gap-2 bg-[#83e8ef] px-3 font-semibold text-gray-500 transition-all duration-200 hover:bg-white hover:text-[#017869]"
+            >
+              {buttonLoad ? (
+                <div className="flex items-center gap-2">
+                  <AiOutlineLoading3Quarters
+                    size={20}
+                    className="animate-spin"
+                  />
+                  <p>Saving</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <AiOutlineSave size={20} />
+                  <p>Save</p>
+                </div>
+              )}
+            </Button>
           </div>
         </div>
         <div className="flex w-full pl-36 pt-9">
-          <div className="flex gap-6 pt-2 flex-col">
+          <div className="flex flex-col gap-6 pt-2">
             <div className="flex flex-col px-6">
               <span className="text-lg font-bold">Assessment Form</span>
-              <div className="flex pl-32 pr-10 py-7 max-w-[55rem] flex-col gap-10">
-                <div className="flex flex-col gap-4 justify-around">
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+              <div className="flex max-w-[55rem] flex-col gap-10 py-7 pl-32 pr-10">
+                <form
+                  id="needsAssesmentForm"
+                  onSubmit={handleSubmit}
+                  className="flex flex-col justify-around gap-4"
+                >
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I have the need to improve the following___________ (Please
                     check all that apply to you)
-                    <div className="grid grid-cols-4 gap-5 justify-between">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="studyHabits"
+                        value="Study habits"
                       >
                         Study habits
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="careerDecisions"
+                        value="Career decisions"
                       >
                         Career decisions
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="memorySkills"
+                        value="Memory skills"
                       >
                         Memory skills
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        value="Reading Speed"
                       >
                         Reading Speed
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="noteTaking"
+                        value="Note-taking"
                       >
                         Note-taking
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="mathSkills"
+                        value="Math skills"
                       >
                         Math skills
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="testSkills"
+                        value="Test skills"
                       >
                         Test skills
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="timeManagement"
+                        value="Time management"
                       >
                         Time management
                       </Checkbox>
                       <Checkbox
                         name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        value="Reading Comprehension"
                       >
-                        Reading <br />
-                        Comprehension
+                        Reading <br /> Comprehension
                       </Checkbox>
-                      <Checkbox name="needToImprovetheFollowing" value="others">
+                      <Checkbox name="needToImprovetheFollowing" value="Others">
                         Others
                       </Checkbox>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I need assistance in terms of___________ (Please check all
                     that apply to you)
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="studyHabits"
-                      >
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Checkbox name="needsAssistance" value="Personal budget">
                         Personal budget
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="careerDecisions"
+                        name="needsAssistance"
+                        value="Grants/scholarships"
                       >
-                        Grants/scholarships
+                        Grants/
+                        <br />
+                        scholarships
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="memorySkills"
-                      >
+                      <Checkbox name="needsAssistance" value="Loans">
                         Loans
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="needsAssistance"
+                        value="Coping with peer pressure"
                       >
-                        Coping with peer pressure
+                        Coping with peer <br /> pressure
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="needsAssistance"
+                        value="Sexual harassment"
                       >
                         Sexual harassment
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="needsAssistance"
+                        value="Student-teacher conflict"
                       >
-                        Student-teacher conflict
+                        Student-teacher
+                        <br /> conflict
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="needsAssistance"
+                        value="Depression/Sadness"
                       >
-                        Depression/Sadness
+                        Depression <br />
+                        /Sadness
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
-                      >
+                      <Checkbox name="needsAssistance" value="Motivation">
                         Motivation
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="needsAssistance"
+                        value="Self-image (how you feel about yourself)"
                       >
-                        Self-image (how you feel about yourself)
+                        Self-image (how you <br /> feel about yourself)
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="needsAssistance"
+                        value="Grief/loss due to parental separation"
                       >
-                        Grief/loss due to parental separation
+                        Grief/loss due to <br /> parental separation
                       </Checkbox>
-
-                      <Checkbox name="needToImprovetheFollowing" value="others">
-                      Others, please specify:<br/>
-                      ___________________
+                      <Checkbox
+                        name="needsAssistance"
+                        value="Others, please specify: ___________________"
+                      >
+                        Others, please <br /> specify:
+                        <br />
+                        ___________________
                       </Checkbox>
-
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     Personal-Social:
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="studyHabits"
-                      >
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Checkbox name="personalSocial" value="Stress management">
                         Stress management
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="careerDecisions"
+                        name="personalSocial"
+                        value="Substance absolute"
                       >
                         Substance absolute
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="memorySkills"
+                        name="personalSocial"
+                        value="Dealing with relationships (Boy/Girl)"
                       >
-                        Dealing with relationships (Boy/Girl)
+                        Dealing with
+                        <br /> relationships
+                        <br /> (Boy/Girl)
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
-                      >
+                      <Checkbox name="personalSocial" value="Anxiety">
                         Anxiety
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="noteTaking"
+                        name="personalSocial"
+                        value="Handling conflicts/anger"
                       >
-                        Handling conflicts/anger
+                        Handling <br /> conflicts/anger
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="mathSkills"
+                        name="personalSocial"
+                        value="Coping with physical disability"
                       >
-                        Coping with physical disability
+                        Coping with physical <br /> disability
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="testSkills"
+                        name="personalSocial"
+                        value="Student-teacher/school personnel relationship"
                       >
-                        Student-teacher/school personnel relationship
+                        Student- <br />
+                        teacher/school
+                        <br /> personnel
+                        <br /> relationship
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="timeManagement"
+                        name="personalSocial"
+                        value="Grief/loss due to death"
                       >
-                        Grief/loss due to death
+                        Grief/loss due to
+                        <br /> death
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="personalSocial"
+                        value="Physical/psychological abuse"
                       >
-                        Physical/psychological abuse
+                        Physical/
+                        <br />
+                        psychological <br /> abuse
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="personalSocial" value="Bullying">
                         Bullying
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="personalSocial" value="Cyber-bullying">
                         Cyber-bullying
                       </Checkbox>
-
-                      <Checkbox name="needToImprovetheFollowing" value="others">
+                      <Checkbox name="personalSocial" value="Others">
                         Others
                       </Checkbox>
                     </div>
                   </div>
 
-
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     In the past, when you experienced feeling depressed or when
                     you were pushed to the limit, how did you respond? (Please
                     check all that apply to you)
-                    <div className="grid grid-cols-4 gap-5 justify-between">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="studyHabits"
+                        name="pushedLimitsResponse"
+                        value="Tried to be funny and make light of it all"
                       >
-                        Tried to be funny and make light of it all
+                        Tried to be funny <br /> and make light
+                        <br /> of it all
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="careerDecisions"
+                        name="pushedLimitsResponse"
+                        value="Talked to a teacher or counselor in school"
                       >
-                        Talked to a teacher or counselor in school
+                        Talked to a <br /> teacher or <br /> counselor in school
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="memorySkills"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Ate food">
                         Ate food
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="pushedLimitsResponse"
+                        value="Tried to stay away from home"
                       >
-                        Tried to stay away from home
+                        Tried to stay away <br /> from home
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="noteTaking"
+                        name="pushedLimitsResponse"
+                        value="Drank beer, wine, liquor"
                       >
-                        Drank beer, wine, liquor
+                        Drank beer, wine, <br /> liquor
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="mathSkills"
+                        name="pushedLimitsResponse"
+                        value="Used drugs not prescribed by doctor"
                       >
-                        Used drugs not prescribed by doctor
+                        Used drugs not <br /> prescribed by doctor
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="testSkills"
+                        name="pushedLimitsResponse"
+                        value="Listened to music"
                       >
                         Listened to music
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="timeManagement"
+                        name="pushedLimitsResponse"
+                        value="Watched movies or TV shows"
                       >
-                        Watched movies or TV shows
+                        Watched movies <br /> or TV shows
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Smoked">
                         Smoked
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Tried to solve my problem."
                       >
-                        Tried to solve my problem.
+                        Tried to solve <br /> my problem.
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Read books, novels, etc."
                       >
-                        Read books, novels, etc.
+                        Read books, <br /> novels, etc.
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Worked hard on school work/projects"
                       >
-                        Worked hard on school work/projects
+                        Worked hard on <br /> school work/projects
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Attempted to end my life"
                       >
-                        Attempted to end my life
+                        Attempted to <br /> end my life
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Got more involved in school activities"
                       >
-                        Got more involved in school activities
+                        Got more involved <br /> in school activities
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Tried to make my own decision"
                       >
-                        Tried to make my own decision
+                        Tried to make my <br /> own decision
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Talked things out with parents"
                       >
-                        Talked things out with parents
+                        Talked things out <br /> with parents
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Cried">
                         Cried
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Tried to improve myself (get body in shape, get good grades, etc.)"
                       >
-                        Tried to improve myself (get body in shape, get good grades, etc.)
+                        Tried to improve <br /> myself (get body <br /> in
+                        shape, get
+                        <br /> good grades, etc.)
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Strolled around on a car/jeepney-ride"
                       >
-                        Strolled around on a car/jeepney-ride
+                        Strolled around <br /> on a car/jeepney
+                        <br /> -ride
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Tried to think of the good things in life"
                       >
-                         Tried to think of the good things in life
+                        Tried to think <br /> of the good things
+                        <br /> in life
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Prayed">
                         Prayed
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Thought it would be better dead"
                       >
-                         Thought it would be better dead
+                        Thought it <br /> would be better
+                        <br /> dead
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Talked to a minister/priest/pastor"
                       >
-                        Talked to a minister/priest/pastor
+                        Talked to a <br /> minister/priest
+                        <br /> /pastor
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Told myself the problem is not important"
                       >
-                        Told myself the problem is not important
+                        Told myself the <br /> problem is <br />
+                        not important
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Blamed others for what went wrong"
                       >
-                        Blamed others for what went wrong
+                        Blamed others <br /> for what went
+                        <br /> wrong
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Played video games"
                       >
-                        Played video games
+                        Played video <br /> games
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Surfed the internet"
                       >
                         Surfed the internet
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Hurt myself">
                         Hurt myself
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Talked to a friend"
                       >
                         Talked to a friend
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Daydreamed about how I would like things to be"
                       >
-                        Daydreamed about how I would like things to be
+                        Daydreamed about <br /> how I would
+                        <br /> like things to be
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Got professional counseling"
                       >
-                        Got professional counseling
+                        Got professional <br /> counseling
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Went to church"
                       >
                         Went to church
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Slept">
                         Slept
                       </Checkbox>
-
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
-                      >
+                      <Checkbox name="pushedLimitsResponse" value="Got angry">
                         Got angry
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="pushedLimitsResponse"
+                        value="Kept my silence"
                       >
                         Kept my silence
                       </Checkbox>
-
-                      <Checkbox name="needToImprovetheFollowing" value="others">
+                      <Checkbox name="pushedLimitsResponse" value="Others">
                         Others
                       </Checkbox>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                   I can easily discuss my problems with my  ___________ (Please check only one.)
-                    <div className="grid grid-cols-4 gap-5 justify-between">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I can easily discuss my problems with my ___________ (Please
+                    check only one.)
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="studyHabits"
+                        name="discussProblemsWith"
+                        value="Guidance counselor in school"
                       >
-                        Guidance counselor in school
+                        Guidance counselor <br /> in school
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="careerDecisions"
-                      >
+                      <Checkbox name="discussProblemsWith" value="Parents">
                         Parents
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="memorySkills"
-                      >
+                      <Checkbox name="discussProblemsWith" value="Teacher(s)">
                         Teacher(s)
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="discussProblemsWith"
+                        value="Brothers/Sisters"
                       >
                         Brothers/Sisters
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="noteTaking"
+                        name="discussProblemsWith"
+                        value="Friends/Relatives"
                       >
                         Friends/Relatives
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="mathSkills"
-                      >
+                      <Checkbox name="discussProblemsWith" value="Nobody">
                         Nobody
                       </Checkbox>
-                      
-                      <Checkbox name="needToImprovetheFollowing" value="others">
+                      <Checkbox name="discussProblemsWith" value="Others">
                         Others
                       </Checkbox>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                   I find myself ___________ (Please check any of the following items which describe you)
-                    <div className="grid grid-cols-4 gap-5 justify-between">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I find myself ___________ (Please check any of the following
+                    items which describe you)
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="studyHabits"
+                        name="iFindMyself"
+                        value="Afraid of failing in subjects"
                       >
-                        Afraid of failing in subjects
+                        Afraid of failing <br /> in subjects
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="careerDecisions"
+                        name="iFindMyself"
+                        value="Having difficulty finding child care (for married students)"
                       >
-                        Having difficulty finding child care (for married students)
+                        Having difficulty <br /> finding child care <br /> (for
+                        married students)
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="memorySkills"
+                        name="iFindMyself"
+                        value="Afraid I might not fit at MSU-IIT"
                       >
-                        Afraid I might not fit at MSU-IIT
+                        Afraid I might not <br /> fit at MSU-IIT
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingSpeed"
+                        name="iFindMyself"
+                        value="Having difficulty socializing with people"
                       >
-                        Having difficulty socializing with people
+                        Having difficulty <br /> socializing with <br /> people
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="noteTaking"
+                        name="iFindMyself"
+                        value="Panicking during test"
                       >
-                        Panicking during test
+                        Panicking during <br /> test
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="mathSkills"
+                        name="iFindMyself"
+                        value="Getting along with teachers"
                       >
-                        Getting along with teachers
+                        Getting along with <br /> teachers
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="testSkills"
+                        name="iFindMyself"
+                        value="Struggling with sexual identity"
                       >
-                        Struggling with sexual identify
+                        Struggling with <br /> sexual identity
                       </Checkbox>
-                      <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="timeManagement"
-                      >
+                      <Checkbox name="iFindMyself" value="Always feeling tired">
                         Always feeling tired
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having health problems"
                       >
-                        Having health problems
+                        Having health <br /> problems
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having no financial/emotion support from family and friends"
                       >
-                        Having no financial/emotion support from family and friends
+                        Having no financial/ <br /> emotion support <br /> from
+                        family and friends
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Taking things seriously"
                       >
-                        Taking things seriously
+                        Taking things <br /> seriously
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Anxious to approach teachers"
                       >
-                        Anxious to approach teachers
+                        Anxious to approach <br /> teachers
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having problems with spouse"
                       >
-                        Having problems with spouse
+                        Having problems <br /> with spouse
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Afraid I might not fit with my degree course"
                       >
-                        Afraid I might not fit with my degree course
+                        Afraid I might not fit <br /> with my degree course
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Unsure of college procedures"
                       >
-                        Unsure of college procedures
-
+                        Unsure of college <br /> procedures
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having difficulty participating in class"
                       >
-                        Having difficulty participating in class
+                        Having difficulty <br /> participating in class
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having difficulty participating in online class"
                       >
-                        Having difficulty participating in online class
+                        Having difficulty <br /> participating in <br /> online
+                        class
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having difficulty managing money"
                       >
-                        Having difficulty managing money
+                        Having difficulty <br /> managing money
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Struggling in meeting requirement deadlines"
                       >
-                        Struggling in the meeting requirement deadlines
+                        Struggling in meeting <br /> requirement deadlines
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Struggling to make my family undestand college demands"
                       >
-                        Struggling to make my family undestand college demands
+                        Struggling to make my <br /> family undestand <br />{" "}
+                        college demands
                       </Checkbox>
-
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Missing my family/home"
                       >
                         Missing my family/home
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Adjusting w/boardmates"
                       >
                         Adjusting w/boardmates
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having problems at home"
                       >
                         Having problems at home
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having trouble sleeping"
                       >
                         Having trouble sleeping
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Afraid to speak up in class"
                       >
                         Afraid to speak up in class
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Gets easily distracted"
                       >
                         Gets easily distracted
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having no close friend in school"
                       >
-                        Having no close friend in school
+                        Having no close friend <br /> in school
                       </Checkbox>
                       <Checkbox
-                        name="needToImprovetheFollowing"
-                        value="readingComprehension"
+                        name="iFindMyself"
+                        value="Having suicidal thoughts"
                       >
                         Having suicidal thoughts
                       </Checkbox>
-                      
-                      <Checkbox name="needToImprovetheFollowing" value="others">
+                      <Checkbox name="iFindMyself" value="Others">
                         Others
                       </Checkbox>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                      I willfully came for counseling when i had a problem
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-               
-                      
-                      <Radio name="needToImprovetheFollowing" value="others">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I willfully came for counseling when I had a problem
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Radio name="cameForCounselingWhenProblem" value="Always">
                         Always
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio
+                        name="cameForCounselingWhenProblem"
+                        value="Oftentimes"
+                      >
                         Oftentimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio
+                        name="cameForCounselingWhenProblem"
+                        value="Sometimes"
+                      >
                         Sometimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
-                       Never
+                      <Radio name="cameForCounselingWhenProblem" value="Never">
+                        Never
                       </Radio>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                    I experienced counseling upon referral by teachers, friends, parents, etc.
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-               
-                      
-                      <Radio name="needToImprovetheFollowing" value="others">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I experienced counseling upon referral by teachers, friends,
+                    parents, etc.
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Radio name="experiencedCounseling" value="Always">
                         Always
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="experiencedCounseling" value="Oftentimes">
                         Oftentimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="experiencedCounseling" value="Sometimes">
                         Sometimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
-                       Never
+                      <Radio name="experiencedCounseling" value="Never">
+                        Never
                       </Radio>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                    I know that help is available at the Guidance and Counseling Center of MSU-IIT.
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-               
-                      
-                      <Radio name="needToImprovetheFollowing" value="others">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I know that help is available at the Guidance and Counseling
+                    Center of MSU-IIT.
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Radio name="knowsTheHelpAvailable" value="Always">
                         Always
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="knowsTheHelpAvailable" value="Oftentimes">
                         Oftentimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="knowsTheHelpAvailable" value="Sometimes">
                         Sometimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
-                       Never
+                      <Radio name="knowsTheHelpAvailable" value="Never">
+                        Never
                       </Radio>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                  I am shy to ask assistance/seek counseling from my guidance counselor.
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-               
-                      
-                      <Radio name="needToImprovetheFollowing" value="others">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I am shy to ask assistance/seek counseling from my guidance
+                    counselor.
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Radio name="shyToAskAssistance" value="Always">
                         Always
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="shyToAskAssistance" value="Oftentimes">
                         Oftentimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="shyToAskAssistance" value="Sometimes">
                         Sometimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
-                       Never
+                      <Radio name="shyToAskAssistance" value="Never">
+                        Never
                       </Radio>
                     </div>
                   </div>
 
-                  <div className="flex flex-col font-semibold pb-4 gap-[30px] grow">
-                  I am afraid to go the Guidance and Counseling Center of MSU-IIT.
-                    <div className="grid grid-cols-4 gap-5 justify-between">
-               
-                      
-                      <Radio name="needToImprovetheFollowing" value="others">
+                  <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
+                    I am afraid to go to the Guidance and Counseling Center of
+                    MSU-IIT.
+                    <div className="grid grid-cols-4 justify-between gap-10">
+                      <Radio name="afraidToGoGuidance" value="Always">
                         Always
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="afraidToGoGuidance" value="Oftentimes">
                         Oftentimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
+                      <Radio name="afraidToGoGuidance" value="Sometimes">
                         Sometimes
                       </Radio>
-
-                      <Radio name="needToImprovetheFollowing" value="others">
-                       Never
+                      <Radio name="afraidToGoGuidance" value="Never">
+                        Never
                       </Radio>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>

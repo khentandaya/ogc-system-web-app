@@ -7,7 +7,7 @@ type Props = {};
 export default function StudentSideNav({}: Props) {
   return (
     <div className="">
-      <div className="sticky top-10">
+      <div className="sticky top-36">
         <li className="flex text-slate-700 text-sm font-semibold flex-col gap-8 p-4">
           <ol className="cursor-pointer hover:text-primary ">
             <ScrollLink href="#studentdata">Student Data</ScrollLink>

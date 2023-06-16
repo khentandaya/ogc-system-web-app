@@ -96,12 +96,12 @@ export default function StudentProfile({
 
   if (session.status === "authenticated")
     return (
-      <div className="flex items-center justify-center flex-col">
+      <div className="flex flex-col items-center justify-center">
         <StudentNav />
-        <div className="flex w-screen px-14 pt-9">
-          <div className="pb-4 flex justify-between items-center border-b-[3px] border-slate-300 w-full">
+        <div className="sticky top-0 flex w-screen px-14 pt-9 backdrop-blur-2xl">
+          <div className="relative flex w-full items-center justify-between border-b-[3px] border-slate-300 pb-4">
             <p className="text-3xl font-bold">
-              <span className="bg-gradient-to-tr from-[#28407f] w-fit bg-clip-text to-[#01bfa8]">
+              <span className="w-fit bg-gradient-to-tr from-[#28407f] to-[#01bfa8] bg-clip-text">
                 <span className="text-transparent">
                   Student Individual Data
                 </span>
@@ -111,21 +111,27 @@ export default function StudentProfile({
                 We Ensure that your data is confidential
               </span>
             </p>
-            <div className="flex text-sm italic items-center gap-4 justify-between px-2">
+            <div className="flex items-center justify-between gap-4 px-2 text-sm italic">
               {studentData
-                ? `Last Updated on: ${formatUserFriendlyDate(
+                ? `Last Update on: ${formatUserFriendlyDate(
                     studentData.updatedAt
                   )}`
                 : ""}
               <Button
                 type="submit"
                 form="studentForm"
-                className="flex items-center px-3 h-[2.5rem] gap-2 bg-[#3CFEE7] hover:bg-white hover:text-[#017869] text-gray-500 font-semibold transition-all duration-200"
+                className="top-10 flex h-[2.5rem] items-center gap-2 bg-[#83e8ef] px-3 font-semibold text-gray-500 transition-all duration-200 hover:bg-white hover:text-[#017869]"
               >
                 {buttonLoad ? (
-                  <AiOutlineLoading3Quarters className="animate-spin" />
+                  <div className="flex items-center gap-2">
+                    <AiOutlineLoading3Quarters size={20} className="animate-spin" />
+                    <p>Saving</p>
+                  </div>
                 ) : (
-                  <AiOutlineSave size={25} />
+                  <div className="flex items-center gap-2">
+                    <AiOutlineSave size={20} />
+                    <p>Save</p>
+                  </div>
                 )}
               </Button>
             </div>
@@ -137,20 +143,20 @@ export default function StudentProfile({
           <form
             id="studentForm"
             onSubmit={handleSubmit}
-            className="flex gap-6 pt-2 flex-col"
+            className="flex flex-col gap-6 pt-2"
           >
             <div
               id="studentdata"
               className="flex flex-col border-b border-slate-200 pl-6"
             >
               <span className="text-lg font-bold">Student Data</span>
-              <div className="flex pl-32 pr-10 py-7 flex-col gap-10">
+              <div className="flex flex-col gap-10 py-7 pl-32 pr-10">
                 <Image
                   src={session.data?.user?.image + ""}
                   alt={"user_avatar"}
                   width={120}
                   height={120}
-                  className="rounded-full shadow-xl border-4"
+                  className="rounded-full border-4 shadow-xl"
                 />
                 <div className="flex gap-4">
                   <Input
@@ -215,11 +221,11 @@ export default function StudentProfile({
                   </Input>
                 </div>
 
-                <div className="flex gap-4 justify-start">
-                  <div className="flex flex-col gap-[12px] w-36">
+                <div className="flex justify-start gap-4">
+                  <div className="flex w-36 flex-col gap-[12px]">
                     <label className="px-1">College</label>
                     <select
-                      className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
+                      className="h-15 w-50 rounded-xl border-[2.5px] border-slate-300 bg-foreground px-2 py-2 outline-0"
                       name="college"
                       defaultValue={student?.college}
                       required
@@ -233,12 +239,14 @@ export default function StudentProfile({
                       <option value="cass">CASS</option>
                     </select>
                   </div>
-                  <div className="flex flex-col gap-[12px] w-36">
+                  <div className="flex w-36 flex-col gap-[12px]">
                     <label className="px-1">Year level</label>
                     <select
-                      className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
+                      className="h-15 w-50 rounded-xl border-[2.5px] border-slate-300 bg-foreground px-2 py-2 outline-0"
                       name="yrlevel"
-                      defaultValue={studentData?.yrlevel ? studentData?.yrlevel : "" }
+                      defaultValue={
+                        studentData?.yrlevel ? studentData?.yrlevel : ""
+                      }
                       required
                     >
                       <option value="1st">1st</option>
@@ -252,9 +260,9 @@ export default function StudentProfile({
             </div>
 
             {/* PERSONAL DATA */}
-            <div id="personaldata" className="flex flex-col w-full px-6">
+            <div id="personaldata" className="flex w-full flex-col px-6">
               <span className="text-lg font-bold">Personal Data</span>
-              <div className="flex pl-32 pr-10 py-7 max-w-[55rem] flex-col gap-10">
+              <div className="flex max-w-[55rem] flex-col gap-10 py-7 pl-32 pr-10">
                 <div className="flex gap-4">
                   <Input
                     className="grow"
@@ -353,9 +361,9 @@ export default function StudentProfile({
                   </Input>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex flex-col gap-[30px] grow">
+                  <div className="flex grow flex-col gap-[30px]">
                     Civil Status
-                    <div className="grid grid-cols-3 gap-7 justify-between">
+                    <div className="grid grid-cols-3 justify-between gap-7">
                       <Radio
                         name="civilStatus"
                         checked={studentData?.civilStatus === "single"}
@@ -482,9 +490,9 @@ export default function StudentProfile({
                   </Input>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex flex-col gap-[30px] grow">
+                  <div className="flex grow flex-col gap-[30px]">
                     Working Student
-                    <div className="grid grid-cols-2 gap-7 justify-between">
+                    <div className="grid grid-cols-2 justify-between gap-7">
                       <Radio
                         name="workingStudent"
                         checked={studentData?.workingStudent === "fulltime"}
