@@ -16,7 +16,7 @@ const schema = new mongoose.Schema(
     knowsTheHelpAvailable: {type:String},
     shyToAskAssistance: {type:String},
     afraidToGoGuidance: {type:String},
-    student: {type: Schema.Types.ObjectId, ref:"studentprofiles" }
+    student: {type:String }
   },
   { timestamps: true }
 );

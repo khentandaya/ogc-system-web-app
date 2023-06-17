@@ -57,7 +57,7 @@ export default function StudentProfile({
     setButtonLoad(true);
     const form = new FormData(e.target);
     const formJSON = Object.fromEntries(form.entries());
-    if(session.data){
+    if (session.data) {
       formJSON.image = session.data?.user.image;
     }
     console.log(formJSON);
@@ -126,6 +126,8 @@ export default function StudentProfile({
   if (session.status === "authenticated")
     return (
       <div className="flex flex-col items-center justify-center">
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
         <StudentNav />
         {isScrolled ? (
           <Button

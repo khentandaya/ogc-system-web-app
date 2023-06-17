@@ -42,7 +42,9 @@ export default function StudentView() {
 
   if (session.status === "authenticated")
     return (
-      <div className="h-screen flex flex-col">
+      <div className="flex h-screen flex-col">
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
         <StudentNav />
         <Content />
       </div>
@@ -51,24 +53,22 @@ export default function StudentView() {
   function Content() {
     return (
       <>
-        <div className="grid items-center grid-cols-2 w-screen grow relative overflow-hidden">
-          <div className="w-[15rem] h-[15rem] absolute -bottom-20 -right-20 blur-3xl rounded-full bg-cyan-200"></div>
-          <div className="flex justify-end items-center">
+        <div className="relative grid w-screen grow grid-cols-2 items-center overflow-hidden">
+          <div className="flex items-center justify-end">
             <Image
               src={"/landing.png"}
               alt={"landing"}
               width={550}
-              height={550} 
+              height={550}
               className=""
             />
-
           </div>
-          <div className="py-10 pl-4 flex w-[28rem] flex-col gap-8">
-            <div className="bg-gradient-to-tr from-[#28407f] w-fit bg-clip-text to-[#01bfa8]">
-              <h1 className="font-bold text-transparent text-6xl">Welcome</h1>
+          <div className="flex w-[28rem] flex-col gap-8 py-10 pl-4">
+            <div className="w-fit bg-gradient-to-tr from-[#28407f] to-[#01bfa8] bg-clip-text">
+              <h1 className="text-6xl font-bold text-transparent">Welcome</h1>
             </div>
 
-            <p className="leading-7 text-gray-500 text-left text-sm">
+            <p className="text-left text-sm leading-7 text-gray-500">
               {`We provide a safe and supportive environment where you can freely
               express yourself and work towards finding solutions. Our
               counselors are dedicated to helping you navigate life's challenges
@@ -80,7 +80,7 @@ export default function StudentView() {
               onClick={() => setButtonLoad(true)}
               href="/appointments/student-appointment"
             >
-              <Button className="flex items-center gap-2 bg-[#28407f] hover:bg-white hover:text-[#017869] text-[#FDFDFD] font-semibold transition-all duration-100">
+              <Button className="flex items-center gap-2 bg-[#28407f] font-semibold text-[#FDFDFD] transition-all duration-100 hover:bg-white hover:text-[#017869]">
                 Book an Appointment
                 {buttonLoad ? (
                   <AiOutlineLoading3Quarters className="animate-spin" />
