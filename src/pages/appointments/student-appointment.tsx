@@ -80,7 +80,7 @@ export default function StudentAppointment() {
         {selectedDay ? (
           <div className="relative flex h-[28rem] flex-col items-center justify-start gap-5 rounded-3xl p-4">
             <div className="flex gap-4">
-              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
+              <div className="flex flex-col gap-2 px-4 py-3 border rounded-lg shadow-sm">
                 <p>Available Timeslots:</p>
                 <select className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none">
                   {available.map((e, i) => (
@@ -90,7 +90,7 @@ export default function StudentAppointment() {
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
+              <div className="flex flex-col gap-2 px-4 py-3 border rounded-lg shadow-sm">
                 <p>How would you like to meet?</p>
                 <select className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none">
                   <option value="Face to Face">Face to Face</option>
@@ -101,7 +101,7 @@ export default function StudentAppointment() {
                 </select>
               </div>
             </div>
-            <div className="absolute right-5 top-36 flex grow items-end">
+            <div className="absolute flex items-end right-5 top-36 grow">
               <Dialog>
                 <DialogTrigger className="self-center">
                   <p className="transistion-colors w-full rounded-lg border bg-[#28407f] px-3 py-2 text-[#FDFDFD] duration-200 hover:bg-[#FDFDFD] hover:text-[#28407f]">
@@ -112,7 +112,7 @@ export default function StudentAppointment() {
                   <DialogHeader className="text-xl font-semibold text-[#28407f]">
                     Contact Info:
                   </DialogHeader>
-                  <div className="grid grid-cols-3 items-center gap-4">
+                  <div className="grid items-center grid-cols-3 gap-4">
                     <label htmlFor="email" className="whitespace-nowrap">
                       Email Address:
                     </label>
@@ -120,14 +120,14 @@ export default function StudentAppointment() {
                       type="email"
                       id="email"
                       defaultValue={session?.data?.user?.email}
-                      className="col-span-2 w-full"
+                      className="w-full col-span-2"
                     />
                     <label htmlFor="phone" className="whitespace-nowrap">
                       Phone:
                     </label>
-                    <Input id="phone" className="col-span-2 w-full" />
+                    <Input id="phone" className="w-full col-span-2" />
                     <label htmlFor="other">Other (e.g. Facebook):</label>
-                    <Input id="other" className="col-span-2 w-full" />
+                    <Input id="other" className="w-full col-span-2" />
                   </div>
                   <DialogClose
                     onClick={() => {
@@ -142,7 +142,7 @@ export default function StudentAppointment() {
               </Dialog>
             </div>
             <PopupModal ref={modalref}>
-              <div className="flex flex-col gap-1 rounded-lg border bg-white p-4 shadow">
+              <div className="flex flex-col gap-1 p-4 bg-white border rounded-lg shadow">
                 <h2 className="text-xl font-semibold">
                   Congratulations, your appointment is successfully sent 🎉
                 </h2>
@@ -150,7 +150,7 @@ export default function StudentAppointment() {
                   The guidance counselor may contact you for further details
                 </p>
                 <Button
-                  className="self-end"
+                  className="self-end bg-[#28407f] text-[#fdfdfd] hover:text-[#28407f]"
                   onClick={() => modalref.current?.toggle()}
                 >
                   Close
