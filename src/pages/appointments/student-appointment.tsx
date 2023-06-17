@@ -60,8 +60,8 @@ export default function StudentAppointment() {
         </h1>
       </div>
       <div className="flex h-[35rem] justify-center gap-10">
-        <div className="absolute -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
-        <div className="absolute -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
         <DayPicker
           disabled={(date) => {
             const currentDate = new Date();

@@ -13,6 +13,7 @@ import {
 
 export default function StudentNav() {
   const router = useRouter();
+
   return (
     <>
       <div className="flex h-[85px] w-screen items-center justify-center border border-b-2 bg-white py-2 shadow-sm">

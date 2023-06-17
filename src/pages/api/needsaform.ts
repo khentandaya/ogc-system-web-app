@@ -11,6 +11,11 @@ export default async function handler(
       res.status(200).json(test);
       return;
 
+    case "GET":
+      const form = await StudentNeedsForm.findOne(req.query);
+      res.status(200).json(form);
+      return;
+
     default:
       return;
   }

@@ -16,8 +16,10 @@ import {
   AiOutlineSave,
   AiOutlineUp,
 } from "react-icons/ai";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import PopupModal, { ModalHandler } from "@/components/popupmodal";
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -77,6 +79,8 @@ export default function NeedsAssesmentForm({
     afraidToGoGuidance: "",
     student: session.data?.user.idNumber,
   });
+  const modalref = useRef<ModalHandler>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,6 +88,7 @@ export default function NeedsAssesmentForm({
     setButtonLoad(true);
     const form = new FormData(e.target);
     const formJSON: Questions = Object.fromEntries(form.entries());
+    modalref.current?.toggle();
 
     setAnswers((old) => {
       return {
@@ -253,6 +258,7 @@ export default function NeedsAssesmentForm({
       });
 
     setAnswers((old) => {
+      old.student = session.data?.user.idNumber;
       axios.post("/api/needsaform", old).then(({ data }) => {
         console.log(data);
         setButtonLoad(false);
@@ -287,6 +293,12 @@ export default function NeedsAssesmentForm({
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(()=>{
+    axios.get(`/api/needsaform/`).then(({data})=>{
+      console.log(data)
+    })
+  },[session])
 
   if (session.status === "authenticated")
     return (
@@ -1078,6 +1090,22 @@ export default function NeedsAssesmentForm({
                     </div>
                   </div>
                 </form>
+                <PopupModal ref={modalref}>
+                  <div className="flex flex-col gap-5 rounded-lg border bg-white p-4 shadow">
+                    <h2 className="text-xl font-semibold">
+                      Answer Saved Successfully!🎉
+                    </h2>
+                    <Button
+                      className="h-[2.5rem] py-1 self-end bg-[#83e8ef] text-gray-500 hover:bg-[#FDFDFD] hover:text-[#017869]"
+                      onClick={() => {
+                        router.push("/studentview")
+                        modalref.current?.toggle()
+                      }}
+                    >
+                      Go back to Home
+                    </Button>
+                  </div>
+                </PopupModal>
               </div>
             </div>
           </div>
