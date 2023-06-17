@@ -43,57 +43,67 @@ export default function StaffView() {
   const session = useSession();
   const [students, setStudents] = useState([]);
 
+  async function getStudents() {
+    const res = await axios.get("/api/studentprofile");
+    if (res) {
+      return res.data;
+    }
+  }
   useEffect(() => {
-    axios.get("/api/studentprofile").then(({ data }) => {
+    getStudents().then((data) => {
       setStudents(data);
     });
   }, []);
 
   if (session.status === "authenticated")
     return (
-      <div className="flex mx-32 items-center justify-center flex-col gap-14">
+      <div className="flex flex-col items-center justify-center mx-32 gap-14">
         <StaffNav />
-        <div className="flex gap-3 items-center w-full justify-between">
-          <div className="w-[18rem] flex items-center gap-5">
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="flex items-center justify-between w-full gap-3">
+          <div className="flex w-[18rem] items-center gap-5">
             <Image
               src={session.data?.user?.image + ""}
               alt={"user_avatar"}
               width={80}
               height={80}
-              className="rounded-full cursor-default border-4"
+              className="border-4 rounded-full cursor-default"
             />
-            <p className="flex gap-10">Hello! {session?.data?.user.firstName},</p>
+            <p className="flex gap-10">
+              Hello! {session?.data?.user.firstName},
+            </p>
           </div>
-          <p className="max-h-[30px] flex gap-3 justify-between font-bold">
-            <span className="cursor-default rounded-xl px-3 font- font-semibold text-white bg-primary">
+          <p className="flex max-h-[30px] justify-between gap-3 font-bold">
+            <span className="px-3 font-semibold text-white cursor-default font- rounded-xl bg-primary">
               {session?.data?.user.college?.toUpperCase()}
             </span>
             | Admin
           </p>
         </div>
-        <div className="h-[15rem] grid grid-cols-3 mt-10 gap-16 w-full">
-          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#1267FB] to-[#71A4FD]">
-            <p className="flex text-3xl font-semibold justify-start">
+        <div className="mt-10 grid h-[15rem] w-full grid-cols-3 gap-16">
+          <div className="grid h-[12rem] grow grid-rows-2 border border-gray-400 bg-gradient-to-tr from-[#1267FB] to-[#71A4FD] p-8 text-[#FDFDFD] shadow-xl transition-all duration-100 hover:scale-[1.02]">
+            <p className="flex justify-start text-3xl font-semibold">
               Students
             </p>
-            <p className="flex pl-10 text-3xl font-bold justify-between items-end">
+            <p className="flex items-end justify-between pl-10 text-3xl font-bold">
               <AiOutlineTeam size={80} />
               {students.length}
             </p>
           </div>
-          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#19913C] to-[#37DD68]">
-            <p className="flex text-3xl font-semibold justify-start">
+          <div className="grid h-[12rem] grow grid-rows-2 border border-gray-400 bg-gradient-to-tr from-[#19913C] to-[#37DD68] p-8 text-[#FDFDFD] shadow-xl transition-all duration-100 hover:scale-[1.02]">
+            <p className="flex justify-start text-3xl font-semibold">
               Approved
             </p>
-            <p className="flex pl-10  text-3xl font-bold justify-between items-end">
+            <p className="flex items-end justify-between pl-10 text-3xl font-bold">
               <AiOutlineCarryOut size={80} />3
             </p>
           </div>
-          <div className="grow hover:scale-[1.02] transition-all duration-100 p-8 text-[#FDFDFD] h-[12rem] grid grid-rows-2 border border-gray-400 shadow-xl bg-gradient-to-tr from-[#FB1412] to-[#FD7371]">
-            <p className="flex text-3xl font-semibold justify-start">
+          <div className="grid h-[12rem] grow grid-rows-2 border border-gray-400 bg-gradient-to-tr from-[#FB1412] to-[#FD7371] p-8 text-[#FDFDFD] shadow-xl transition-all duration-100 hover:scale-[1.02]">
+            <p className="flex justify-start text-3xl font-semibold">
               Cancelled
             </p>
-            <p className="flex pl-10 text-3xl font-bold justify-between items-end">
+            <p className="flex items-end justify-between pl-10 text-3xl font-bold">
               <AiOutlineCloseCircle size={80} />1
             </p>
           </div>

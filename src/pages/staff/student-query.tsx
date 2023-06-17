@@ -59,6 +59,8 @@ export default function StudentQuery({}: Props) {
   return (
     <div className="flex flex-col w-screen gap-10">
       <StaffNav />
+      <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+      <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
       <div className="flex justify-end mr-36">
         <input
           value={searchVal}
@@ -66,21 +68,21 @@ export default function StudentQuery({}: Props) {
             setSearchVal(e.target.value);
           }}
           placeholder={"search by name, id..."}
-          className="px-4 placeholder:italic text-sm outline-0 py-1 border-[2.5px] bg-white border-r-0 h-10 w-[15rem] rounded-l-3xl roun border-cyan-600"
+          className="roun h-10 w-[15rem] rounded-l-3xl border-[2.5px] border-r-0 border-cyan-600 bg-white px-4 py-1 text-sm outline-0 placeholder:italic"
         />
         <button
           onClick={() => console.log(searchVal)}
-          className="outline-0 py-2 border-[2.5px] bg-white h-10 w-[3rem] cursor-pointer flex justify-center border-l-0 rounded-r-3xl border-cyan-600"
+          className="flex h-10 w-[3rem] cursor-pointer justify-center rounded-r-3xl border-[2.5px] border-l-0 border-cyan-600 bg-white py-2 outline-0"
         >
           <AiOutlineSearch size={25} />
         </button>
       </div>
-      <div className="flex flex-col max-h-[32rem]">
-        <div className="grid grid-cols-4 cursor-default font-semibold mx-36 border-b-[3px] border-cyan-700 w-auto h-[3rem]">
-          <p className="flex justify-center items-center pt-2 pb-0">Name</p>
-          <p className="flex justify-center items-center pt-2 pb-0">ID</p>
-          <p className="flex justify-center items-center pt-2 pb-0">College</p>
-          <p className="flex justify-center items-center pt-2 pb-0">Gender</p>
+      <div className="flex max-h-[32rem] flex-col">
+        <div className="mx-36 grid h-[3rem] w-auto cursor-default grid-cols-4 border-b-[3px] border-cyan-700 font-semibold">
+          <p className="flex items-center justify-center pt-2 pb-0">Name</p>
+          <p className="flex items-center justify-center pt-2 pb-0">ID</p>
+          <p className="flex items-center justify-center pt-2 pb-0">College</p>
+          <p className="flex items-center justify-center pt-2 pb-0">Gender</p>
         </div>
         {students?.map((val, i) => {
           return <StudentCard key={i} student={val} />;
@@ -95,18 +97,18 @@ export default function StudentQuery({}: Props) {
       <>
         <Link
           href={/student/ + student.idNumber}
-          className="grid grid-cols-4 justify-between hover:bg-cyan-100/20 cursor-pointer mx-36  border-b border-cyan-200 w-auto h-[4rem]"
+          className="mx-36 grid h-[4rem] w-auto cursor-pointer grid-cols-4  justify-between border-b border-cyan-200 hover:bg-cyan-100/20"
         >
-          <p className="flex justify-start text-sm items-center pb-0">
+          <p className="flex items-center justify-start pb-0 text-sm">
             {studentName.toUpperCase()}
           </p>
-          <p className="flex justify-center text-sm items-center pb-0">
+          <p className="flex items-center justify-center pb-0 text-sm">
             {student.idNumber}
           </p>
-          <p className="flex justify-center text-sm items-center pb-0">
+          <p className="flex items-center justify-center pb-0 text-sm">
             {student.college?.toUpperCase()}
           </p>
-          <p className="flex justify-center text-sm items-center pb-0">
+          <p className="flex items-center justify-center pb-0 text-sm">
             {student.sex?.toUpperCase()}
           </p>
         </Link>
