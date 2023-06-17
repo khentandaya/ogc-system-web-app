@@ -104,10 +104,10 @@ export default function StudentQuery({}: Props) {
             {student.idNumber}
           </p>
           <p className="flex justify-center text-sm items-center pb-0">
-            {student.college}
+            {student.college?.toUpperCase()}
           </p>
           <p className="flex justify-center text-sm items-center pb-0">
-            {student.sex.toUpperCase()}
+            {student.sex?.toUpperCase()}
           </p>
         </Link>
       </>

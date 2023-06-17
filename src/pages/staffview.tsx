@@ -62,11 +62,11 @@ export default function StaffView() {
               height={80}
               className="rounded-full cursor-default border-4"
             />
-            <p className="flex gap-10">Hello! {session.data.user.firstName},</p>
+            <p className="flex gap-10">Hello! {session?.data?.user.firstName},</p>
           </div>
           <p className="max-h-[30px] flex gap-3 justify-between font-bold">
             <span className="cursor-default rounded-xl px-3 font- font-semibold text-white bg-primary">
-              {session.data.user.college?.toUpperCase()}
+              {session?.data?.user.college?.toUpperCase()}
             </span>
             | Admin
           </p>

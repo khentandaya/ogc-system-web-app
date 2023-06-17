@@ -57,6 +57,9 @@ export default function StudentProfile({
     setButtonLoad(true);
     const form = new FormData(e.target);
     const formJSON = Object.fromEntries(form.entries());
+    if(session.data){
+      formJSON.image = session.data?.user.image;
+    }
     console.log(formJSON);
     await axios.post("/api/studentprofile", formJSON);
     setStudentData((old: any) => ({
@@ -318,7 +321,6 @@ export default function StudentProfile({
                     defaultValue={
                       studentData?.citizenship ? studentData.citizenship : ""
                     }
-                    required
                   >
                     Citizenship
                   </Input>
