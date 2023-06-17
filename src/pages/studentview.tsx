@@ -42,18 +42,18 @@ export default function StudentView() {
 
   if (session.status === "authenticated")
     return (
-      <div className="flex h-screen flex-col">
-        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
-        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+      <div className="flex flex-col h-screen">
         <StudentNav />
         <Content />
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
       </div>
     );
 
   function Content() {
     return (
       <>
-        <div className="relative grid w-screen grow grid-cols-2 items-center overflow-hidden">
+        <div className="relative grid items-center w-screen grid-cols-2 overflow-hidden grow">
           <div className="flex items-center justify-end">
             <Image
               src={"/landing.png"}
@@ -68,7 +68,7 @@ export default function StudentView() {
               <h1 className="text-6xl font-bold text-transparent">Welcome</h1>
             </div>
 
-            <p className="text-left text-sm leading-7 text-gray-500">
+            <p className="text-sm leading-7 text-left text-gray-500">
               {`We provide a safe and supportive environment where you can freely
               express yourself and work towards finding solutions. Our
               counselors are dedicated to helping you navigate life's challenges

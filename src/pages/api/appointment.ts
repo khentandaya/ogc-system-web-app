@@ -17,7 +17,7 @@ export default async function AppointmentHandler(
       return;
 
     case "GET":
-      const unavailable = req.query.unavailable === "true";
+      const available = req.query.available === "true";
       const college = req.query.college;
       const date = req.query.date
         ? new Date(req.query.date?.toString())
@@ -27,11 +27,11 @@ export default async function AppointmentHandler(
       endDate.setHours(23, 59, 59);
       let response: any = null;
 
-      if (unavailable && college) {
+      if (available && college) {
         response = await Appointment.find({
           college,
           $or: [
-            { disabled: true },
+            { disabled: false },
             {
               startDate: {
                 $gte: date,
