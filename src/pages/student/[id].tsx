@@ -80,7 +80,7 @@ export default function StudentInfo({}: Props) {
         </div>
       </div>
       <div className="mx-32 h-[30rem] overflow-y bg-slate-400">
-
+        
       </div>
     </div>
   );

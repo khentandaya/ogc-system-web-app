@@ -15,22 +15,22 @@ export default function StudentNav() {
   const router = useRouter();
   return (
     <>
-      <div className="flex justify-center bg-white w-screen h-[85px] py-2 border border-b-2 shadow-sm items-center">
-        <div className="flex w-[80%] gap-4 items-center justify-evenly">
+      <div className="flex h-[85px] w-screen items-center justify-center border border-b-2 bg-white py-2 shadow-sm">
+        <div className="flex w-[80%] items-center justify-evenly gap-4">
           <div className="">
-            <Image
-              src="/eogc_logo.png"
-              alt="iit logo"
-              width={60}
-              height={60}
-              className="w-auto"
-            />
+          <Image
+                src="/eogc_logo.png"
+                alt="iit logo"
+                width={60}
+                height={60}
+                className="w-auto cursor-pointer"
+              />
           </div>
           <div className="flex justify-start gap-16 text-base">
             <Link
               className={`${
                 router.asPath == "/studentview" ? "text-[#017869]" : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
               href="/studentview"
             >
               <AiOutlineHome />
@@ -41,7 +41,7 @@ export default function StudentNav() {
                 router.asPath == "/forms/student-profile"
                   ? "text-[#017869]"
                   : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
               href="/forms/student-profile"
             >
               <AiOutlineUser />
@@ -52,7 +52,7 @@ export default function StudentNav() {
                 router.asPath == "/forms/needs-assesment-form"
                   ? "text-[#017869]"
                   : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
               href="/forms/needs-assesment-form"
             >
               <AiOutlineForm className="animate-pulse" />
@@ -63,14 +63,14 @@ export default function StudentNav() {
                 router.asPath == "/appointments/student-appointment"
                   ? "text-[#017869]"
                   : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
               href="/appointments/student-appointment"
             >
               <AiTwotoneCalendar />
               Book Appointment
             </Link>
             <div
-              className="hover:text-[#017869] cursor-pointer transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              className="flex cursor-pointer items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]"
               onClick={() => signOut({ callbackUrl: "/login" })}
             >
               Logout

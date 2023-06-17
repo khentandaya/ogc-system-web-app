@@ -75,7 +75,7 @@ export default function NeedsAssesmentForm({
     knowsTheHelpAvailable: "",
     shyToAskAssistance: "",
     afraidToGoGuidance: "",
-    student: session.data?.user.idNumber
+    student: session.data?.user.idNumber,
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -291,6 +291,8 @@ export default function NeedsAssesmentForm({
   if (session.status === "authenticated")
     return (
       <div className="flex flex-col items-center justify-center">
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
         <StudentNav />
         {isScrolled ? (
           <Button

@@ -53,8 +53,21 @@ export default function StudentAppointment() {
   return (
     <div className="flex flex-col items-center justify-center gap-[2rem]">
       <StudentNav />
-      <div className="flex items-center justify-center">
+      <div className="w-fit bg-gradient-to-tr from-[#28407f] to-[#01bfa8] bg-clip-text">
+        <h1 className="text-xl font-semibold text-transparent">
+          Book an <span className="font-bold">Appointment</span> with your
+          Guidance Counselor
+        </h1>
+      </div>
+      <div className="flex h-[35rem] justify-center gap-10">
+        <div className="absolute -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="absolute -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
         <DayPicker
+          disabled={(date) => {
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            return date < currentDate;
+          }}
           mode="single"
           selected={selectedDay}
           onSelect={(date) => {
@@ -65,11 +78,11 @@ export default function StudentAppointment() {
           }}
         />
         {selectedDay ? (
-          <div className="flex flex-col gap-5">
+          <div className="relative flex h-[28rem] flex-col items-center justify-start gap-5 rounded-3xl p-4">
             <div className="flex gap-4">
-              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-md">
+              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
                 <p>Available Timeslots:</p>
-                <select className="w-full rounded-lg border border-slate-400 p-3 outline-none">
+                <select className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none">
                   {available.map((e, i) => (
                     <option key={i} value={e.toString()}>
                       {format(e, "h:mm aa")}
@@ -77,9 +90,9 @@ export default function StudentAppointment() {
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-md">
+              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
                 <p>How would you like to meet?</p>
-                <select className="w-full rounded-lg border border-slate-400 p-3 outline-none">
+                <select className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none">
                   <option value="Face to Face">Face to Face</option>
                   <option value="Online Meeting">Online Meeting</option>
                   <option value="Phone/Telephone Call">
@@ -88,51 +101,60 @@ export default function StudentAppointment() {
                 </select>
               </div>
             </div>
-            <Dialog>
-              <DialogTrigger className="self-center">
-                <p className="transistion-colors w-fit rounded-lg border border-gray-300/70 bg-secondary px-3 py-2 duration-200 hover:bg-secondary/60 hover:text-primary">
-                  Make an appointment
-                </p>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader className="text-xl font-semibold">
-                  Contact Info:
-                </DialogHeader>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <label htmlFor="email" className="whitespace-nowrap">
-                    Email Address:
-                  </label>
-                  <Input
-                    type="email"
-                    id="email"
-                    defaultValue={session?.data?.user?.email}
-                    className="col-span-2 w-full"
-                  />
-                  <label htmlFor="phone" className="whitespace-nowrap">
-                    Phone:
-                  </label>
-                  <Input id="phone" className="col-span-2 w-full" />
-                  <label htmlFor="other">Other (e.g. Facebook):</label>
-                  <Input id="other" className="col-span-2 w-full" />
-                </div>
-                <DialogClose
-                  onClick={() => {
-                    modalref.current?.toggle();
-                    // party.confetti(modalref.current?.contentRef);
-                  }}
-                  className="rounded-lg bg-primary py-4 text-white"
-                >
-                  Send Appointment
-                </DialogClose>
-              </DialogContent>
-            </Dialog>
+            <div className="absolute right-5 top-36 flex grow items-end">
+              <Dialog>
+                <DialogTrigger className="self-center">
+                  <p className="transistion-colors w-full rounded-lg border bg-[#28407f] px-3 py-2 text-[#FDFDFD] duration-200 hover:bg-[#FDFDFD] hover:text-[#28407f]">
+                    Make an appointment
+                  </p>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader className="text-xl font-semibold text-[#28407f]">
+                    Contact Info:
+                  </DialogHeader>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <label htmlFor="email" className="whitespace-nowrap">
+                      Email Address:
+                    </label>
+                    <Input
+                      type="email"
+                      id="email"
+                      defaultValue={session?.data?.user?.email}
+                      className="col-span-2 w-full"
+                    />
+                    <label htmlFor="phone" className="whitespace-nowrap">
+                      Phone:
+                    </label>
+                    <Input id="phone" className="col-span-2 w-full" />
+                    <label htmlFor="other">Other (e.g. Facebook):</label>
+                    <Input id="other" className="col-span-2 w-full" />
+                  </div>
+                  <DialogClose
+                    onClick={() => {
+                      modalref.current?.toggle();
+                      // party.confetti(modalref.current?.contentRef);
+                    }}
+                    className="rounded-lg border bg-[#28407f] py-4 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]"
+                  >
+                    Send Appointment
+                  </DialogClose>
+                </DialogContent>
+              </Dialog>
+            </div>
             <PopupModal ref={modalref}>
-              <div className="rounded-lg border bg-white p-4 shadow flex flex-col gap-1">
+              <div className="flex flex-col gap-1 rounded-lg border bg-white p-4 shadow">
                 <h2 className="text-xl font-semibold">
-                Congratulations, your appointment is successfully sent 🎉
+                  Congratulations, your appointment is successfully sent 🎉
                 </h2>
-                <p className="text-gray-500 text-center my-4">The guidance counselor may contact you for further details</p>
-                <Button className="self-end" onClick={() => modalref.current?.toggle()}>Close</Button>
+                <p className="my-4 text-center text-gray-500">
+                  The guidance counselor may contact you for further details
+                </p>
+                <Button
+                  className="self-end"
+                  onClick={() => modalref.current?.toggle()}
+                >
+                  Close
+                </Button>
               </div>
             </PopupModal>
           </div>
