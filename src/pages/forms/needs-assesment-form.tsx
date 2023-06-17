@@ -11,8 +11,12 @@ import StudentType from "@/types/Student";
 import Checkbox from "@/components/checkbox";
 import Radio from "@/components/radio";
 import Button from "@/components/button";
-import { AiOutlineLoading3Quarters, AiOutlineSave } from "react-icons/ai";
-import { useState } from "react";
+import {
+  AiOutlineLoading3Quarters,
+  AiOutlineSave,
+  AiOutlineUp,
+} from "react-icons/ai";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 type Props = {};
@@ -97,8 +101,8 @@ export default function NeedsAssesmentForm({
 
     e.target
       .querySelectorAll("input[type=checkbox][name=needToImprovetheFollowing]")
-      .forEach((e) => {
-        setAnswers((old) => {
+      .forEach((e: any) => {
+        setAnswers((old: any) => {
           // check if ga exist
           if (!old.needToImprovetheFollowing?.includes(e.value) && e.checked) {
             return {
@@ -115,7 +119,7 @@ export default function NeedsAssesmentForm({
             return {
               ...old,
               needToImprovetheFollowing: old.needToImprovetheFollowing.filter(
-                (x) => x !== e.value
+                (x: any) => x !== e.value
               ),
             };
           }
@@ -127,8 +131,8 @@ export default function NeedsAssesmentForm({
 
     e.target
       .querySelectorAll("input[type=checkbox][name=needsAssistance]")
-      .forEach((e) => {
-        setAnswers((old) => {
+      .forEach((e: any) => {
+        setAnswers((old: any) => {
           // check if ga exist
           if (!old.needsAssistance?.includes(e.value) && e.checked) {
             return {
@@ -138,7 +142,9 @@ export default function NeedsAssesmentForm({
           } else if (old.needsAssistance?.includes(e.value) && !e.checked) {
             return {
               ...old,
-              needsAssistance: old.needsAssistance.filter((x) => x !== e.value),
+              needsAssistance: old.needsAssistance.filter(
+                (x: any) => x !== e.value
+              ),
             };
           }
           return {
@@ -149,8 +155,8 @@ export default function NeedsAssesmentForm({
 
     e.target
       .querySelectorAll("input[type=checkbox][name=personalSocial]")
-      .forEach((e) => {
-        setAnswers((old) => {
+      .forEach((e: any) => {
+        setAnswers((old: any) => {
           // check if ga exist
           if (!old.personalSocial?.includes(e.value) && e.checked) {
             return {
@@ -160,7 +166,9 @@ export default function NeedsAssesmentForm({
           } else if (old.personalSocial?.includes(e.value) && !e.checked) {
             return {
               ...old,
-              personalSocial: old.personalSocial.filter((x) => x !== e.value),
+              personalSocial: old.personalSocial.filter(
+                (x: any) => x !== e.value
+              ),
             };
           }
           return {
@@ -171,8 +179,8 @@ export default function NeedsAssesmentForm({
 
     e.target
       .querySelectorAll("input[type=checkbox][name=pushedLimitsResponse]")
-      .forEach((e) => {
-        setAnswers((old) => {
+      .forEach((e: any) => {
+        setAnswers((old: any) => {
           // check if ga exist
           if (!old.pushedLimitsResponse?.includes(e.value) && e.checked) {
             return {
@@ -186,7 +194,7 @@ export default function NeedsAssesmentForm({
             return {
               ...old,
               pushedLimitsResponse: old.pushedLimitsResponse.filter(
-                (x) => x !== e.value
+                (x: any) => x !== e.value
               ),
             };
           }
@@ -198,8 +206,8 @@ export default function NeedsAssesmentForm({
 
     e.target
       .querySelectorAll("input[type=checkbox][name=discussProblemsWith]")
-      .forEach((e) => {
-        setAnswers((old) => {
+      .forEach((e: any) => {
+        setAnswers((old: any) => {
           // check if ga exist
           if (!old.discussProblemsWith?.includes(e.value) && e.checked) {
             return {
@@ -210,7 +218,7 @@ export default function NeedsAssesmentForm({
             return {
               ...old,
               discussProblemsWith: old.discussProblemsWith.filter(
-                (x) => x !== e.value
+                (x: any) => x !== e.value
               ),
             };
           }
@@ -222,8 +230,8 @@ export default function NeedsAssesmentForm({
 
     e.target
       .querySelectorAll("input[type=checkbox][name=iFindMyself]")
-      .forEach((e) => {
-        setAnswers((old) => {
+      .forEach((e: any) => {
+        setAnswers((old: any) => {
           // check if ga exist
           if (!old.iFindMyself?.includes(e.value) && e.checked) {
             return {
@@ -233,7 +241,7 @@ export default function NeedsAssesmentForm({
           } else if (old.iFindMyself?.includes(e.value) && !e.checked) {
             return {
               ...old,
-              iFindMyself: old.iFindMyself.filter((x) => x !== e.value),
+              iFindMyself: old.iFindMyself.filter((x: any) => x !== e.value),
             };
           }
           return {
@@ -254,13 +262,44 @@ export default function NeedsAssesmentForm({
     //   ...old,
     //   updatedAt: new Date().toISOString(),
     // }));
-    
   };
+
+  const isBrowser = () => typeof window !== "undefined"; //The approach recommended by Next.js
+  function scrollToTop() {
+    if (!isBrowser()) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const isTop = scrollTop === 0;
+      setIsScrolled(!isTop);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   if (session.status === "authenticated")
     return (
       <div className="flex flex-col items-center justify-center">
         <StudentNav />
+        {isScrolled ? (
+          <Button
+            onClick={scrollToTop}
+            className="fixed bottom-10 -mr-[60rem] flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#83e8ef] hover:bg-white hover:text-[#017869]"
+          >
+            <AiOutlineUp size={23} />
+          </Button>
+        ) : (
+          ""
+        )}
         <div className="sticky top-0 flex w-screen px-14 pt-9 backdrop-blur-3xl">
           <div className="flex w-full items-center justify-between border-b-[3px] border-slate-300 pb-4">
             <p className="text-3xl font-bold">

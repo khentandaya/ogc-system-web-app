@@ -21,5 +21,5 @@ const schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.studentprofiles ||
-  mongoose.model("studentprofiles", schema);
+export default mongoose.models.studentneedsforms ||
+  mongoose.model("studentneedsforms", schema);

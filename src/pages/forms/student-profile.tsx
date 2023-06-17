@@ -15,7 +15,11 @@ import StudentType from "@/types/Student";
 import StudentSideNav from "@/components/studentSideNav";
 import Radio from "@/components/radio";
 import axios from "axios";
-import { AiOutlineSave, AiOutlineLoading3Quarters } from "react-icons/ai";
+import {
+  AiOutlineSave,
+  AiOutlineLoading3Quarters,
+  AiOutlineUp,
+} from "react-icons/ai";
 import { set } from "mongoose";
 
 export async function getServerSideProps({
@@ -94,10 +98,42 @@ export default function StudentProfile({
     }
   }, [session]);
 
+  const isBrowser = () => typeof window !== "undefined"; //The approach recommended by Next.js
+  function scrollToTop() {
+    if (!isBrowser()) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const isTop = scrollTop === 0;
+      setIsScrolled(!isTop);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   if (session.status === "authenticated")
     return (
       <div className="flex flex-col items-center justify-center">
         <StudentNav />
+        {isScrolled ? (
+          <Button
+            onClick={scrollToTop}
+            className="fixed bottom-10 -mr-[60rem] flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#83e8ef] hover:bg-white hover:text-[#017869]"
+          >
+            <AiOutlineUp size={23} />
+          </Button>
+        ) : (
+          ""
+        )}
         <div className="sticky top-0 flex w-screen px-14 pt-9 backdrop-blur-2xl">
           <div className="relative flex w-full items-center justify-between border-b-[3px] border-slate-300 pb-4">
             <p className="text-3xl font-bold">
@@ -124,7 +160,10 @@ export default function StudentProfile({
               >
                 {buttonLoad ? (
                   <div className="flex items-center gap-2">
-                    <AiOutlineLoading3Quarters size={20} className="animate-spin" />
+                    <AiOutlineLoading3Quarters
+                      size={20}
+                      className="animate-spin"
+                    />
                     <p>Saving</p>
                   </div>
                 ) : (
