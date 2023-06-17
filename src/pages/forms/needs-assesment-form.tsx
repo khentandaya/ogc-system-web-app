@@ -54,6 +54,7 @@ type Questions = {
   knowsTheHelpAvailable?: string;
   shyToAskAssistance?: string;
   afraidToGoGuidance?: string;
+  student?: string;
 };
 
 export default function NeedsAssesmentForm({
@@ -74,6 +75,7 @@ export default function NeedsAssesmentForm({
     knowsTheHelpAvailable: "",
     shyToAskAssistance: "",
     afraidToGoGuidance: "",
+    student: session.data?.user.idNumber
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,7 +83,7 @@ export default function NeedsAssesmentForm({
     if (!(e.target instanceof HTMLFormElement)) return;
     setButtonLoad(true);
     const form = new FormData(e.target);
-    const formJSON = Object.fromEntries(form.entries());
+    const formJSON: Questions = Object.fromEntries(form.entries());
 
     setAnswers((old) => {
       return {
