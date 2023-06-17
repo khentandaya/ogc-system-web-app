@@ -43,6 +43,8 @@ export default function StudentView() {
   if (session.status === "authenticated")
     return (
       <div className="flex h-screen flex-col">
+        <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+        <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
         <StudentNav />
         <Content />
       </div>
@@ -52,8 +54,6 @@ export default function StudentView() {
     return (
       <>
         <div className="relative grid w-screen grow grid-cols-2 items-center overflow-hidden">
-          <div className="absolute -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
-          <div className="absolute -left-20 -top-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
           <div className="flex items-center justify-end">
             <Image
               src={"/landing.png"}
