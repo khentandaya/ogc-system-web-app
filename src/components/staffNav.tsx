@@ -47,7 +47,7 @@ export default function StaffNav() {
             </Link>
             <Link
               className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
-              href="/"
+              href="/appointments/staff-appointment"
             >
               <AiTwotoneCalendar />
               Appointment Schedule
