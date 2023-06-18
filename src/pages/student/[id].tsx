@@ -11,6 +11,7 @@ import Image from "next/image";
 import Display from "@/components/display";
 import { BsPersonCircle, BsPerson, BsFileEarmarkText } from "react-icons/bs";
 import Student from "@/models/Student";
+import { Loader2 } from "lucide-react";
 
 type Props = {};
 
@@ -35,28 +36,33 @@ export async function getServerSideProps({
       },
     };
   }
-  if (!req.url?.includes(".json")) {
-    const idNumber = req.url?.slice(-9);
-    const student = await Student.findOne({ idNumber });
-    const studentExists = student !== null;
-    console.log(studentExists, idNumber);
-    return {
-      props: {
-        studentExists,
-      },
-    };
+  // if (!req.url?.includes(".json")) {
+  //   const idNumber = req.url?.slice(-9);
+  //   const student = await Student.findOne({ idNumber });
+  //   const studentExists = student !== null;
+  //   console.log(studentExists, idNumber);
+  //   return {
+  //     props: {
+  //       studentExists,
+  //     },
+  //   };
+  // }
+  return {
+    props: {
+
+    }
   }
 }
 
-export default function StudentInfo({
-  studentExists,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function StudentInfo({}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const id = router.query.id;
   const [student, setStudent] = useState<any>();
   const [assessment, setAssessment] = useState<any>();
   const [studentTabClick, setStudentTabClick] = useState(true);
   const [formsTabClick, setFormsTabClick] = useState(false);
+  const [studentExists, setStudentExists] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
@@ -68,6 +74,10 @@ export default function StudentInfo({
       axios.get(`/api/assessmentform/${id}`).then(({ data }) => {
         setAssessment(data);
       });
+      axios.get(`/api/students?idNumber=${id}`).then(({data})=> {
+        setStudentExists(data.length !== 0);
+        setLoading(false);
+      })
     }
   }, [id]);
 
@@ -134,7 +144,7 @@ export default function StudentInfo({
       <StaffNav />
       <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
       <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
-      <div className="self-center">Student Does not Exist</div>
+      {loading ? <Loader2 className="animate-spin w-20 h-20 text-[#28407f] self-center" /> : <div className="self-center">Student Does not Exist</div>}
     </div>
   );
 
