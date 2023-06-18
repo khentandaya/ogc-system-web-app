@@ -30,8 +30,8 @@ export default function StudentNav() {
           <div className="flex justify-start gap-16 text-base">
             <Link
               className={`${
-                router.asPath == "/studentview" ? "text-[#017869]" : ""
-              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
+                router.asPath == "/studentview" ? "text-[#28407f]" : ""
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/studentview"
             >
               <AiOutlineHome />
@@ -40,9 +40,9 @@ export default function StudentNav() {
             <Link
               className={`${
                 router.asPath == "/forms/student-profile"
-                  ? "text-[#017869]"
+                  ? "text-[#28407f]"
                   : ""
-              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/forms/student-profile"
             >
               <AiOutlineUser />
@@ -51,9 +51,9 @@ export default function StudentNav() {
             <Link
               className={`${
                 router.asPath == "/forms/needs-assesment-form"
-                  ? "text-[#017869]"
+                  ? "text-[#28407f]"
                   : ""
-              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/forms/needs-assesment-form"
             >
               <AiOutlineForm className="animate-pulse" />
@@ -62,16 +62,16 @@ export default function StudentNav() {
             <Link
               className={` ${
                 router.asPath == "/appointments/student-appointment"
-                  ? "text-[#017869]"
+                  ? "text-[#28407f]"
                   : ""
-              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]`}
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/appointments/student-appointment"
             >
               <AiTwotoneCalendar />
               Book Appointment
             </Link>
             <div
-              className="flex cursor-pointer items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#017869]"
+              className="flex cursor-pointer items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]"
               onClick={() => signOut({ callbackUrl: "/login" })}
             >
               Logout

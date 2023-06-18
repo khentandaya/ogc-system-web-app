@@ -8,7 +8,7 @@ export default async function handler(
   switch (req.method) {
    case "GET":
       const id = req.query.idNumber;
-      const info = await StudentNeedsForm.findOne({ student: id });
+      const info = await StudentNeedsForm.findOne({ idNumber: id });
       res.status(200).json(info);
       res.end();
 

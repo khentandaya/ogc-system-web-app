@@ -10,7 +10,12 @@ import { useTimeslot } from "@/hooks/useTimeslot";
 import PopupModal, { ModalHandler } from "@/components/popupmodal";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/dialog";
 import Input from "@/components/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Button from "@/components/button";
@@ -22,7 +27,10 @@ import { BiCopy as CopyIcon, BiTrash as Trash } from "react-icons/bi";
 import Checkbox from "@/components/checkbox";
 import GeneralSchedule from "@/components/GeneralSchedule";
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+}: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) {
     return {
@@ -56,22 +64,28 @@ export default function StaffAppointment() {
   return (
     <div className="flex flex-col items-center justify-center gap-[2rem]">
       <StaffNav />
-      <div className="flex cursor-pointer select-none gap-4 self-start rounded border bg-gray-200 p-1">
+      <div className="fixed -bottom-20 -right-20 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+      <div className="fixed -left-36 top-56 h-[15rem] w-[15rem] rounded-full bg-cyan-200 blur-3xl"></div>
+      <div className="flex h-[3rem] cursor-pointer select-none items-center gap-1 self-center rounded-2xl bg-[#cceff6] p-2 py-1">
         <div
-          className={`flex w-[120px] items-center gap-2 px-2 py-1 ${isList ? "rounded bg-white" : ""}`}
+          className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
+            isList ? "rounded-xl bg-[#FDFDFD]" : ""
+          }`}
           onClick={() => {
             setTab("list");
           }}
         >
-          <List className="h-5 w-5" /> List
+          <List className="w-5 h-5" /> List
         </div>
         <div
-          className={`flex w-[120px] items-center gap-2 px-2 py-1 ${!isList ? "rounded bg-white" : ""}`}
+          className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
+            !isList ? "rounded-xl bg-[#FDFDFD]" : ""
+          }`}
           onClick={() => {
             setTab("calendar");
           }}
         >
-          <Calendar className="h-5 w-5" /> Calendar
+          <Calendar className="w-5 h-5" /> Calendar
         </div>
       </div>
       {tab === "calendar" ? (
@@ -87,36 +101,55 @@ export default function StaffAppointment() {
             }}
           />
           {selectedDay ? (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col">
               <div className="flex gap-4">
-                <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-md">
-                  <p>Available Timeslots:</p>
-                  <select className="w-full rounded-lg border border-slate-400 p-3 outline-none">
-                    {available.map((e, i) => (
-                      <option key={i} value={e.toString()}>
-                        {format(e, "h:mm aa")}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-md">
-                  <p>How would you like to meet?</p>
-                  <select className="w-full rounded-lg border border-slate-400 p-3 outline-none">
-                    <option value="Face to Face">Face to Face</option>
-                    <option value="Online Meeting">Online Meeting</option>
-                    <option value="Phone/Telephone Call">Phone/Telephone Call</option>
-                  </select>
+                <div className="flex flex-col items-start gap-2 px-4 py-3 border rounded-lg shadow-md">
+                  <h2 className="text-lg font-semibold">
+                    Scheduled Appointments:
+                  </h2>
+                  <div className="p-2 flex flex-col gap-3 max-h-52 overflow-y-auto w-[500px] text-neutral-800">
+                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
+                      <div className="w-full">
+                        <p>Juliard T. Actub</p>
+                        <p>9:30AM</p>
+                      </div>
+                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
+                    </div>
+                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
+                      <div className="w-full">
+                        <p>Juliard T. Actub</p>
+                        <p>9:30AM</p>
+                      </div>
+                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
+                    </div>
+                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
+                      <div className="w-full">
+                        <p>Juliard T. Actub</p>
+                        <p>9:30AM</p>
+                      </div>
+                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
+                    </div>
+                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
+                      <div className="w-full">
+                        <p>Juliard T. Actub</p>
+                        <p>9:30AM</p>
+                      </div>
+                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <Dialog>
                 <DialogTrigger className="self-center">
-                  <p className="transistion-colors w-fit rounded-lg border border-gray-300/70 bg-secondary px-3 py-2 duration-200 hover:bg-secondary/60 hover:text-primary">
+                  <p className="transistion-colors w-fit rounded-lg border bg-[#28407f] px-3 py-2 text-[#FDFDFD] duration-200 hover:bg-[#FDFDFD] hover:text-[#28407f]">
                     Make an appointment
                   </p>
                 </DialogTrigger>
                 <DialogContent>
-                  <DialogHeader className="text-xl font-semibold">Contact Info:</DialogHeader>
-                  <div className="grid grid-cols-3 items-center gap-4">
+                  <DialogHeader className="text-xl font-semibold">
+                    Contact Info:
+                  </DialogHeader>
+                  <div className="grid items-center grid-cols-3 gap-4">
                     <label htmlFor="email" className="whitespace-nowrap">
                       Email Address:
                     </label>
@@ -124,37 +157,26 @@ export default function StaffAppointment() {
                       type="email"
                       id="email"
                       defaultValue={session?.data?.user?.email}
-                      className="col-span-2 w-full"
+                      className="w-full col-span-2"
                     />
                     <label htmlFor="phone" className="whitespace-nowrap">
                       Phone:
                     </label>
-                    <Input id="phone" className="col-span-2 w-full" />
+                    <Input id="phone" className="w-full col-span-2" />
                     <label htmlFor="other">Other (e.g. Facebook):</label>
-                    <Input id="other" className="col-span-2 w-full" />
+                    <Input id="other" className="w-full col-span-2" />
                   </div>
                   <DialogClose
                     onClick={() => {
                       modalref.current?.toggle();
                       // party.confetti(modalref.current?.contentRef);
                     }}
-                    className="rounded-lg bg-primary py-4 text-white"
+                    className="py-4 text-white rounded-lg bg-primary"
                   >
                     Send Appointment
                   </DialogClose>
                 </DialogContent>
               </Dialog>
-              <PopupModal ref={modalref}>
-                <div className="flex flex-col gap-1 rounded-lg border bg-white p-4 shadow">
-                  <h2 className="text-xl font-semibold">Congratulations, your appointment is successfully sent 🎉</h2>
-                  <p className="my-4 text-center text-gray-500">
-                    The guidance counselor may contact you for further details
-                  </p>
-                  <Button className="self-end" onClick={() => modalref.current?.toggle()}>
-                    Close
-                  </Button>
-                </div>
-              </PopupModal>
             </div>
           ) : (
             ""

@@ -93,12 +93,12 @@ export default function NeedsAssesmentForm({
 
     setAnswers((old) => {
       return {
-        needToImprovetheFollowing: old.needToImprovetheFollowing,
-        needsAssistance: old.needsAssistance,
-        personalSocial: old.personalSocial,
-        pushedLimitsResponse: old.pushedLimitsResponse,
-        discussProblemsWith: old.discussProblemsWith,
-        iFindMyself: old.iFindMyself,
+        needToImprovetheFollowing: [],
+        needsAssistance: [],
+        personalSocial: [],
+        pushedLimitsResponse: [],
+        discussProblemsWith: [],
+        iFindMyself: [],
         cameForCounselingWhenProblem: formJSON.cameForCounselingWhenProblem,
         experiencedCounseling: formJSON.experiencedCounseling,
         knowsTheHelpAvailable: formJSON.knowsTheHelpAvailable,
@@ -1016,8 +1016,7 @@ export default function NeedsAssesmentForm({
                   </div>
 
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
-                    I can easily discuss my problems with my ___________ (Please
-                    check only one.)
+                    I can easily discuss my problems with my ___________
                     <div className="grid justify-between grid-cols-4 gap-10">
                       <Checkbox
                         name="discussProblemsWith"

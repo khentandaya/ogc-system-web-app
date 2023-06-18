@@ -15,8 +15,8 @@ export default function StaffNav() {
   const router = useRouter();
   return (
     <>
-      <div className="flex justify-center bg-white w-screen h-[85px] py-2 border border-b-2 shadow-sm items-center">
-        <div className="flex w-[80%] gap-4 items-center justify-evenly">
+      <div className="flex h-[85px] w-screen items-center justify-center border border-b-2 bg-white py-2 shadow-sm">
+        <div className="flex w-[80%] items-center justify-evenly gap-4">
           <div className="">
             <Image
               src="/eogc_logo.png"
@@ -29,8 +29,8 @@ export default function StaffNav() {
           <div className="flex justify-start gap-20 text-base">
             <Link
               className={`${
-                router.asPath == "/staffview" ? "text-[#017869]" : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+                router.asPath === "/staffview" ? "text-[#28407f]" : ""
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/staffview"
             >
               <AiOutlineHome />
@@ -38,30 +38,36 @@ export default function StaffNav() {
             </Link>
             <Link
               className={`${
-                router.asPath == "/staff/student-query" ? "text-[#017869]" : ""
-              } hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]`}
+                router.asPath === "/staff/student-query" ? "text-[#28407f]" : ""
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/staff/student-query"
             >
-              <AiOutlineSearch size={19}/>
+              <AiOutlineSearch size={19} />
               Students
             </Link>
             <Link
-              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
+              className={`${
+                router.asPath === "/appointments/staff-appointment"
+                  ? "text-[#28407f]"
+                  : ""
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
               href="/appointments/staff-appointment"
             >
               <AiTwotoneCalendar />
               Appointment Schedule
             </Link>
             <Link
-              className="hover:text-[#017869] transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
-              href="/"
+              className={`${
+                router.asPath === "/staff/analytics" ? "text-[#28407f]" : ""
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
+              href="/staff/analytics"
             >
               <AiOutlineAreaChart />
               Analytics
             </Link>
             <div
-              className="hover:text-[#017869] cursor-pointer transition-all duration-100 flex items-center gap-1 hover:scale-[1.05]"
-              onClick={() => signOut({callbackUrl:"/login"})}
+              className="flex cursor-pointer items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]"
+              onClick={() => signOut({ callbackUrl: "/login" })}
             >
               Logout
               <AiOutlineLogout />

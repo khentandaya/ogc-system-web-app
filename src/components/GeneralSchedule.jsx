@@ -7,8 +7,11 @@ import DropDownMenu from "./DropDownMenu";
 import { areIntervalsOverlapping, isSameDay } from "date-fns";
 import Button from "./button";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 export default function GeneralSchedule() {
+  const session = useSession();
   const [data, setData] = useState([
     {
       text: "SUN",
@@ -83,6 +86,75 @@ export default function GeneralSchedule() {
   ]);
 
   const [disableSaveButton, setDisableSaveButton] = useState(false);
+
+  function convertArrDates(arr) {
+    return arr.map((e) => {
+      return {
+        from: new Date(e.from),
+        to: new Date(e.to),
+      };
+    });
+  }
+
+  useEffect(() => {
+    if (session.data) {
+      console.log(session.data.user._id);
+      axios
+        .get(`/api/staff/weeklysched?id=${session.data.user._id}`)
+        .then((res) => {
+          console.log(res.data);
+          const resdata = res.data;
+          if (resdata) {
+            setData((old) => {
+              return [
+                {
+                  ...old[0],
+                  isSelected: resdata.sun.length !== 0,
+                  isEmpty: resdata.sun.length === 0,
+                  schedules: convertArrDates(resdata.sun),
+                },
+                {
+                  ...old[1],
+                  isSelected: resdata.mon.length !== 0,
+                  isEmpty: resdata.mon.length === 0,
+                  schedules: convertArrDates(resdata.mon),
+                },
+                {
+                  ...old[2],
+                  isSelected: resdata.tue.length !== 0,
+                  isEmpty: resdata.tue.length === 0,
+                  schedules: convertArrDates(resdata.tue),
+                },
+                {
+                  ...old[3],
+                  isSelected: resdata.wed.length !== 0,
+                  isEmpty: resdata.wed.length === 0,
+                  schedules: convertArrDates(resdata.wed),
+                },
+                {
+                  ...old[4],
+                  isSelected: resdata.thu.length !== 0,
+                  isEmpty: resdata.thu.length === 0,
+                  schedules: convertArrDates(resdata.thu),
+                },
+                {
+                  ...old[5],
+                  isSelected: resdata.fri.length !== 0,
+                  isEmpty: resdata.fri.length === 0,
+                  schedules: convertArrDates(resdata.fri),
+                },
+                {
+                  ...old[6],
+                  isSelected: resdata.sat.length !== 0,
+                  isEmpty: resdata.sat.length === 0,
+                  schedules: convertArrDates(resdata.sat),
+                },
+              ];
+            });
+          }
+        });
+    }
+  }, [session]);
 
   useEffect(() => {
     setDisableSaveButton(false);
@@ -237,21 +309,20 @@ export default function GeneralSchedule() {
     return overlap;
   };
 
-
   function addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes * 60000);
   }
 
   return (
-    <div className="select-none w-[800px]">
-      <h2 className="my-5 mt-0 text-2xl font-bold border-b border-black border-dotted text-almostBlack font-Gothic">
+    <div className="w-[800px] select-none">
+      <h2 className="text-almostBlack font-Gothic my-5 mt-0 border-b border-dotted border-black text-2xl font-bold">
         Set your weekly hours
       </h2>
       {data.map((element, index) => {
         return (
           <div
             key={index}
-            className="py-5 flex justify-between border-b border-dotted border-almostBlack"
+            className="border-almostBlack flex justify-between border-b border-dotted py-5"
           >
             <div className="flex">
               <div className="w-24">
@@ -315,9 +386,9 @@ export default function GeneralSchedule() {
                                 : ""
                             }`}
                           >
-                            <div className="w-56 flex gap-3 items-center">
+                            <div className="flex w-56 items-center gap-3">
                               <DatePicker
-                                className={`px-2 border ${
+                                className={`border px-2 ${
                                   sched.overlapping
                                     ? "border-red-300"
                                     : "border-gray-300"
@@ -348,11 +419,11 @@ export default function GeneralSchedule() {
                               />
                               <div>-</div>
                               <DatePicker
-                                className={`px-2 border ${
+                                className={`border px-2 ${
                                   sched.overlapping
                                     ? "border-red-300"
                                     : "border-gray-300"
-                                }  rounded appearance-none text-almostBlack hover:border-black`}
+                                }  text-almostBlack appearance-none rounded hover:border-black`}
                                 selected={sched.to}
                                 onChange={(date) =>
                                   onTimeSlotChange(
@@ -379,7 +450,7 @@ export default function GeneralSchedule() {
                               />
                             </div>
                             <Trash
-                              className="text-2xl ml-3 cursor-pointer hover:text-[#f4c932]"
+                              className="ml-3 cursor-pointer text-2xl hover:text-[#f4c932]"
                               onClick={() => removeTimeSlot(element, schedIdx)}
                             />
                           </div>
@@ -392,17 +463,17 @@ export default function GeneralSchedule() {
             </div>
             <div className="flex gap-2">
               <AddIcon
-                className="mr-3 text-2xl cursor-pointer hover:text-[#f4c932]"
+                className="mr-3 cursor-pointer text-2xl hover:text-[#f4c932]"
                 onClick={() => addTimeSlot(element)}
               />
               <DropDownMenu
                 ref={element.ref}
                 buttonLabel={
-                  <CopyIcon className="text-2xl cursor-pointer hover:text-[#f4c932]" />
+                  <CopyIcon className="cursor-pointer text-2xl hover:text-[#f4c932]" />
                 }
               >
                 <div className="flex flex-col">
-                  <div className="mb-2 text-gray-400 text-xs">
+                  <div className="mb-2 text-xs text-gray-400">
                     COPY TIMES TO...
                   </div>
                   <div className="mb-2">
@@ -458,8 +529,27 @@ export default function GeneralSchedule() {
           </div>
         );
       })}
-      <div className="flex gap-5 justify-end mt-5">
-        <Button disabled={disableSaveButton}>
+      <div className="mt-5 flex justify-end gap-5">
+        <Button
+          className="bg-[#28407f] text-[#FDFDFD] hover:bg-[#FDFDFD] hover:text-[#28407f]"
+          disabled={disableSaveButton}
+          onClick={async () => {
+            const schedules = JSON.parse(JSON.stringify(data));
+            const sched = {};
+            schedules.forEach((element) => {
+              element.schedules.forEach((sched) => {
+                delete sched.overlapping;
+              });
+              sched[element.text.toLowerCase()] = element.schedules;
+            });
+
+            console.log(sched);
+            await axios.post("/api/staff/weeklysched", {
+              weeklysched: JSON.stringify(sched),
+              id: session.data.user._id,
+            });
+          }}
+        >
           SAVE
         </Button>
       </div>

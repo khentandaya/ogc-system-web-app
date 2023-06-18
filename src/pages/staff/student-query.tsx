@@ -100,16 +100,16 @@ export default function StudentQuery({}: Props) {
           className="mx-36 grid h-[4rem] w-auto cursor-pointer grid-cols-4  justify-between border-b border-cyan-200 hover:bg-cyan-100/20"
         >
           <p className="flex items-center justify-start pb-0 text-sm">
-            {studentName.toUpperCase()}
+            {studentName ? studentName.toUpperCase() : ""}
           </p>
           <p className="flex items-center justify-center pb-0 text-sm">
             {student.idNumber}
           </p>
           <p className="flex items-center justify-center pb-0 text-sm">
-            {student.college?.toUpperCase()}
+            {student.college ? student.college?.toUpperCase() : ""}
           </p>
           <p className="flex items-center justify-center pb-0 text-sm">
-            {student.sex?.toUpperCase()}
+            {student.sex ? student.sex?.toUpperCase() : ""}
           </p>
         </Link>
       </>
