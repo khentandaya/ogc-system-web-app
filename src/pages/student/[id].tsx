@@ -35,15 +35,17 @@ export async function getServerSideProps({
       },
     };
   }
-  const idNumber = req.url?.slice(-9);
-  const student = await Student.findOne({ idNumber });
-  const studentExists = student !== null;
-  console.log(studentExists, idNumber);
-  return {
-    props: {
-      studentExists,
-    },
-  };
+  if (!req.url?.includes(".json")) {
+    const idNumber = req.url?.slice(-9);
+    const student = await Student.findOne({ idNumber });
+    const studentExists = student !== null;
+    console.log(studentExists, idNumber);
+    return {
+      props: {
+        studentExists,
+      },
+    };
+  }
 }
 
 export default function StudentInfo({
