@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import axios from "axios";
+import type { ChartOptions } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -49,6 +50,15 @@ const initialChartData: ChartData = {
 export function YrlevelPie() {
   const [students, setStudents] = useState<object[]>([]);
   const [chartData, setChartData] = useState(initialChartData);
+  const [chartOptions, setChartOptions] = useState<ChartOptions>(
+    {
+      plugins: {
+        legend: {
+          position: "right"
+        }
+      }
+    }
+  );
 
 
   useEffect(()=>{
@@ -71,7 +81,7 @@ export function YrlevelPie() {
       else if(student.yrlevel === "4th") fourthCount++;
     })
     setChartData({
-      labels: ["1st", "2nd", "3rd", "4th"],
+      labels: ["1st Year", "2nd Year", "3rd Year", "4th Year"],
       datasets: [
         {
           label: "Number of Students",
@@ -91,11 +101,19 @@ export function YrlevelPie() {
         },
       ],
     });
+
+    setChartOptions({
+      plugins: {
+        legend: {
+          position: "right"
+        }
+      }
+    })
   }, [students]);
 
   return (
     <div className="h-[30rem] w-[30rem]">
-      <Pie data={chartData} />
+      <Pie options={chartOptions} data={chartData} />
     </div>
   );
 }

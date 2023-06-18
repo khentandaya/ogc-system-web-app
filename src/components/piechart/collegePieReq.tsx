@@ -47,7 +47,7 @@ const initialChartData: ChartData = {
   datasets: [],
 };
 
-export function CollegePie() {
+export function CollegePieReq() {
   const [students, setStudents] = useState<object[]>([]);
   const [chartData, setChartData] = useState(initialChartData);
   const [chartOptions, setChartOptions] = useState<ChartOptions>(

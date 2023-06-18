@@ -9,9 +9,12 @@ import Button from "./button";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 export default function GeneralSchedule() {
   const session = useSession();
+  const [buttonLoad, setButtonLoad] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([
     {
       text: "SUN",
@@ -98,11 +101,11 @@ export default function GeneralSchedule() {
 
   useEffect(() => {
     if (session.data) {
-      console.log(session.data.user._id);
       axios
         .get(`/api/staff/weeklysched?id=${session.data.user._id}`)
         .then((res) => {
           console.log(res.data);
+          setLoading(false);
           const resdata = res.data;
           if (resdata) {
             setData((old) => {
@@ -313,246 +316,253 @@ export default function GeneralSchedule() {
     return new Date(date.getTime() + minutes * 60000);
   }
 
-  return (
-    <div className="w-[800px] select-none">
-      <h2 className="text-almostBlack font-Gothic my-5 mt-0 border-b border-dotted border-black text-2xl font-bold">
-        Set your weekly hours
-      </h2>
-      {data.map((element, index) => {
-        return (
-          <div
-            key={index}
-            className="border-almostBlack flex justify-between border-b border-dotted py-5"
-          >
-            <div className="flex">
-              <div className="w-24">
-                <CheckBox
-                  checked={!data[index].isEmpty}
-                  onChange={() => {
-                    if (data[index].isSelected) {
-                      setData([
-                        ...data.map((e) => {
-                          if (e.text === element.text) {
-                            return {
-                              ...e,
-                              schedules: [],
-                              isSelected: false,
-                              isEmpty: true,
-                            };
-                          }
-                          return e;
-                        }),
-                      ]);
-                    } else {
-                      const todayFrom = new Date().setHours(9, 0, 0);
-                      const todayTo = new Date().setHours(17, 0, 0);
-                      setData([
-                        ...data.map((e) => {
-                          if (e.text === element.text) {
-                            return {
-                              ...e,
-                              schedules: [
-                                {
-                                  from: new Date(todayFrom),
-                                  to: new Date(todayTo),
-                                },
-                              ],
-                              isSelected: true,
-                              isEmpty: false,
-                            };
-                          }
-                          return e;
-                        }),
-                      ]);
-                    }
-                  }}
-                >
-                  {element.text}
-                </CheckBox>
-              </div>
-              <div>
-                <div className="flex items-center">
-                  {data[index].isEmpty ? (
-                    <div className="text-gray-400">Unavailable</div>
-                  ) : (
-                    <div>
-                      {element.schedules.map((sched, schedIdx) => {
-                        return (
-                          <div
-                            key={schedIdx}
-                            className={`flex items-center ${
-                              schedIdx !== element.schedules.length - 1
-                                ? "mb-3"
-                                : ""
-                            }`}
-                          >
-                            <div className="flex w-56 items-center gap-3">
-                              <DatePicker
-                                className={`border px-2 ${
-                                  sched.overlapping
-                                    ? "border-red-300"
-                                    : "border-gray-300"
-                                }  rounded hover:border-black`}
-                                selected={sched.from}
-                                onChange={(date) =>
-                                  onTimeSlotChange(
-                                    element,
-                                    schedIdx,
-                                    date,
-                                    "from"
-                                  )
-                                }
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={60}
-                                timeCaption="From"
-                                dateFormat="h:mm aa"
-                                minTime={
-                                  schedIdx === 0
-                                    ? new Date().setHours(0, 0)
-                                    : addMinutes(
-                                        element.schedules[schedIdx - 1].to,
-                                        60
-                                      )
-                                }
-                                maxTime={addMinutes(sched.to, -60)}
-                              />
-                              <div>-</div>
-                              <DatePicker
-                                className={`border px-2 ${
-                                  sched.overlapping
-                                    ? "border-red-300"
-                                    : "border-gray-300"
-                                }  text-almostBlack appearance-none rounded hover:border-black`}
-                                selected={sched.to}
-                                onChange={(date) =>
-                                  onTimeSlotChange(
-                                    element,
-                                    schedIdx,
-                                    date,
-                                    "to"
-                                  )
-                                }
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={60}
-                                timeCaption="To"
-                                dateFormat="h:mm aa"
-                                minTime={addMinutes(sched.from, 60)}
-                                maxTime={
-                                  schedIdx === element.schedules.length - 1
-                                    ? new Date().setHours(23, 59)
-                                    : addMinutes(
-                                        element.schedules[schedIdx + 1].from,
-                                        -60
-                                      )
-                                }
-                              />
-                            </div>
-                            <Trash
-                              className="ml-3 cursor-pointer text-2xl hover:text-[#f4c932]"
-                              onClick={() => removeTimeSlot(element, schedIdx)}
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <AddIcon
-                className="mr-3 cursor-pointer text-2xl hover:text-[#f4c932]"
-                onClick={() => addTimeSlot(element)}
-              />
-              <DropDownMenu
-                ref={element.ref}
-                buttonLabel={
-                  <CopyIcon className="cursor-pointer text-2xl hover:text-[#f4c932]" />
-                }
-              >
-                <div className="flex flex-col">
-                  <div className="mb-2 text-xs text-gray-400">
-                    COPY TIMES TO...
-                  </div>
-                  <div className="mb-2">
-                    {data.map((e, i) => {
-                      if (index !== i) {
-                        return (
-                          <CheckBox
-                            key={i}
-                            addClass="mb-3"
-                            checked={e.isDuplicate}
-                            onChange={() => {
-                              setData([
-                                ...data.map((eDuplicate, iDuplicate) => {
-                                  if (iDuplicate === i)
-                                    return {
-                                      ...eDuplicate,
-                                      isDuplicate: !eDuplicate.isDuplicate,
-                                      isSelected: true,
-                                    };
-                                  return eDuplicate;
-                                }),
-                              ]);
-                            }}
-                          >
-                            {e.text}
-                          </CheckBox>
-                        );
+  if (!loading)
+    return (
+      <div className="w-[800px] select-none">
+        <h2 className="text-almostBlack font-Gothic my-5 mt-0 border-b border-dotted border-black text-2xl font-bold">
+          Set your weekly hours
+        </h2>
+        {data.map((element, index) => {
+          return (
+            <div
+              key={index}
+              className="border-almostBlack flex justify-between border-b border-dotted py-5"
+            >
+              <div className="flex">
+                <div className="w-24">
+                  <CheckBox
+                    checked={!data[index].isEmpty}
+                    onChange={() => {
+                      if (data[index].isSelected) {
+                        setData([
+                          ...data.map((e) => {
+                            if (e.text === element.text) {
+                              return {
+                                ...e,
+                                schedules: [],
+                                isSelected: false,
+                                isEmpty: true,
+                              };
+                            }
+                            return e;
+                          }),
+                        ]);
+                      } else {
+                        const todayFrom = new Date().setHours(9, 0, 0);
+                        const todayTo = new Date().setHours(17, 0, 0);
+                        setData([
+                          ...data.map((e) => {
+                            if (e.text === element.text) {
+                              return {
+                                ...e,
+                                schedules: [
+                                  {
+                                    from: new Date(todayFrom),
+                                    to: new Date(todayTo),
+                                  },
+                                ],
+                                isSelected: true,
+                                isEmpty: false,
+                              };
+                            }
+                            return e;
+                          }),
+                        ]);
                       }
-                    })}
-                  </div>
-                  <Button
-                    onClick={() => {
-                      setData([
-                        ...data.map((e) => {
-                          if (e.isDuplicate && element.schedules.length > 0)
-                            return {
-                              ...e,
-                              schedules: element.schedules,
-                              isDuplicate: false,
-                              isEmpty: false,
-                            };
-                          return { ...e, isDuplicate: false };
-                        }),
-                      ]);
-                      element.ref.current.toggle();
                     }}
                   >
-                    APPLY
-                  </Button>
+                    {element.text}
+                  </CheckBox>
                 </div>
-              </DropDownMenu>
+                <div>
+                  <div className="flex items-center">
+                    {data[index].isEmpty ? (
+                      <div className="text-gray-400">Unavailable</div>
+                    ) : (
+                      <div>
+                        {element.schedules.map((sched, schedIdx) => {
+                          return (
+                            <div
+                              key={schedIdx}
+                              className={`flex items-center ${
+                                schedIdx !== element.schedules.length - 1
+                                  ? "mb-3"
+                                  : ""
+                              }`}
+                            >
+                              <div className="flex w-56 items-center gap-3">
+                                <DatePicker
+                                  className={`border px-2 ${
+                                    sched.overlapping
+                                      ? "border-red-300"
+                                      : "border-gray-300"
+                                  }  rounded hover:border-black`}
+                                  selected={sched.from}
+                                  onChange={(date) =>
+                                    onTimeSlotChange(
+                                      element,
+                                      schedIdx,
+                                      date,
+                                      "from"
+                                    )
+                                  }
+                                  showTimeSelect
+                                  showTimeSelectOnly
+                                  timeIntervals={60}
+                                  timeCaption="From"
+                                  dateFormat="h:mm aa"
+                                  minTime={
+                                    schedIdx === 0
+                                      ? new Date().setHours(0, 0)
+                                      : addMinutes(
+                                          element.schedules[schedIdx - 1].to,
+                                          60
+                                        )
+                                  }
+                                  maxTime={addMinutes(sched.to, -60)}
+                                />
+                                <div>-</div>
+                                <DatePicker
+                                  className={`border px-2 ${
+                                    sched.overlapping
+                                      ? "border-red-300"
+                                      : "border-gray-300"
+                                  }  text-almostBlack appearance-none rounded hover:border-black`}
+                                  selected={sched.to}
+                                  onChange={(date) =>
+                                    onTimeSlotChange(
+                                      element,
+                                      schedIdx,
+                                      date,
+                                      "to"
+                                    )
+                                  }
+                                  showTimeSelect
+                                  showTimeSelectOnly
+                                  timeIntervals={60}
+                                  timeCaption="To"
+                                  dateFormat="h:mm aa"
+                                  minTime={addMinutes(sched.from, 60)}
+                                  maxTime={
+                                    schedIdx === element.schedules.length - 1
+                                      ? new Date().setHours(23, 59)
+                                      : addMinutes(
+                                          element.schedules[schedIdx + 1].from,
+                                          -60
+                                        )
+                                  }
+                                />
+                              </div>
+                              <Trash
+                                className="ml-3 cursor-pointer text-2xl hover:text-[#f4c932]"
+                                onClick={() => removeTimeSlot(element, schedIdx)}
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <AddIcon
+                  className="mr-3 cursor-pointer text-2xl hover:text-[#f4c932]"
+                  onClick={() => addTimeSlot(element)}
+                />
+                <DropDownMenu
+                  ref={element.ref}
+                  buttonLabel={
+                    <CopyIcon className="cursor-pointer text-2xl hover:text-[#f4c932]" />
+                  }
+                >
+                  <div className="flex flex-col">
+                    <div className="mb-2 text-xs text-gray-400">
+                      COPY TIMES TO...
+                    </div>
+                    <div className="mb-2">
+                      {data.map((e, i) => {
+                        if (index !== i) {
+                          return (
+                            <CheckBox
+                              key={i}
+                              addClass="mb-3"
+                              checked={e.isDuplicate}
+                              onChange={() => {
+                                setData([
+                                  ...data.map((eDuplicate, iDuplicate) => {
+                                    if (iDuplicate === i)
+                                      return {
+                                        ...eDuplicate,
+                                        isDuplicate: !eDuplicate.isDuplicate,
+                                        isSelected: true,
+                                      };
+                                    return eDuplicate;
+                                  }),
+                                ]);
+                              }}
+                            >
+                              {e.text}
+                            </CheckBox>
+                          );
+                        }
+                      })}
+                    </div>
+                    <Button
+                      onClick={() => {
+                        setData([
+                          ...data.map((e) => {
+                            if (e.isDuplicate && element.schedules.length > 0)
+                              return {
+                                ...e,
+                                schedules: element.schedules,
+                                isDuplicate: false,
+                                isEmpty: false,
+                              };
+                            return { ...e, isDuplicate: false };
+                          }),
+                        ]);
+                        element.ref.current.toggle();
+                      }}
+                    >
+                      APPLY
+                    </Button>
+                  </div>
+                </DropDownMenu>
+              </div>
             </div>
-          </div>
-        );
-      })}
-      <div className="mt-5 flex justify-end gap-5">
-        <Button
-          className="bg-[#28407f] text-[#FDFDFD] hover:bg-[#FDFDFD] hover:text-[#28407f]"
-          disabled={disableSaveButton}
-          onClick={async () => {
-            const schedules = JSON.parse(JSON.stringify(data));
-            const sched = {};
-            schedules.forEach((element) => {
-              element.schedules.forEach((sched) => {
-                delete sched.overlapping;
+          );
+        })}
+        <div className="mt-5 flex justify-end gap-5">
+          <Button
+            className="bg-[#28407f] text-[#FDFDFD] hover:bg-[#FDFDFD] hover:text-[#28407f] flex items-center gap-1"
+            disabled={disableSaveButton || buttonLoad}
+            onClick={async () => {
+              setButtonLoad(true);
+              const schedules = JSON.parse(JSON.stringify(data));
+              const sched = {};
+              schedules.forEach((element) => {
+                element.schedules.forEach((sched) => {
+                  delete sched.overlapping;
+                });
+                sched[element.text.toLowerCase()] = element.schedules;
               });
-              sched[element.text.toLowerCase()] = element.schedules;
-            });
 
-            console.log(sched);
-            await axios.post("/api/staff/weeklysched", {
-              weeklysched: JSON.stringify(sched),
-              id: session.data.user._id,
-            });
-          }}
-        >
-          SAVE
-        </Button>
+              console.log(sched);
+              await axios.post("/api/staff/weeklysched", {
+                weeklysched: JSON.stringify(sched),
+                id: session.data.user._id,
+              });
+              setButtonLoad(false);
+            }}
+          >
+            {buttonLoad ? <Loader2 className="animate-spin"  /> : ""}
+            SAVE
+          </Button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  return (
+    <Loader2 className="animate-spin text-[#28407f] w-20 h-20"  />
+  )
 }

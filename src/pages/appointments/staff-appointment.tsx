@@ -75,7 +75,7 @@ export default function StaffAppointment() {
             setTab("list");
           }}
         >
-          <List className="w-5 h-5" /> List
+          <List className="h-5 w-5" /> List
         </div>
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
@@ -85,7 +85,7 @@ export default function StaffAppointment() {
             setTab("calendar");
           }}
         >
-          <Calendar className="w-5 h-5" /> Calendar
+          <Calendar className="h-5 w-5" /> Calendar
         </div>
       </div>
       {tab === "calendar" ? (
@@ -103,80 +103,70 @@ export default function StaffAppointment() {
           {selectedDay ? (
             <div className="flex flex-col">
               <div className="flex gap-4">
-                <div className="flex flex-col items-start gap-2 px-4 py-3 border rounded-lg shadow-md">
+                <div className="flex flex-col items-start gap-2 rounded-lg border px-4 py-3 shadow-md">
                   <h2 className="text-lg font-semibold">
                     Scheduled Appointments:
                   </h2>
-                  <div className="p-2 flex flex-col gap-3 max-h-52 overflow-y-auto w-[500px] text-neutral-800">
-                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
-                      <div className="w-full">
-                        <p>Juliard T. Actub</p>
-                        <p>9:30AM</p>
-                      </div>
-                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
-                    </div>
-                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
-                      <div className="w-full">
-                        <p>Juliard T. Actub</p>
-                        <p>9:30AM</p>
-                      </div>
-                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
-                    </div>
-                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
-                      <div className="w-full">
-                        <p>Juliard T. Actub</p>
-                        <p>9:30AM</p>
-                      </div>
-                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
-                    </div>
-                    <div className="flex items-center justify-between hover:bg-[#83e8ef]/20 py-1 px-2 rounded">
-                      <div className="w-full">
-                        <p>Juliard T. Actub</p>
-                        <p>9:30AM</p>
-                      </div>
-                      <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">View Appointment Details</p>
-                    </div>
+                  <div className="flex max-h-52 w-[500px] flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
+                    {Array(5)
+                      .fill(0)
+                      .map((e,i) => (
+                        <div key={i} className="flex items-center justify-between rounded px-2 py-1 hover:bg-[#83e8ef]/20">
+                          <div className="w-full">
+                            <p>Juliard T. Actub</p>
+                            <p>9:30AM</p>
+                          </div>
+                          <Dialog>
+                            <DialogTrigger className="self-center">
+                              <p className="cursor-pointer whitespace-nowrap text-sm hover:underline">
+                                View Appointment Details
+                              </p>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader className="text-xl font-semibold">
+                                Contact Info:
+                              </DialogHeader>
+                              <div className="grid grid-cols-3 items-center gap-4">
+                                <label
+                                  htmlFor="email"
+                                  className="whitespace-nowrap"
+                                >
+                                  Email Address:
+                                </label>
+                                <Input
+                                  type="email"
+                                  id="email"
+                                  className="col-span-2 w-full"
+                                  disabled
+                                />
+                                <label
+                                  htmlFor="phone"
+                                  className="whitespace-nowrap"
+                                >
+                                  Phone:
+                                </label>
+                                <Input
+                                  id="phone"
+                                  className="col-span-2 w-full"
+                                  disabled
+                                />
+                                <label htmlFor="other">
+                                  Other (e.g. Facebook):
+                                </label>
+                                <Input
+                                  id="other"
+                                  className="col-span-2 w-full"
+                                  disabled
+                                />
+                              </div>
+                              <Button className="w-full">View Student Profile</Button>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
-              <Dialog>
-                <DialogTrigger className="self-center">
-                  <p className="transistion-colors w-fit rounded-lg border bg-[#28407f] px-3 py-2 text-[#FDFDFD] duration-200 hover:bg-[#FDFDFD] hover:text-[#28407f]">
-                    Make an appointment
-                  </p>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader className="text-xl font-semibold">
-                    Contact Info:
-                  </DialogHeader>
-                  <div className="grid items-center grid-cols-3 gap-4">
-                    <label htmlFor="email" className="whitespace-nowrap">
-                      Email Address:
-                    </label>
-                    <Input
-                      type="email"
-                      id="email"
-                      defaultValue={session?.data?.user?.email}
-                      className="w-full col-span-2"
-                    />
-                    <label htmlFor="phone" className="whitespace-nowrap">
-                      Phone:
-                    </label>
-                    <Input id="phone" className="w-full col-span-2" />
-                    <label htmlFor="other">Other (e.g. Facebook):</label>
-                    <Input id="other" className="w-full col-span-2" />
-                  </div>
-                  <DialogClose
-                    onClick={() => {
-                      modalref.current?.toggle();
-                      // party.confetti(modalref.current?.contentRef);
-                    }}
-                    className="py-4 text-white rounded-lg bg-primary"
-                  >
-                    Send Appointment
-                  </DialogClose>
-                </DialogContent>
-              </Dialog>
             </div>
           ) : (
             ""

@@ -6,33 +6,6 @@ import type { ChartOptions } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// export const data = {
-//   labels: ["css", "ced", "cba"],
-//   datasets: [
-//     {
-//       label: "Number of students",
-//       data: [],
-//       backgroundColor: [
-//         "rgba(255, 99, 132, 0.2)",
-//         "rgba(54, 162, 235, 0.2)",
-//         "rgba(255, 206, 86, 0.2)",
-//         "rgba(75, 192, 192, 0.2)",
-//         "rgba(153, 102, 255, 0.2)",
-//         "rgba(255, 159, 64, 0.2)",
-//       ],
-//       borderColor: [
-//         "rgba(255, 99, 132, 1)",
-//         "rgba(54, 162, 235, 1)",
-//         "rgba(255, 206, 86, 1)",
-//         "rgba(75, 192, 192, 1)",
-//         "rgba(153, 102, 255, 1)",
-//         "rgba(255, 159, 64, 1)",
-//       ],
-//       borderWidth: 1,
-//     },
-//   ],
-// };
-
 interface ChartData {
   labels: string[];
   datasets: {
@@ -47,50 +20,56 @@ const initialChartData: ChartData = {
   datasets: [],
 };
 
-export function GenderPie() {
+export function YrlevelPieReq() {
   const [students, setStudents] = useState<object[]>([]);
   const [chartData, setChartData] = useState(initialChartData);
-  const [chartOptions, setChartOptions] = useState<ChartOptions>({
-    plugins: {
-      legend: {
-        position: "right",
-      },
-    },
-  });
+  const [chartOptions, setChartOptions] = useState<ChartOptions>(
+    {
+      plugins: {
+        legend: {
+          position: "right"
+        }
+      }
+    }
+  );
 
-  useEffect(() => {
+
+  useEffect(()=>{
     axios.get("/api/studentprofile").then(({ data }) => {
       if (data) {
         setStudents(data);
       }
     });
-  }, []);
+  },[])
 
   useEffect(() => {
-    let maleCount = 0;
-    let femaleCount = 0;
-    let otherCount = 0;
-    students.forEach((student: any) => {
-      if (student.sex.toLowerCase() === "male") maleCount++;
-      else if (student.sex.toLowerCase() === "female") femaleCount++;
-      else if (student.sex.toLowerCase() === "other") otherCount++;
-    });
-
+    let firstCount = 0;
+    let secondCount = 0;
+    let thirdCount = 0;
+    let fourthCount = 0;
+    students.forEach((student: any)=>{
+      if(student.yrlevel === "1st") firstCount++;
+      else if(student.yrlevel === "2nd") secondCount++;
+      else if(student.yrlevel === "3rd") thirdCount++;
+      else if(student.yrlevel === "4th") fourthCount++;
+    })
     setChartData({
-      labels: ["Male", "Female", "Other"],
+      labels: ["1st Year", "2nd Year", "3rd Year", "4th Year"],
       datasets: [
         {
           label: "Number of Students",
-          data: [maleCount, femaleCount, otherCount],
+          data: [firstCount, secondCount, thirdCount, fourthCount],
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
             "rgba(255, 206, 86, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
             "rgba(54, 162, 235, 1)",
             "rgba(255, 206, 86, 1)",
+            "rgba(153, 102, 255, 1)",
           ],
         },
       ],
@@ -99,10 +78,10 @@ export function GenderPie() {
     setChartOptions({
       plugins: {
         legend: {
-          position: "right",
-        },
-      },
-    });
+          position: "right"
+        }
+      }
+    })
   }, [students]);
 
   return (

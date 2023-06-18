@@ -1,3 +1,4 @@
+import Student from "@/models/Student";
 import StudentProfile from "@/models/forms/StudentProfile";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -33,8 +34,13 @@ export default async function handler(
             { college: { $regex: regex } },
           ],
         });
-      } else allUsers = await StudentProfile.find(query);
-
+      } else {
+        const studentProfiles = await StudentProfile.find(query);
+        for (const student of studentProfiles) {
+          const exists = await Student.findOne({idNumber: student.idNumber});
+          if (exists) allUsers.push(student);
+        }
+      }
       res.status(200).json(allUsers);
       res.end();
 

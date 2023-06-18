@@ -45,7 +45,7 @@ export default function StudentQuery({}: Props) {
   const [students, setStudents] = useState<object[]>([]);
 
   useEffect(() => {
-    axios.get("/api/studentprofile").then(({ data }) => {
+    axios.get("/api/studentprofile").then(async ({ data }) => {
       setStudents(data);
     });
   }, []);

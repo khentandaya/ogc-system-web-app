@@ -9,7 +9,7 @@ import StaffNav from "@/components/staffNav";
 import {
   AiOutlineTeam,
   AiOutlineCarryOut,
-  AiOutlineCloseCircle,
+  AiOutlineContacts,
 } from "react-icons/ai";
 import axios from "axios";
 
@@ -82,7 +82,7 @@ export default function StaffView() {
           </p>
         </div>
         <div className="mt-10 grid h-[15rem] w-full grid-cols-3 gap-16">
-          <div className="grid h-[12rem] grow grid-rows-2 border border-gray-400 bg-gradient-to-tr from-[#1267FB] to-[#71A4FD] p-8 text-[#FDFDFD] shadow-xl transition-all duration-100 hover:scale-[1.02]">
+          <div className="grid h-[12rem] grow grid-rows-2 border bg-[#0079FF] p-8 text-[#FDFDFD]">
             <p className="flex justify-start text-3xl font-semibold">
               Students
             </p>
@@ -91,20 +91,20 @@ export default function StaffView() {
               {students.length}
             </p>
           </div>
-          <div className="grid h-[12rem] grow grid-rows-2 border border-gray-400 bg-gradient-to-tr from-[#19913C] to-[#37DD68] p-8 text-[#FDFDFD] shadow-xl transition-all duration-100 hover:scale-[1.02]">
+          <div className="grid h-[12rem] grow grid-rows-2 border bg-[#00DFA2] p-8 text-[#FDFDFD]">
             <p className="flex justify-start text-3xl font-semibold">
-              Approved
+              Needs Assessment
             </p>
             <p className="flex items-end justify-between pl-10 text-3xl font-bold">
               <AiOutlineCarryOut size={80} />3
             </p>
           </div>
-          <div className="grid h-[12rem] grow grid-rows-2 border border-gray-400 bg-gradient-to-tr from-[#FB1412] to-[#FD7371] p-8 text-[#FDFDFD] shadow-xl transition-all duration-100 hover:scale-[1.02]">
+          <div className="grid h-[12rem] grow grid-rows-2 border bg-[#F4F952] p-8 text-[#FDFDFD]">
             <p className="flex justify-start text-3xl font-semibold">
-              Cancelled
+              Apppointments
             </p>
             <p className="flex items-end justify-between pl-10 text-3xl font-bold">
-              <AiOutlineCloseCircle size={80} />1
+              <AiOutlineContacts size={80} />1
             </p>
           </div>
         </div>
