@@ -77,7 +77,7 @@ export default function NeedsAssesmentForm({
     knowsTheHelpAvailable: "",
     shyToAskAssistance: "",
     afraidToGoGuidance: "",
-    student: session.data?.user.idNumber,
+    student: "",
   });
   const modalref = useRef<ModalHandler>(null);
   const router = useRouter();
@@ -260,10 +260,9 @@ export default function NeedsAssesmentForm({
       });
 
     setAnswers((old) => {
-      const newRecord = JSON.parse(JSON.stringify(old));
-      newRecord.idNumber = session.data?.user.idNumber;
-      axios.post("/api/needsaform", newRecord).then(({ data }) => {
-        console.log(data);
+      console.log(old);
+      axios.post("/api/needsaform", old).then(({ data }) => {
+        // console.log(data);
         setButtonLoad(false);
       });
       return old;

@@ -55,7 +55,8 @@ export default function StudentSignupPage({}: Props) {
     const form = new FormData(e.target);
     const formJSON = Object.fromEntries(form.entries());
     console.log(formJSON);
-    await axios.post("/api/student", formJSON);
+    const newStudent = await axios.post("/api/student", formJSON);
+    session.update({...session.data, ...newStudent});
     setButtonLoad(false);
     router.push("/");
   };

@@ -56,7 +56,8 @@ export default function StaffSignupPage({}: Props) {
     const form = new FormData(e.target);
     const formJSON = Object.fromEntries(form.entries());
     console.log(formJSON);
-    await axios.post("/api/staff", formJSON);
+    const newStaff = await axios.post("/api/staff", formJSON);
+    session.update({...session.data, ...newStaff});
     setButtonLoad(false);
     router.push("/");
   };
