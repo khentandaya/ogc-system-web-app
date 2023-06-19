@@ -274,6 +274,7 @@ export default function StudentProfile({
                       defaultValue={student?.college}
                       required
                     >
+                      <option value="-">Select</option>
                       <option value="ccs">CCS</option>
                       <option value="ced">CED</option>
                       <option value="chs">CHS</option>
@@ -293,6 +294,7 @@ export default function StudentProfile({
                       }
                       required
                     >
+                      <option value="-">Select</option>
                       <option value="1st">1st</option>
                       <option value="2nd">2nd</option>
                       <option value="3rd">3rd</option>
