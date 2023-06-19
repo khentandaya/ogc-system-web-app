@@ -20,6 +20,13 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import PopupModal, { ModalHandler } from "@/components/popupmodal";
 import { useRouter } from "next/router";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type Props = {};
 
@@ -82,6 +89,7 @@ export default function NeedsAssesmentForm({
   const modalref = useRef<ModalHandler>(null);
   const router = useRouter();
   const [exist, setExist] = useState(false);
+  const [toggleVerify, setToggleVerify] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,7 +97,6 @@ export default function NeedsAssesmentForm({
     setButtonLoad(true);
     const form = new FormData(e.target);
     const formJSON: Questions = Object.fromEntries(form.entries());
-    modalref.current?.toggle();
 
     setAnswers((old) => {
       return {
@@ -327,29 +334,75 @@ export default function NeedsAssesmentForm({
                 We Ensure that your data is confidential
               </span>
             </p>
-            <Button
-              disabled={exist}
-              type="submit"
-              form="needsAssesmentForm"
-              className={`top-10 flex h-[2.5rem] items-center gap-2 bg-[#83e8ef] px-3 font-semibold text-gray-500 transition-all duration-200 hover:bg-white hover:text-[#017869] ${
-                exist ? "cursor-not-allowed" : ""
-              }`}
-            >
-              {buttonLoad ? (
-                <div className="flex items-center gap-2">
-                  <AiOutlineLoading3Quarters
-                    size={20}
-                    className="animate-spin"
-                  />
-                  <p>Saving</p>
+            <Dialog>
+              <DialogTrigger disabled={exist} className="self-center">
+                <Button
+                  disabled={exist}
+                  className={`top-10 flex h-[2.5rem] items-center gap-2 rounded-lg border bg-[#83e8ef] px-3 font-semibold text-gray-500 transition-all duration-200 hover:bg-white hover:text-[#017869] ${
+                    exist ? "cursor-not-allowed" : ""
+                  }`}
+                >
+                  {buttonLoad ? (
+                    <div className="flex items-center gap-2">
+                      <AiOutlineLoading3Quarters
+                        size={20}
+                        className="animate-spin"
+                      />
+                      <p>Saving</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <AiOutlineSave size={20} />
+                      <p>{exist ? "You have already submitted" : "Save"}</p>
+                    </div>
+                  )}
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader className="text-xl font-semibold text-[#28407f]">
+                  {!toggleVerify
+                    ? "Irreversible Action Alert!"
+                    : "Answer Saved Successfully!🎉"}
+                </DialogHeader>
+                {!toggleVerify ? (
+                  <p className="">
+                    This action is irreversible and cannot be modified once
+                    submitted. Please review all details carefully before
+                    proceeding.
+                  </p>
+                ) : (
+                  ""
+                )}
+                <div
+                  className={`${
+                    toggleVerify ? "flex" : ""
+                  }grid grid-cols-2 gap-5`}
+                >
+                  {!toggleVerify ? (
+                    <DialogClose className="grow rounded-lg  border bg-[#D10000] py-2 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]">
+                      Cancel
+                    </DialogClose>
+                  ) : (
+                    <DialogClose className="w-full rounded-lg  border bg-[#28407f] py-2 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]">
+                      Close
+                    </DialogClose>
+                  )}
+                  <Button
+                    type="submit"
+                    form="needsAssesmentForm"
+                    onClick={() => {
+                      setToggleVerify(true);
+                      console.log("clicked");
+                    }}
+                    className={`w-full ${
+                      toggleVerify ? "hidden" : ""
+                    } rounded-lg border bg-[#00D100] py-2 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]`}
+                  >
+                    Proceed
+                  </Button>
                 </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <AiOutlineSave size={20} />
-                  <p>{exist ? "You have already submitted" : "Save"}</p>
-                </div>
-              )}
-            </Button>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
         <div className="flex w-full pl-36 pt-9">
@@ -365,7 +418,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I have the need to improve the following___________ (Please
                     check all that apply to you)
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="needToImprovetheFollowing"
                         value="Study habits"
@@ -462,7 +515,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I need assistance in terms of___________ (Please check all
                     that apply to you)
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="needsAssistance"
                         value="Personal budget"
@@ -573,7 +626,7 @@ export default function NeedsAssesmentForm({
 
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     Personal-Social:
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="personalSocial"
                         value="Stress management"
@@ -684,7 +737,7 @@ export default function NeedsAssesmentForm({
                     In the past, when you experienced feeling depressed or when
                     you were pushed to the limit, how did you respond? (Please
                     check all that apply to you)
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="pushedLimitsResponse"
                         value="Tried to be funny and make light of it all"
@@ -1016,7 +1069,7 @@ export default function NeedsAssesmentForm({
 
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I can easily discuss my problems with my ___________
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="discussProblemsWith"
                         value="Guidance counselor in school"
@@ -1086,7 +1139,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I find myself ___________ (Please check any of the following
                     items which describe you)
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Checkbox
                         name="iFindMyself"
                         value="Afraid of failing in subjects"
@@ -1355,7 +1408,7 @@ export default function NeedsAssesmentForm({
 
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I willfully came for counseling when I had a problem
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Radio
                         name="cameForCounselingWhenProblem"
                         value="Always"
@@ -1398,7 +1451,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I experienced counseling upon referral by teachers, friends,
                     parents, etc.
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Radio
                         name="experiencedCounseling"
                         value="Always"
@@ -1441,7 +1494,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I know that help is available at the Guidance and Counseling
                     Center of MSU-IIT.
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Radio
                         name="knowsTheHelpAvailable"
                         value="Always"
@@ -1484,7 +1537,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I am shy to ask assistance/seek counseling from my guidance
                     counselor.
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Radio
                         name="shyToAskAssistance"
                         value="Always"
@@ -1525,7 +1578,7 @@ export default function NeedsAssesmentForm({
                   <div className="flex grow flex-col gap-[30px] pb-4 font-semibold">
                     I am afraid to go to the Guidance and Counseling Center of
                     MSU-IIT.
-                    <div className="grid justify-between grid-cols-4 gap-10">
+                    <div className="grid grid-cols-4 justify-between gap-10">
                       <Radio
                         name="afraidToGoGuidance"
                         value="Always"
@@ -1563,8 +1616,9 @@ export default function NeedsAssesmentForm({
                     </div>
                   </div>
                 </form>
+
                 <PopupModal ref={modalref}>
-                  <div className="flex flex-col gap-5 p-4 bg-white border rounded-lg shadow">
+                  <div className="flex flex-col gap-5 rounded-lg border bg-white p-4 shadow">
                     <h2 className="text-xl font-semibold">
                       Answer Saved Successfully!🎉
                     </h2>
