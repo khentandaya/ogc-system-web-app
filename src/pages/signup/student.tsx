@@ -66,6 +66,7 @@ export default function StudentSignupPage({}: Props) {
       sex: formJSON.gender,
       homeAddress: formJSON.address,
       college: formJSON.college,
+      image: session.data?.user.image
     });
     console.log(studentProfile);
     session.update({ ...session.data, ...newStudent });
