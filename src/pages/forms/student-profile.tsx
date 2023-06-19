@@ -352,7 +352,6 @@ export default function StudentProfile({
                         ? studentData.religiousAffiliation
                         : ""
                     }
-                    required
                   >
                     Religious Affiliation
                   </Input>
@@ -375,7 +374,6 @@ export default function StudentProfile({
                     defaultValue={
                       studentData?.placeOfBirth ? studentData.placeOfBirth : ""
                     }
-                    required
                   >
                     Place of Birth
                   </Input>
