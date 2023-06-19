@@ -48,23 +48,35 @@ export default function StudentSignupPage({}: Props) {
 
   const [buttonLoad, setButtonLoad] = useState(false);
 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(e.target instanceof HTMLFormElement)) return;
     setButtonLoad(true);
     const form = new FormData(e.target);
     const formJSON = Object.fromEntries(form.entries());
-    console.log(formJSON);
     const newStudent = await axios.post("/api/student", formJSON);
-    session.update({...session.data, ...newStudent});
+    const studentProfile = await axios.post("/api/studentprofile", {
+      firstname: formJSON.firstName,
+      lastname: formJSON.lastName,
+      middleinitial: formJSON.middleInitial,
+      idNumber: formJSON.idNumber,
+      contactNumber: formJSON.phone,
+      birthDate: formJSON.birthdate,
+      sex: formJSON.gender,
+      homeAddress: formJSON.address,
+      college: formJSON.college,
+    });
+    console.log(studentProfile);
+    session.update({ ...session.data, ...newStudent });
     setButtonLoad(false);
     router.push("/");
   };
 
   if (session.status === "authenticated")
     return (
-      <div className="flex items-center justify-center w-screen h-screen bg-foreground">
-        <div className="w-[45rem] flex flex-col items-center justify-center gap-6 h-full p-4">
+      <div className="flex h-screen w-screen items-center justify-center bg-foreground">
+        <div className="flex h-full w-[45rem] flex-col items-center justify-center gap-6 p-4">
           <div className="flex items-center justify-center gap-2 pb-6">
             <Image
               src="/msuiit_logo.png"
@@ -104,10 +116,14 @@ export default function StudentSignupPage({}: Props) {
               </Input>
             </div>
             <div className="flex flex-col gap-4">
-              <Input name="email" defaultValue={session.data.user?.email + ""} required>
+              <Input
+                name="email"
+                defaultValue={session.data.user?.email + ""}
+                required
+              >
                 Email
               </Input>
-              <div className="flex gap-4 grow">
+              <div className="flex grow gap-4">
                 <Input name="phone" className="grow" required>
                   Phone
                 </Input>
@@ -116,10 +132,10 @@ export default function StudentSignupPage({}: Props) {
                 </Input>
               </div>
               <div className="flex items-center gap-4">
-                <div className="flex flex-col gap-[12px] grow">
+                <div className="flex grow flex-col gap-[12px]">
                   <label className="px-1">College</label>
                   <select
-                    className="px-2 outline-0 py-2 border-[2.5px] bg-foreground h-15 w-50 rounded-xl border-slate-300"
+                    className="h-15 w-50 rounded-xl border-[2.5px] border-slate-300 bg-foreground px-2 py-2 outline-0"
                     name="college"
                     required
                   >
@@ -135,10 +151,10 @@ export default function StudentSignupPage({}: Props) {
                 <Input className="grow" type="date" name="birthdate" required>
                   Birthdate
                 </Input>
-                <div className="flex flex-col gap-[12px] grow">
+                <div className="flex grow flex-col gap-[12px]">
                   <label className="px-1">Gender</label>
                   <select
-                    className="px-2 outline-0 bg-foreground py-2 border-[2.5px] h-15 w-50 rounded-xl border-slate-300"
+                    className="h-15 w-50 rounded-xl border-[2.5px] border-slate-300 bg-foreground px-2 py-2 outline-0"
                     name="gender"
                     required
                   >
@@ -156,9 +172,9 @@ export default function StudentSignupPage({}: Props) {
             >
               Address
             </Input>
-            <div className="flex justify-end grow">
+            <div className="flex grow justify-end">
               <Button
-                className="flex items-center gap-3 px-6 text-white bg-primarydark hover:bg-primarydark/80 hover:text-white"
+                className="flex items-center gap-3 bg-primarydark px-6 text-white hover:bg-primarydark/80 hover:text-white"
                 disabled={buttonLoad}
               >
                 {buttonLoad ? (
