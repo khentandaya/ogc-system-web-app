@@ -139,6 +139,7 @@ export default function StudentSignupPage({}: Props) {
                     name="college"
                     required
                   >
+                    <option value="">Select</option>
                     <option value="ccs">CCS</option>
                     <option value="ced">CED</option>
                     <option value="chs">CHS</option>
