@@ -198,7 +198,7 @@ export default function StaffAppointment() {
                 <label htmlFor="other">Other (e.g. Facebook):</label>
                 <Input id="other" value={others} className="col-span-2 w-full" disabled />
               </div>
-              <Button onClick={()=>{router.push(`/student/${studentInfo.idNumber}`)}} className="w-full">View Student Profile</Button>
+              <Button onClick={()=>{router.push(`/student/${studentInfo.idNumber}`)}} className="bg-[#28407f] text-[#FDFDFD] hover:text-[#28407f] w-full">View Student Profile</Button>
             </DialogContent>
           </Dialog>
         </div>
