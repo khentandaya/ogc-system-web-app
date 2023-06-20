@@ -97,7 +97,7 @@ export default function StudentQuery({}: Props) {
       <>
         <Link
           href={/student/ + student.idNumber}
-          className="mx-36 grid h-[4rem] w-auto cursor-pointer grid-cols-4  justify-between border-b border-cyan-200 hover:bg-cyan-100/20"
+          className="mx-36 py-3 grid h-[4rem] w-auto cursor-pointer grid-cols-4  justify-between border-b border-cyan-200 hover:bg-cyan-100/20"
         >
           <p className="flex items-center justify-start pb-0 text-sm">
             {studentName ? studentName.toUpperCase() : ""}
