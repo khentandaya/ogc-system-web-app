@@ -27,6 +27,7 @@ import { BiCopy as CopyIcon, BiTrash as Trash } from "react-icons/bi";
 import Checkbox from "@/components/checkbox";
 import GeneralSchedule from "@/components/GeneralSchedule";
 import { getAllJSDocTags } from "typescript";
+import router from "next/router";
 
 export async function getServerSideProps({
   req,
@@ -96,6 +97,7 @@ export default function StaffAppointment() {
           <DayPicker
             mode="single"
             selected={selectedDay}
+            
             onSelect={async (date) => {
               setSelectedDay(date);
               const nextDate = new Date(date + "");
@@ -169,7 +171,7 @@ export default function StaffAppointment() {
             <p className="flex gap-8 text-[#28407f]">{format(new Date(date), "hh:mm aa")} <span className="font-semibold">{mode}</span></p>
           </div>
           <Dialog>
-            <DialogTrigger className="self-center">
+            <DialogTrigger onClick={()=>{router.push(`/student/${studentInfo.idNumber}`)}} className="self-center">
               <p className="cursor-pointer whitespace-nowrap text-sm hover:underline">
                 View Appointment Details
               </p>
