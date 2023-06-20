@@ -42,6 +42,8 @@ export async function getServerSideProps({
 export default function StaffView() {
   const session = useSession();
   const [students, setStudents] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+  const [needsaforms, setNeedsaForm] = useState([]);
 
   async function getStudents() {
     const res = await axios.get("/api/studentprofile");
@@ -53,7 +55,15 @@ export default function StaffView() {
     getStudents().then((data) => {
       setStudents(data);
     });
-  }, []);
+
+    axios.get(`/api/appointmentcollege?collegeQ=${session.data?.user.college}`).then(({data})=>{
+      setAppointments(data);
+    })
+
+    axios.get(`/api/allneedsaform`).then(({data})=>{
+      setNeedsaForm(data);
+    })
+  }, [session.data]);
 
   if (session.status === "authenticated")
     return (
@@ -96,7 +106,8 @@ export default function StaffView() {
               Needs Assessment
             </p>
             <p className="flex items-end justify-between pl-10 text-3xl font-bold">
-              <AiOutlineCarryOut size={80} />3
+              <AiOutlineCarryOut size={80} />
+              {needsaforms.length}
             </p>
           </div>
           <div className="grid h-[12rem] grow grid-rows-2 border bg-[#F4F952] p-8 text-[#FDFDFD]">
@@ -104,7 +115,8 @@ export default function StaffView() {
               Apppointments
             </p>
             <p className="flex items-end justify-between pl-10 text-3xl font-bold">
-              <AiOutlineContacts size={80} />1
+              <AiOutlineContacts size={80} />
+              {appointments.length}
             </p>
           </div>
         </div>

@@ -19,18 +19,16 @@ export default async function handler(
 
     case "GET":
       const { collegeQ, dateQ, ...query } = req.query;
+        const startDate = new Date(dateQ + "");
+        const endDate = new Date(dateQ + "");
+        endDate.setDate(startDate.getDate() + 1);
 
-      const startDate = new Date(dateQ + "");
-      const endDate = new Date(dateQ + "");
-      endDate.setDate(startDate.getDate() + 1);
-      
-
-      console.log(startDate);
-      const arr = await StudentAppointment.find({
-        college: collegeQ,
-        date: { $gte: startDate, $lt: endDate },
-      });
-      res.status(200).json(arr);
+        console.log(startDate);
+        const arr = await StudentAppointment.find({
+          college: collegeQ,
+          date: { $gte: startDate, $lt: endDate },
+        });
+        res.status(200).json(arr);
 
     default:
       return;
