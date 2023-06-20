@@ -171,7 +171,7 @@ export default function StaffAppointment() {
             <p className="flex gap-8 text-[#28407f]">{format(new Date(date), "hh:mm aa")} <span className="font-semibold">{mode}</span></p>
           </div>
           <Dialog>
-            <DialogTrigger onClick={()=>{router.push(`/student/${studentInfo.idNumber}`)}} className="self-center">
+            <DialogTrigger className="self-center">
               <p className="cursor-pointer whitespace-nowrap text-sm hover:underline">
                 View Appointment Details
               </p>
@@ -198,7 +198,7 @@ export default function StaffAppointment() {
                 <label htmlFor="other">Other (e.g. Facebook):</label>
                 <Input id="other" value={others} className="col-span-2 w-full" disabled />
               </div>
-              <Button className="w-full">View Student Profile</Button>
+              <Button onClick={()=>{router.push(`/student/${studentInfo.idNumber}`)}} className="w-full">View Student Profile</Button>
             </DialogContent>
           </Dialog>
         </div>
