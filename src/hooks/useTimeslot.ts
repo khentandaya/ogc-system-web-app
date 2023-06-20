@@ -57,8 +57,17 @@ export const useTimeslot = (day: Date | undefined) => {
     ]);
   }
 
+  function disableTimeslot(date: Date) {
+    setAvailable((old) => {
+      return old.filter((e) => {
+        return e.getHours() !== date.getHours();
+      });
+    });
+  }
+
   return {
     available,
+    disableTimeslot,
     setDate,
   };
 };

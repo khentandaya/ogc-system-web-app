@@ -1,6 +1,6 @@
 import StudentNav from "@/components/studentNav";
 import { useTimeslot } from "@/hooks/useTimeslot";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import {
   GetServerSidePropsContext,
@@ -9,7 +9,7 @@ import {
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import Student from "@/models/Student";
-import { format } from "date-fns";
+import { format, formatISO } from "date-fns";
 import Button from "@/components/button";
 import {
   Dialog,
@@ -22,6 +22,7 @@ import { useSession } from "next-auth/react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import PopupModal, { ModalHandler } from "@/components/popupmodal";
 import party from "party-js";
+import axios from "axios";
 
 export async function getServerSideProps({
   req,
@@ -46,9 +47,42 @@ export async function getServerSideProps({
 
 export default function StudentAppointment() {
   const [selectedDay, setSelectedDay] = useState<Date | undefined>();
-  const { available, setDate } = useTimeslot(selectedDay);
+  const { available, setDate, disableTimeslot } = useTimeslot(selectedDay);
   const session = useSession();
   const modalref = useRef<ModalHandler>(null);
+
+  const [prefferedEmail, setPrefferedEmail] = useState(
+    session.data?.user.email
+  );
+  const [prefferedPhone, setPrefferedPhone] = useState("");
+  const [otherContact, setOtherContact] = useState("");
+
+  const [initialForm, setInitialForm] = useState({});
+  const [appointmentForm, setAppointmentForm] = useState({});
+  const [appointments, setAppointments] = useState([]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!(e.target instanceof HTMLFormElement)) return;
+
+    const form = new FormData(e.target);
+    const formJSON = Object.fromEntries(form.entries());
+    setInitialForm(formJSON);
+    // const newStaff = await axios.post("/api/staff", formJSON);
+  };
+
+  useEffect(() => {
+    if (Object.keys(appointmentForm).length === 0) {
+      console.log("emty");
+    } else if (Object.keys(appointmentForm).length !== 0) {
+      const response = axios
+        .post("/api/studentappointment", appointmentForm)
+        .then(({ data }) => {
+          console.log(data);
+          return data;
+        });
+    }
+  }, [appointmentForm]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-[2rem]">
@@ -70,19 +104,43 @@ export default function StudentAppointment() {
           }}
           mode="single"
           selected={selectedDay}
-          onSelect={(date) => {
+          onSelect={async (date) => {
             setSelectedDay(date);
+
+            const nextDate = new Date(date+"");
+            const newdate = new Date(date+"");
+            newdate.setHours(nextDate.getHours() + 8);
+
+            date?.setHours(0, 0, 0, 0);
             if (date) {
               setDate(date);
+              const getApp = await axios.get(
+                `/api/studentappointment?dateQ=${newdate.toUTCString()}&collegeQ=${
+                  session.data?.user.college
+                }`
+              );
+              console.log(getApp.data);
+              if (getApp.data.length !== 0) {
+                getApp.data.forEach((e: any) => {
+                  disableTimeslot(new Date(e.date));
+                });
+              }
             }
           }}
         />
         {selectedDay ? (
           <div className="relative flex h-[28rem] flex-col items-center justify-start gap-5 rounded-3xl p-4">
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2 px-4 py-3 border rounded-lg shadow-sm">
+            <form
+              id={"schedform"}
+              onSubmit={handleSubmit}
+              className="flex gap-4"
+            >
+              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
                 <p>Available Timeslots:</p>
-                <select className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none">
+                <select
+                  name="date"
+                  className="flex w-full flex-col gap-2 rounded-lg border border-[#28407f]/70 p-3 outline-none"
+                >
                   {available.map((e, i) => (
                     <option key={i} value={e.toString()}>
                       {format(e, "h:mm aa")}
@@ -90,9 +148,12 @@ export default function StudentAppointment() {
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col gap-2 px-4 py-3 border rounded-lg shadow-sm">
+              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
                 <p>How would you like to meet?</p>
-                <select className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none">
+                <select
+                  name="mode"
+                  className="w-full rounded-lg border border-[#28407f]/70 p-3 outline-none"
+                >
                   <option value="Face to Face">Face to Face</option>
                   <option value="Online Meeting">Online Meeting</option>
                   <option value="Phone/Telephone Call">
@@ -100,10 +161,14 @@ export default function StudentAppointment() {
                   </option>
                 </select>
               </div>
-            </div>
-            <div className="absolute flex items-end right-5 top-36 grow">
+            </form>
+            <div className="absolute right-5 top-36 flex grow items-end">
               <Dialog>
-                <DialogTrigger className="self-center">
+                <DialogTrigger
+                  type="submit"
+                  form="schedform"
+                  className="self-center"
+                >
                   <p className="transistion-colors w-full rounded-lg border bg-[#28407f] px-3 py-2 text-[#FDFDFD] duration-200 hover:bg-[#FDFDFD] hover:text-[#28407f]">
                     Make an appointment
                   </p>
@@ -112,25 +177,52 @@ export default function StudentAppointment() {
                   <DialogHeader className="text-xl font-semibold text-[#28407f]">
                     Contact Info:
                   </DialogHeader>
-                  <div className="grid items-center grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 items-center gap-4">
                     <label htmlFor="email" className="whitespace-nowrap">
                       Email Address:
                     </label>
                     <Input
                       type="email"
                       id="email"
+                      onChange={(e) => {
+                        setPrefferedEmail(e.target.value);
+                      }}
                       defaultValue={session?.data?.user?.email}
-                      className="w-full col-span-2"
+                      className="col-span-2 w-full"
                     />
                     <label htmlFor="phone" className="whitespace-nowrap">
                       Phone:
                     </label>
-                    <Input id="phone" className="w-full col-span-2" />
+                    <Input
+                      id="phone"
+                      onChange={(e) => {
+                        setPrefferedPhone(e.target.value);
+                      }}
+                      className="col-span-2 w-full"
+                    />
                     <label htmlFor="other">Other (e.g. Facebook):</label>
-                    <Input id="other" className="w-full col-span-2" />
+                    <Input
+                      id="other"
+                      onChange={(e) => {
+                        setOtherContact(e.target.value);
+                      }}
+                      className="col-span-2 w-full"
+                    />
                   </div>
                   <DialogClose
                     onClick={() => {
+                      setAppointmentForm((old) => {
+                        const finalForm = {
+                          ...initialForm,
+                          prefferedemail: prefferedEmail,
+                          prefferedphone: prefferedPhone,
+                          othercontact: otherContact,
+                          college: session.data?.user.college,
+                          student: session.data?.user.idNumber,
+                        };
+
+                        return { ...old, ...finalForm };
+                      });
                       modalref.current?.toggle();
                       // party.confetti(modalref.current?.contentRef);
                     }}
@@ -142,7 +234,7 @@ export default function StudentAppointment() {
               </Dialog>
             </div>
             <PopupModal ref={modalref}>
-              <div className="flex flex-col gap-1 p-4 bg-white border rounded-lg shadow">
+              <div className="flex flex-col gap-1 rounded-lg border bg-white p-4 shadow">
                 <h2 className="text-xl font-semibold">
                   Congratulations, your appointment is successfully sent 🎉
                 </h2>
