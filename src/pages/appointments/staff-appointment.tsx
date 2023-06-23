@@ -22,7 +22,11 @@ import Button from "@/components/button";
 import { Calendar, DivideCircleIcon, List } from "lucide-react";
 import DatePicker from "react-datepicker";
 import { areIntervalsOverlapping, isSameDay } from "date-fns";
-import { AiOutlinePlus as AddIcon } from "react-icons/ai";
+import {
+  AiOutlinePlus as AddIcon,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
+import { GrDocumentTime } from "react-icons/gr";
 import { BiCopy as CopyIcon, BiTrash as Trash } from "react-icons/bi";
 import Checkbox from "@/components/checkbox";
 import GeneralSchedule from "@/components/GeneralSchedule";
@@ -60,10 +64,17 @@ export default function StaffAppointment() {
   const { available, setDate, disableTimeslot } = useTimeslot(selectedDay);
   const session = useSession();
   const modalref = useRef<ModalHandler>(null);
-  const [tab, setTab] = useState<"list" | "calendar">("list");
-  const isList = tab === "list";
+  const [tab, setTab] = useState<"list" | "calendar" | "appointments">("list");
   const [appointments, setAppointments] = useState([]);
+  const [allAppointments, setAllAppointments] = useState([]);
   const [studentArr, setStudentArr] = useState<object[]>([]);
+
+  useEffect(()=>{
+    axios.get("/api/appointmentcollege").then(({data})=>{
+      console.log(data)
+      setAllAppointments(data);
+    })
+  },[])
 
   return (
     <div className="flex flex-col items-center justify-center gap-[2rem]">
@@ -73,17 +84,17 @@ export default function StaffAppointment() {
       <div className="flex h-[3rem] cursor-pointer select-none items-center gap-1 self-center rounded-2xl bg-[#cceff6] p-2 py-1">
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
-            isList ? "rounded-xl bg-[#FDFDFD]" : ""
+            tab === "list" ? "rounded-xl bg-[#FDFDFD]" : ""
           }`}
           onClick={() => {
             setTab("list");
           }}
         >
-          <List className="h-5 w-5" /> List
+          <GrDocumentTime className="h-5 w-5" /> Set Availability
         </div>
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
-            !isList ? "rounded-xl bg-[#FDFDFD]" : ""
+            tab === "calendar" ? "rounded-xl bg-[#FDFDFD]" : ""
           }`}
           onClick={() => {
             setTab("calendar");
@@ -91,13 +102,22 @@ export default function StaffAppointment() {
         >
           <Calendar className="h-5 w-5" /> Calendar
         </div>
+        <div
+          className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
+            tab === "appointments" ? "rounded-xl bg-[#FDFDFD]" : ""
+          }`}
+          onClick={() => {
+            setTab("appointments");
+          }}
+        >
+          <AiOutlineUnorderedList className="h-5 w-5" /> Appointments
+        </div>
       </div>
       {tab === "calendar" ? (
         <div className="flex items-center justify-center">
           <DayPicker
             mode="single"
             selected={selectedDay}
-            
             onSelect={async (date) => {
               setSelectedDay(date);
               const nextDate = new Date(date + "");
@@ -125,7 +145,7 @@ export default function StaffAppointment() {
                   </h2>
                   <div className="flex max-h-52 w-[500px] flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
                     {appointments.map((e: any, i) => {
-                      console.log(e)
+                      console.log(e);
                       if (e.student) {
                         return (
                           <AppointmentCard
@@ -148,8 +168,34 @@ export default function StaffAppointment() {
             ""
           )}
         </div>
-      ) : (
+      ) : tab === "list" ? (
         <GeneralSchedule />
+      ) : (
+        <div className="my-2 w-[50rem]">
+          <div className="flex flex-col items-start gap-2 rounded-lg border px-4 py-3 shadow-md">
+                  <h2 className="text-lg font-semibold">
+                    All Scheduled Appointments:
+                  </h2>
+                  <div className="flex max-h-[27rem] w-full flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
+                    {allAppointments.map((e: any, i) => {
+                      console.log(e);
+                      if (e.student) {
+                        return (
+                          <AppointmentCard
+                            key={i}
+                            id={e.student}
+                            date={e.date}
+                            email={e.prefferedemail}
+                            phone={e.prefferedphone}
+                            others={e.othercontact}
+                            mode={e.mode}
+                          />
+                        );
+                      }
+                    })}
+                  </div>
+                </div>
+        </div>
       )}
     </div>
   );
@@ -165,10 +211,14 @@ export default function StaffAppointment() {
 
     if (studentInfo.length !== 0)
       return (
-        <div className="flex items-center justify-between rounded px-2 py-1 hover:bg-[#83e8ef]/20">
+        <div className="flex items-center justify-between  rounded px-2 py-1 hover:bg-[#83e8ef]/20">
           <div className="w-full">
             <p>{`${studentInfo.firstname.toUpperCase()} ${studentInfo.lastname.toUpperCase()}`}</p>
-            <p className="flex gap-8 text-[#28407f]">{format(new Date(date), "hh:mm aa")} <span className="font-semibold">{mode}</span></p>
+            <p className="flex gap-8 text-[#28407f]">
+              {format(new Date(date), "hh:mm aa ")}
+              {new Date(date).toLocaleDateString()}
+              <span className="font-semibold">{mode}</span>
+            </p>
           </div>
           <Dialog>
             <DialogTrigger className="self-center">
@@ -194,11 +244,28 @@ export default function StaffAppointment() {
                 <label htmlFor="phone" className="whitespace-nowrap">
                   Phone:
                 </label>
-                <Input id="phone" value={phone} className="col-span-2 w-full" disabled />
+                <Input
+                  id="phone"
+                  value={phone}
+                  className="col-span-2 w-full"
+                  disabled
+                />
                 <label htmlFor="other">Other (e.g. Facebook):</label>
-                <Input id="other" value={others} className="col-span-2 w-full" disabled />
+                <Input
+                  id="other"
+                  value={others}
+                  className="col-span-2 w-full"
+                  disabled
+                />
               </div>
-              <Button onClick={()=>{router.push(`/student/${studentInfo.idNumber}`)}} className="bg-[#28407f] text-[#FDFDFD] hover:text-[#28407f] w-full">View Student Profile</Button>
+              <Button
+                onClick={() => {
+                  router.push(`/student/${studentInfo.idNumber}`);
+                }}
+                className="w-full bg-[#28407f] text-[#FDFDFD] hover:text-[#28407f]"
+              >
+                View Student Profile
+              </Button>
             </DialogContent>
           </Dialog>
         </div>

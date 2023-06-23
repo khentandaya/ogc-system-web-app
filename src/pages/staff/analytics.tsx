@@ -7,9 +7,6 @@ import { CollegePie } from "@/components/piechart/collegePie";
 import { SuicidalTendencyPie } from "@/components/piechart/suicidalTendencyPie";
 import { GenderPie } from "@/components/piechart/genderPie";
 import { YrlevelPie } from "@/components/piechart/yrlevelPie";
-import { CollegePieReq } from "@/components/piechart/collegePieReq";
-import { GenderPieReq } from "@/components/piechart/genderPieReq";
-import { YrlevelPieReq } from "@/components/piechart/yrlevelPieReq";
 
 import { useState } from "react";
 
@@ -85,36 +82,6 @@ export default function Analytics({}: Props) {
           </div>
           <SuicidalTendencyPie />
         </div>
-      </div>
-
-      {/** Aapointment Requests */}
-      <div className="flex flex-col items-center gap-5">
-        <div className="w-fit bg-gradient-to-tr from-[#28407f] to-[#01bfa8] bg-clip-text">
-          <h1 className="text-3xl font-bold text-transparent">
-            Distribution of Counseling Appointment Requests
-          </h1>
-        </div>
-        <select
-          className="h-15 ml-36 mt-5 w-[20rem] rounded-xl border border-b-[2.3px] bg-[#FDFDFD] px-2 py-2 shadow-md outline-0 hover:bg-[#01bfa8]/10"
-          name="college"
-          onChange={(e) => {
-            setFilter(e.target.value);
-          }}
-          required
-        >
-          <option value="college">College</option>
-          <option value="gender">Gender</option>
-          <option value="yrlevel">Yr. Level</option>
-        </select>
-        {filter === "college" ? (
-          <CollegePieReq />
-        ) : filter === "yrlevel" ? (
-          <YrlevelPieReq />
-        ) : filter === "gender" ? (
-          <GenderPieReq />
-        ) : (
-          ""
-        )}
       </div>
     </div>
   );

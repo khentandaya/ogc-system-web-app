@@ -12,6 +12,7 @@ import {
   AiOutlineContacts,
 } from "react-icons/ai";
 import axios from "axios";
+import Link from "next/link";
 
 export async function getServerSideProps({
   req,
@@ -92,7 +93,7 @@ export default function StaffView() {
           </p>
         </div>
         <div className="mt-10 grid h-[15rem] w-full grid-cols-3 gap-16">
-          <div className="grid h-[12rem] grow grid-rows-2 border bg-[#0079FF] p-8 text-[#FDFDFD]">
+          <Link href="/staff/student-query" className="hover:scale-[1.01] transition-all duration-100 hover:shadow-xl grid h-[12rem] grow grid-rows-2 border bg-[#0079FF] p-8 text-[#FDFDFD]">
             <p className="flex justify-start text-3xl font-semibold">
               Students
             </p>
@@ -100,8 +101,8 @@ export default function StaffView() {
               <AiOutlineTeam size={80} />
               {students.length}
             </p>
-          </div>
-          <div className="grid h-[12rem] grow grid-rows-2 border bg-[#00DFA2] p-8 text-[#FDFDFD]">
+          </Link>
+          <Link href="/staff/student-query" className="hover:scale-[1.01] transition-all duration-100 hover:shadow-xl grid h-[12rem] grow grid-rows-2 border bg-[#00DFA2] p-8 text-[#FDFDFD]">
             <p className="flex justify-start text-3xl font-semibold">
               Needs Assessment
             </p>
@@ -109,8 +110,8 @@ export default function StaffView() {
               <AiOutlineCarryOut size={80} />
               {needsaforms.length}
             </p>
-          </div>
-          <div className="grid h-[12rem] grow grid-rows-2 border bg-[#F4F952] p-8 text-[#FDFDFD]">
+          </Link>
+          <Link href="/appointments/staff-appointment" className="hover:scale-[1.01] transition-all duration-100 hover:shadow-xl grid h-[12rem] grow grid-rows-2 border bg-[#F4F952] p-8 text-[#FDFDFD]">
             <p className="flex justify-start text-3xl font-semibold">
               Apppointments
             </p>
@@ -118,7 +119,7 @@ export default function StaffView() {
               <AiOutlineContacts size={80} />
               {appointments.length}
             </p>
-          </div>
+          </Link>
         </div>
       </div>
     );

@@ -358,17 +358,16 @@ export default function NeedsAssesmentForm({
                   )}
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="data-[state=open]:animate-contentShow">
                 <DialogHeader className="text-xl font-semibold text-[#28407f]">
                   {!toggleVerify
-                    ? "Irreversible Action Alert!"
+                    ? "Are you sure?"
                     : "Answer Saved Successfully!🎉"}
                 </DialogHeader>
                 {!toggleVerify ? (
                   <p className="">
-                    This action is irreversible and cannot be modified once
-                    submitted. Please review all details carefully before
-                    proceeding.
+                    Please note that this action is irreversible and cannot be
+                    modified once submitted.
                   </p>
                 ) : (
                   ""
@@ -379,7 +378,7 @@ export default function NeedsAssesmentForm({
                   }grid grid-cols-2 gap-5`}
                 >
                   {!toggleVerify ? (
-                    <DialogClose className="grow rounded-lg  border bg-[#D10000] py-2 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]">
+                    <DialogClose className="grow rounded-lg  border bg-gradient-to-r from-[#E74646] to-[#FA9884] py-2 text-[#FDFDFD] transition-colors duration-700 hover:bg-gradient-to-l">
                       Cancel
                     </DialogClose>
                   ) : (
@@ -396,7 +395,7 @@ export default function NeedsAssesmentForm({
                     }}
                     className={`w-full ${
                       toggleVerify ? "hidden" : ""
-                    } rounded-lg border bg-[#00D100] py-2 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]`}
+                    } rounded-lg border bg-[#28407f] py-2 text-[#FDFDFD] transition-all duration-100 hover:bg-[#FDFDFD] hover:text-[#28407f]`}
                   >
                     Proceed
                   </Button>

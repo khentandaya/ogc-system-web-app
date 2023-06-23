@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
   mode: { type: String },
   othercontact: { type: String },
   prefferedemail: { type: String },
+  alternateemail: { type: String },
   prefferedphone: { type: String },
   student: { type: String },
   college: { type: String },

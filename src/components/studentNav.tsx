@@ -19,13 +19,13 @@ export default function StudentNav() {
       <div className="flex h-[85px] w-screen items-center justify-center border border-b-2 bg-white py-2 shadow-sm">
         <div className="flex w-[80%] items-center justify-evenly gap-4">
           <div className="">
-          <Image
-                src="/eogc_logo.png"
-                alt="iit logo"
-                width={60}
-                height={60}
-                className="w-auto cursor-pointer"
-              />
+            <Image
+              src="/eogc_logo.png"
+              alt="iit logo"
+              width={60}
+              height={60}
+              className="w-auto cursor-pointer"
+            />
           </div>
           <div className="flex justify-start gap-16 text-base">
             <Link
@@ -36,17 +36,6 @@ export default function StudentNav() {
             >
               <AiOutlineHome />
               Home
-            </Link>
-            <Link
-              className={`${
-                router.asPath == "/forms/student-profile"
-                  ? "text-[#28407f]"
-                  : ""
-              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
-              href="/forms/student-profile"
-            >
-              <AiOutlineUser />
-              Student Profile
             </Link>
             <Link
               className={`${
@@ -69,6 +58,17 @@ export default function StudentNav() {
             >
               <AiTwotoneCalendar />
               Book Appointment
+            </Link>
+            <Link
+              className={`${
+                router.asPath == "/forms/student-profile"
+                  ? "text-[#28407f]"
+                  : ""
+              } flex items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]`}
+              href="/forms/student-profile"
+            >
+              <AiOutlineUser />
+              Student Profile
             </Link>
             <div
               className="flex cursor-pointer items-center gap-1 transition-all duration-100 hover:scale-[1.05] hover:text-[#28407f]"

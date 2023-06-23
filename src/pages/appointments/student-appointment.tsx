@@ -51,10 +51,10 @@ export default function StudentAppointment() {
   const session = useSession();
   const modalref = useRef<ModalHandler>(null);
 
-  const [prefferedEmail, setPrefferedEmail] = useState(
-    session.data?.user.email
+  const [alternateEmail, setAlternateEmail] = useState("");
+  const [prefferedPhone, setPrefferedPhone] = useState(
+    session.data?.user.phone
   );
-  const [prefferedPhone, setPrefferedPhone] = useState("");
   const [otherContact, setOtherContact] = useState("");
 
   const [initialForm, setInitialForm] = useState({});
@@ -107,8 +107,8 @@ export default function StudentAppointment() {
           onSelect={async (date) => {
             setSelectedDay(date);
 
-            const nextDate = new Date(date+"");
-            const newdate = new Date(date+"");
+            const nextDate = new Date(date + "");
+            const newdate = new Date(date + "");
             newdate.setHours(nextDate.getHours() + 8);
 
             date?.setHours(0, 0, 0, 0);
@@ -182,14 +182,28 @@ export default function StudentAppointment() {
                       Email Address:
                     </label>
                     <Input
+                      disabled
                       type="email"
                       id="email"
-                      onChange={(e) => {
-                        setPrefferedEmail(e.target.value);
-                      }}
                       defaultValue={session?.data?.user?.email}
                       className="col-span-2 w-full"
                     />
+
+                    <label
+                      htmlFor="alternateemail"
+                      className="whitespace-nowrap"
+                    >
+                      Alternate Email:
+                    </label>
+                    <Input
+                      type="email"
+                      id="alternateemail"
+                      onChange={(e) => {
+                        setAlternateEmail(e.target.value);
+                      }}
+                      className="col-span-2 w-full"
+                    />
+
                     <label htmlFor="phone" className="whitespace-nowrap">
                       Phone:
                     </label>
@@ -198,6 +212,7 @@ export default function StudentAppointment() {
                       onChange={(e) => {
                         setPrefferedPhone(e.target.value);
                       }}
+                      defaultValue={session.data?.user.phone}
                       className="col-span-2 w-full"
                     />
                     <label htmlFor="other">Other (e.g. Facebook):</label>
@@ -214,7 +229,8 @@ export default function StudentAppointment() {
                       setAppointmentForm((old) => {
                         const finalForm = {
                           ...initialForm,
-                          prefferedemail: prefferedEmail,
+                          prefferedemail: session.data?.user.email,
+                          alternateemail: alternateEmail,
                           prefferedphone: prefferedPhone,
                           othercontact: otherContact,
                           college: session.data?.user.college,

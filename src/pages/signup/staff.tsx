@@ -113,7 +113,7 @@ export default function StaffSignupPage({}: Props) {
                   Phone
                 </Input>
                 <Input name="idNumber" placeholder="2018-2302" required>
-                  ID Number
+                  Employee Number
                 </Input>
               </div>
               <div className="flex items-center gap-4">
