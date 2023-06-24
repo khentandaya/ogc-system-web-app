@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import log from "@/utils/log";
 
 export default function GeneralSchedule() {
   const session = useSession();
@@ -455,7 +456,9 @@ export default function GeneralSchedule() {
                               </div>
                               <Trash
                                 className="ml-3 cursor-pointer text-2xl hover:text-[#f4c932]"
-                                onClick={() => removeTimeSlot(element, schedIdx)}
+                                onClick={() =>
+                                  removeTimeSlot(element, schedIdx)
+                                }
                               />
                             </div>
                           );
@@ -535,7 +538,7 @@ export default function GeneralSchedule() {
         })}
         <div className="mt-5 flex justify-end gap-5">
           <Button
-            className="bg-[#28407f] text-[#FDFDFD] hover:bg-[#FDFDFD] hover:text-[#28407f] flex items-center gap-1"
+            className="flex items-center gap-1 bg-[#28407f] text-[#FDFDFD] hover:bg-[#FDFDFD] hover:text-[#28407f]"
             disabled={disableSaveButton || buttonLoad}
             onClick={async () => {
               setButtonLoad(true);
@@ -548,21 +551,20 @@ export default function GeneralSchedule() {
                 sched[element.text.toLowerCase()] = element.schedules;
               });
 
-              console.log(sched);
+              log(session.data.user.college);
               await axios.post("/api/staff/weeklysched", {
                 weeklysched: JSON.stringify(sched),
                 id: session.data.user._id,
+                college: session.data.user.college,
               });
               setButtonLoad(false);
             }}
           >
-            {buttonLoad ? <Loader2 className="animate-spin"  /> : ""}
+            {buttonLoad ? <Loader2 className="animate-spin" /> : ""}
             SAVE
           </Button>
         </div>
       </div>
     );
-  return (
-    <Loader2 className="animate-spin text-[#28407f] w-20 h-20"  />
-  )
+  return <Loader2 className="h-20 w-20 animate-spin text-[#28407f]" />;
 }

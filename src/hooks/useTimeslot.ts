@@ -1,7 +1,8 @@
+import log from "@/utils/log";
 import React from "react";
 
 export const useTimeslot = (day: Date | undefined) => {
-  const [available, setAvailable] = React.useState<Date[]>([
+  const allTimes = [
     new Date(new Date().setHours(0, 0, 0, 0)),
     new Date(new Date().setHours(1, 0, 0, 0)),
     new Date(new Date().setHours(2, 0, 0, 0)),
@@ -26,7 +27,8 @@ export const useTimeslot = (day: Date | undefined) => {
     new Date(new Date().setHours(21, 0, 0, 0)),
     new Date(new Date().setHours(22, 0, 0, 0)),
     new Date(new Date().setHours(23, 0, 0, 0)),
-  ]);
+  ];
+  const [available, setAvailable] = React.useState<Date[]>(allTimes);
 
   function setDate(date: Date) {
     setAvailable([
@@ -65,9 +67,30 @@ export const useTimeslot = (day: Date | undefined) => {
     });
   }
 
+  function disableTimeslots(dates: Date[]) {
+    const hours = dates.map((date) => date.getHours());
+    // log(hours)
+    setAvailable((old) => {
+      return old.filter((date) => {
+        return hours.includes(date.getHours());
+      });
+    });
+  }
+
+  function reset() {
+    setAvailable(allTimes);
+  }
+
+  function disableAll() {
+    setAvailable([]);
+  }
+
   return {
     available,
     disableTimeslot,
     setDate,
+    disableTimeslots,
+    reset,
+    disableAll,
   };
 };

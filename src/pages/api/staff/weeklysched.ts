@@ -1,4 +1,5 @@
 import WeeklySched from "@/models/WeeklySched";
+import log from "@/utils/log";
 import type { NextApiRequest, NextApiResponse } from "next";
 export default async function WeeklySchedHandler(
   req: NextApiRequest,
@@ -8,6 +9,7 @@ export default async function WeeklySchedHandler(
     case "POST":
       const id = req.body.id;
       const weeklysched = JSON.parse(req.body.weeklysched);
+      log(weeklysched);
       const exists = await WeeklySched.findOne({ staff: id });
       if (exists) {
         const setStaff = await WeeklySched.findOneAndUpdate(
@@ -17,11 +19,17 @@ export default async function WeeklySchedHandler(
         res.json(setStaff);
         return;
       }
-      const setStaff = await WeeklySched.create({ ...weeklysched, staff: id });
+      const setStaff = await WeeklySched.create({
+        ...weeklysched,
+        staff: id,
+        college: req.body.college,
+      });
       res.json(setStaff);
       return;
     case "GET":
-      const getStaff = await WeeklySched.findOne({ staff: req.query.id });
+      const getStaff = await WeeklySched.findOne({
+        college: req.query.college,
+      });
       res.json(getStaff);
       return;
   }

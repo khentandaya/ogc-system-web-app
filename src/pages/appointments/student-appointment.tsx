@@ -23,6 +23,9 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import PopupModal, { ModalHandler } from "@/components/popupmodal";
 import party from "party-js";
 import axios from "axios";
+import log from "@/utils/log";
+import toDayString from "@/utils/toDayString";
+import timeSlice from "@/utils/timeSlice";
 
 export async function getServerSideProps({
   req,
@@ -47,7 +50,14 @@ export async function getServerSideProps({
 
 export default function StudentAppointment() {
   const [selectedDay, setSelectedDay] = useState<Date | undefined>();
-  const { available, setDate, disableTimeslot } = useTimeslot(selectedDay);
+  const {
+    available,
+    setDate,
+    disableTimeslot,
+    disableTimeslots,
+    reset,
+    disableAll,
+  } = useTimeslot(selectedDay);
   const session = useSession();
   const modalref = useRef<ModalHandler>(null);
 
@@ -59,7 +69,6 @@ export default function StudentAppointment() {
 
   const [initialForm, setInitialForm] = useState({});
   const [appointmentForm, setAppointmentForm] = useState({});
-  const [appointments, setAppointments] = useState([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,6 +114,10 @@ export default function StudentAppointment() {
           mode="single"
           selected={selectedDay}
           onSelect={async (date) => {
+            reset();
+            const weeklysched = await axios.get(
+              `/api/staff/weeklysched?college=${session.data?.user.college}`
+            );
             setSelectedDay(date);
 
             const nextDate = new Date(date + "");
@@ -124,6 +137,22 @@ export default function StudentAppointment() {
                 getApp.data.forEach((e: any) => {
                   disableTimeslot(new Date(e.date));
                 });
+              }
+
+              // weekly schedule disable
+              const adlaw = date.getDay();
+              const day = toDayString(adlaw);
+              if (weeklysched.data[day].length !== 0) {
+                let disabledTime: Date[] = [];
+                for (const dates of weeklysched.data[day]) {
+                  const from = new Date(dates.from);
+                  const to = new Date(dates.to);
+                  disabledTime = [...disabledTime, ...timeSlice(from, to)];
+                }
+                log(disabledTime);
+                disableTimeslots(disabledTime);
+              } else {
+                disableAll();
               }
             }
           }}
