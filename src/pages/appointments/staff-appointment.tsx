@@ -90,7 +90,7 @@ export default function StaffAppointment() {
             setTab("list");
           }}
         >
-          <GrDocumentTime className="h-5 w-5" /> Set Availability
+          <GrDocumentTime className="w-5 h-5" /> Set Availability
         </div>
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
@@ -100,7 +100,7 @@ export default function StaffAppointment() {
             setTab("calendar");
           }}
         >
-          <Calendar className="h-5 w-5" /> Calendar
+          <Calendar className="w-5 h-5" /> Calendar
         </div>
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
@@ -110,7 +110,7 @@ export default function StaffAppointment() {
             setTab("appointments");
           }}
         >
-          <AiOutlineUnorderedList className="h-5 w-5" /> Appointments
+          <AiOutlineUnorderedList className="w-5 h-5" /> Appointments
         </div>
       </div>
       {tab === "calendar" ? (
@@ -139,7 +139,7 @@ export default function StaffAppointment() {
           {selectedDay ? (
             <div className="flex flex-col">
               <div className="flex gap-4">
-                <div className="flex flex-col items-start gap-2 rounded-lg border px-4 py-3 shadow-md">
+                <div className="flex flex-col items-start gap-2 px-4 py-3 border rounded-lg shadow-md">
                   <h2 className="text-lg font-semibold">
                     Scheduled Appointments:
                   </h2>
@@ -172,7 +172,7 @@ export default function StaffAppointment() {
         <GeneralSchedule />
       ) : (
         <div className="my-2 w-[50rem]">
-          <div className="flex flex-col items-start gap-2 rounded-lg border px-4 py-3 shadow-md">
+          <div className="flex flex-col items-start gap-2 px-4 py-3 border rounded-lg shadow-md">
                   <h2 className="text-lg font-semibold">
                     All Scheduled Appointments:
                   </h2>
@@ -189,6 +189,7 @@ export default function StaffAppointment() {
                             phone={e.prefferedphone}
                             others={e.othercontact}
                             mode={e.mode}
+                            alternateemail={e.alternateemail}
                           />
                         );
                       }
@@ -200,7 +201,7 @@ export default function StaffAppointment() {
     </div>
   );
 
-  function AppointmentCard({ id, date, email, phone, others, mode }: any) {
+  function AppointmentCard({ id, date, email, phone, others, mode, alternateemail }: any) {
     const [studentInfo, setStudentInfo] = useState<any>([]);
     useEffect(() => {
       axios.get(`/api/studentprofile/${id}`).then(({ data }) => {
@@ -222,7 +223,7 @@ export default function StaffAppointment() {
           </div>
           <Dialog>
             <DialogTrigger className="self-center">
-              <p className="cursor-pointer whitespace-nowrap text-sm hover:underline">
+              <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">
                 View Appointment Details
               </p>
             </DialogTrigger>
@@ -230,15 +231,25 @@ export default function StaffAppointment() {
               <DialogHeader className="text-xl font-semibold">
                 Contact Info:
               </DialogHeader>
-              <div className="grid grid-cols-3 items-center gap-4">
+              <div className="grid items-center grid-cols-3 gap-4">
                 <label htmlFor="email" className="whitespace-nowrap">
                   Email Address:
                 </label>
                 <Input
                   type="email"
                   id="email"
-                  className="col-span-2 w-full"
+                  className="w-full col-span-2"
                   value={email}
+                  disabled
+                />
+                <label htmlFor="alternateemail" className="whitespace-nowrap">
+                  Alternate Email:
+                </label>
+                <Input
+                  type="email"
+                  id="alternateemail"
+                  className="w-full col-span-2"
+                  value={alternateemail}
                   disabled
                 />
                 <label htmlFor="phone" className="whitespace-nowrap">
@@ -247,14 +258,14 @@ export default function StaffAppointment() {
                 <Input
                   id="phone"
                   value={phone}
-                  className="col-span-2 w-full"
+                  className="w-full col-span-2"
                   disabled
                 />
                 <label htmlFor="other">Other (e.g. Facebook):</label>
                 <Input
                   id="other"
                   value={others}
-                  className="col-span-2 w-full"
+                  className="w-full col-span-2"
                   disabled
                 />
               </div>

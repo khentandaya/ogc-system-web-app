@@ -20,24 +20,30 @@ const initialChartData: ChartData = {
   datasets: [],
 };
 
-export function CollegePieReq() {
+export function CollegePie() {
   const [students, setStudents] = useState<object[]>([]);
   const [chartData, setChartData] = useState(initialChartData);
-  const [chartOptions, setChartOptions] = useState<ChartOptions>(
-    {
-      plugins: {
-        legend: {
-          position: "right"
-        }
-      }
-    }
-  );
+  const [studentArr, setStudentArr] = useState([]);
+  const [chartOptions, setChartOptions] = useState<ChartOptions>({
+    plugins: {
+      legend: {
+        position: "right",
+      },
+    },
+  });
 
   useEffect(() => {
-    axios.get("/api/studentprofile").then(({ data }) => {
-      if (data) {
-        setStudents(data);
-      }
+    axios.get("/needsaform").then(({ data }) => {
+      data.forEach((id: any) => {
+        axios.get(`/api/studentprofile/${data.student}`).then(({ data }) => {
+          if (data) {
+            setStudents((old) => {
+              return [...old, data];
+            });
+          }
+        });
+        id.student;
+      });
     });
   }, []);
 
@@ -80,7 +86,7 @@ export function CollegePieReq() {
             "rgba(255, 206, 86, 0.2)",
             "rgba(75, 192, 192, 0.2)",
             "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)"
+            "rgba(255, 159, 64, 0.2)",
           ],
           borderColor: [
             "rgba(255, 99, 132, 1)",
@@ -88,7 +94,7 @@ export function CollegePieReq() {
             "rgba(255, 206, 86, 1)",
             "rgba(75, 192, 192, 1)",
             "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)"
+            "rgba(255, 159, 64, 1)",
           ],
         },
       ],
@@ -97,10 +103,10 @@ export function CollegePieReq() {
     setChartOptions({
       plugins: {
         legend: {
-          position: "right"
-        }
-      }
-    })
+          position: "right",
+        },
+      },
+    });
   }, [students]);
 
   return (

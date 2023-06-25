@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   middleinital: { type: String },
-  idNumber: {type: String},
+  idNumber: { type: String },
   email: { type: String },
   college: { type: String },
   phone: { type: String },
