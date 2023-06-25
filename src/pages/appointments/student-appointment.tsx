@@ -164,12 +164,17 @@ export default function StudentAppointment() {
               onSubmit={handleSubmit}
               className="flex gap-4"
             >
-              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
+              <div className="flex flex-col gap-2 px-4 py-3 border rounded-lg shadow-sm">
                 <p>Available Timeslots:</p>
                 <select
                   name="date"
                   className="flex w-full flex-col gap-2 rounded-lg border border-[#28407f]/70 p-3 outline-none"
                 >
+                  {available.length === 0 ? (
+                    <option>No Available Timeslot</option>
+                  ) : (
+                    ""
+                  )}
                   {available.map((e, i) => (
                     <option key={i} value={e.toString()}>
                       {format(e, "h:mm aa")}
@@ -177,7 +182,7 @@ export default function StudentAppointment() {
                   ))}
                 </select>
               </div>
-              <div className="flex flex-col gap-2 rounded-lg border px-4 py-3 shadow-sm">
+              <div className="flex flex-col gap-2 px-4 py-3 border rounded-lg shadow-sm">
                 <p>How would you like to meet?</p>
                 <select
                   name="mode"
@@ -191,7 +196,7 @@ export default function StudentAppointment() {
                 </select>
               </div>
             </form>
-            <div className="absolute right-5 top-36 flex grow items-end">
+            <div className="absolute flex items-end right-5 top-36 grow">
               <Dialog>
                 <DialogTrigger
                   type="submit"
@@ -206,7 +211,7 @@ export default function StudentAppointment() {
                   <DialogHeader className="text-xl font-semibold text-[#28407f]">
                     Contact Info:
                   </DialogHeader>
-                  <div className="grid grid-cols-3 items-center gap-4">
+                  <div className="grid items-center grid-cols-3 gap-4">
                     <label htmlFor="email" className="whitespace-nowrap">
                       Email Address:
                     </label>
@@ -215,7 +220,7 @@ export default function StudentAppointment() {
                       type="email"
                       id="email"
                       defaultValue={session?.data?.user?.email}
-                      className="col-span-2 w-full"
+                      className="w-full col-span-2"
                     />
 
                     <label
@@ -230,7 +235,7 @@ export default function StudentAppointment() {
                       onChange={(e) => {
                         setAlternateEmail(e.target.value);
                       }}
-                      className="col-span-2 w-full"
+                      className="w-full col-span-2"
                     />
 
                     <label htmlFor="phone" className="whitespace-nowrap">
@@ -242,7 +247,7 @@ export default function StudentAppointment() {
                         setPrefferedPhone(e.target.value);
                       }}
                       defaultValue={session.data?.user.phone}
-                      className="col-span-2 w-full"
+                      className="w-full col-span-2"
                     />
                     <label htmlFor="other">Other (e.g. Facebook):</label>
                     <Input
@@ -250,7 +255,7 @@ export default function StudentAppointment() {
                       onChange={(e) => {
                         setOtherContact(e.target.value);
                       }}
-                      className="col-span-2 w-full"
+                      className="w-full col-span-2"
                     />
                   </div>
                   <DialogClose
@@ -279,7 +284,7 @@ export default function StudentAppointment() {
               </Dialog>
             </div>
             <PopupModal ref={modalref}>
-              <div className="flex flex-col gap-1 rounded-lg border bg-white p-4 shadow">
+              <div className="flex flex-col gap-1 p-4 bg-white border rounded-lg shadow">
                 <h2 className="text-xl font-semibold">
                   Congratulations, your appointment is successfully sent 🎉
                 </h2>
