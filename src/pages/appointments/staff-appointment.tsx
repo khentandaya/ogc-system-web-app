@@ -70,7 +70,7 @@ export default function StaffAppointment() {
   const [studentArr, setStudentArr] = useState<object[]>([]);
 
   useEffect(()=>{
-    axios.get("/api/appointmentcollege").then(({data})=>{
+    axios.get(`/api/appointmentcollege?collegeQ=${session.data?.user.college}`).then(({data})=>{
       console.log(data)
       setAllAppointments(data);
     })
