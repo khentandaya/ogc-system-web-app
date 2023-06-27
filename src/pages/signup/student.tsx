@@ -68,7 +68,6 @@ export default function StudentSignupPage({}: Props) {
       college: formJSON.college,
       image: session.data?.user.image
     });
-    console.log(studentProfile);
     session.update({ ...session.data, ...newStudent });
     setButtonLoad(false);
     router.push("/");

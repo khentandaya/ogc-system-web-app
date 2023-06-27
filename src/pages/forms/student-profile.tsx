@@ -60,7 +60,6 @@ export default function StudentProfile({
     if (session.data) {
       formJSON.image = session.data?.user.image;
     }
-    console.log(formJSON);
     await axios.post("/api/studentprofile", formJSON);
     setStudentData((old: any) => ({
       ...old,

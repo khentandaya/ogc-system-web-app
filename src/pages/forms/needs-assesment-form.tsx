@@ -267,7 +267,6 @@ export default function NeedsAssesmentForm({
       });
 
     setAnswers((old) => {
-      console.log(old);
       axios.post("/api/needsaform", old).then(({ data }) => {
         // console.log(data);
         setButtonLoad(false);
@@ -391,7 +390,6 @@ export default function NeedsAssesmentForm({
                     form="needsAssesmentForm"
                     onClick={() => {
                       setToggleVerify(true);
-                      console.log("clicked");
                     }}
                     className={`w-full ${
                       toggleVerify ? "hidden" : ""

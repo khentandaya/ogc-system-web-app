@@ -119,6 +119,7 @@ export default function StudentAppointment() {
               `/api/staff/weeklysched?college=${session.data?.user.college}`
             );
             setSelectedDay(date);
+            console.log(session.data?.user.college);
 
             const nextDate = new Date(date + "");
             const newdate = new Date(date + "");
@@ -142,7 +143,8 @@ export default function StudentAppointment() {
               // weekly schedule disable
               const adlaw = date.getDay();
               const day = toDayString(adlaw);
-              if (weeklysched.data[day].length !== 0) {
+              // console.log(day)
+              if (weeklysched?.data[day].length !== 0) {
                 let disabledTime: Date[] = [];
                 for (const dates of weeklysched.data[day]) {
                   const from = new Date(dates.from);
@@ -270,7 +272,6 @@ export default function StudentAppointment() {
                           college: session.data?.user.college,
                           student: session.data?.user.idNumber,
                         };
-
                         return { ...old, ...finalForm };
                       });
                       modalref.current?.toggle();

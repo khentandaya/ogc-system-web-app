@@ -74,7 +74,6 @@ export default function StaffAppointment() {
     axios
       .get(`/api/appointmentcollege?collegeQ=${session.data?.user.college}`)
       .then(({ data }) => {
-        console.log(data);
         setAllAppointments(data);
       });
   }, []);
@@ -148,7 +147,6 @@ export default function StaffAppointment() {
                   </h2>
                   <div className="flex max-h-52 w-[500px] flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
                     {appointments.map((e: any, i) => {
-                      console.log(e);
                       if (e.student) {
                         return (
                           <AppointmentCard
@@ -181,7 +179,6 @@ export default function StaffAppointment() {
             </h2>
             <div className="flex max-h-[27rem] w-full flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
               {allAppointments.map((e: any, i) => {
-                console.log(e);
                 if (e.student) {
                   return (
                     <AppointmentCard
@@ -218,7 +215,6 @@ export default function StaffAppointment() {
     const [studentInfo, setStudentInfo] = useState<any>([]);
     useEffect(() => {
       axios.get(`/api/studentprofile/${id}`).then(({ data }) => {
-        console.log(data);
         setStudentInfo(data);
       });
     }, [id]);
@@ -243,8 +239,7 @@ export default function StaffAppointment() {
             <CgCloseO
               size={30}
               className="cursor-pointer text-red-400"
-              onClick={async () => {
-                console.log(doc_id);
+              onClick={async() => {
                 await axios.delete(`/api/studentappointment?id=${doc_id}`);
                 setAllAppointments((old) => {
                   return old.filter((e: any) => e._id !== doc_id);

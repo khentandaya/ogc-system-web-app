@@ -55,7 +55,6 @@ export default function StaffSignupPage({}: Props) {
     setButtonLoad(true);
     const form = new FormData(e.target);
     const formJSON = Object.fromEntries(form.entries());
-    console.log(formJSON);
     const newStaff = await axios.post("/api/staff", formJSON);
     session.update({...session.data, ...newStaff});
     setButtonLoad(false);

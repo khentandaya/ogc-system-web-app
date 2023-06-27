@@ -101,11 +101,12 @@ export default function GeneralSchedule() {
   }
 
   useEffect(() => {
+    // console.log(session);
     if (session.data) {
       axios
-        .get(`/api/staff/weeklysched?id=${session.data.user._id}`)
+        .get(`/api/staff/weeklysched?college=${session.data.user.college}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setLoading(false);
           const resdata = res.data;
           if (resdata) {

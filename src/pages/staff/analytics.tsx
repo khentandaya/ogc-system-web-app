@@ -80,6 +80,18 @@ export default function Analytics({}: Props) {
               Emotional Well-being Snapshot
             </h1>
           </div>
+          <select
+            className="h-15 ml-36 mt-5 w-[20rem] rounded-xl border border-b-[2.3px] bg-[#FDFDFD] px-2 py-2 shadow-md outline-0 hover:bg-[#01bfa8]/10"
+            name="college"
+            onChange={(e) => {
+              setFilter(e.target.value);
+            }}
+            required
+          >
+            <option value="college">College</option>
+            <option value="gender">Gender</option>
+            <option value="yrlevel">Yr. Level</option>
+          </select>
           <SuicidalTendencyPie />
         </div>
       </div>
