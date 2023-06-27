@@ -30,6 +30,11 @@ export default async function handler(
         });
         res.status(200).json(arr);
 
+    case "DELETE":
+      const id = req.query.id;
+      const deleted = await StudentAppointment.findOneAndDelete({student: id})
+      res.status(200).json(deleted);
+
     default:
       return;
   }

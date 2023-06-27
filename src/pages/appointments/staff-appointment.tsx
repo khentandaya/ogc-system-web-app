@@ -28,6 +28,7 @@ import {
 } from "react-icons/ai";
 import { GrDocumentTime } from "react-icons/gr";
 import { BiCopy as CopyIcon, BiTrash as Trash } from "react-icons/bi";
+import { CgCloseO } from "react-icons/cg";
 import Checkbox from "@/components/checkbox";
 import GeneralSchedule from "@/components/GeneralSchedule";
 import { getAllJSDocTags } from "typescript";
@@ -69,12 +70,14 @@ export default function StaffAppointment() {
   const [allAppointments, setAllAppointments] = useState([]);
   const [studentArr, setStudentArr] = useState<object[]>([]);
 
-  useEffect(()=>{
-    axios.get(`/api/appointmentcollege?collegeQ=${session.data?.user.college}`).then(({data})=>{
-      console.log(data)
-      setAllAppointments(data);
-    })
-  },[])
+  useEffect(() => {
+    axios
+      .get(`/api/appointmentcollege?collegeQ=${session.data?.user.college}`)
+      .then(({ data }) => {
+        console.log(data);
+        setAllAppointments(data);
+      });
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center gap-[2rem]">
@@ -90,7 +93,7 @@ export default function StaffAppointment() {
             setTab("list");
           }}
         >
-          <GrDocumentTime className="w-5 h-5" /> Set Availability
+          <GrDocumentTime className="h-5 w-5" /> Set Availability
         </div>
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
@@ -100,7 +103,7 @@ export default function StaffAppointment() {
             setTab("calendar");
           }}
         >
-          <Calendar className="w-5 h-5" /> Calendar
+          <Calendar className="h-5 w-5" /> Calendar
         </div>
         <div
           className={`flex h-[2rem] w-[13rem] items-center justify-center gap-2 ${
@@ -110,7 +113,7 @@ export default function StaffAppointment() {
             setTab("appointments");
           }}
         >
-          <AiOutlineUnorderedList className="w-5 h-5" /> Appointments
+          <AiOutlineUnorderedList className="h-5 w-5" /> Appointments
         </div>
       </div>
       {tab === "calendar" ? (
@@ -139,7 +142,7 @@ export default function StaffAppointment() {
           {selectedDay ? (
             <div className="flex flex-col">
               <div className="flex gap-4">
-                <div className="flex flex-col items-start gap-2 px-4 py-3 border rounded-lg shadow-md">
+                <div className="flex flex-col items-start gap-2 rounded-lg border px-4 py-3 shadow-md">
                   <h2 className="text-lg font-semibold">
                     Scheduled Appointments:
                   </h2>
@@ -172,36 +175,44 @@ export default function StaffAppointment() {
         <GeneralSchedule />
       ) : (
         <div className="my-2 w-[50rem]">
-          <div className="flex flex-col items-start gap-2 px-4 py-3 border rounded-lg shadow-md">
-                  <h2 className="text-lg font-semibold">
-                    All Scheduled Appointments:
-                  </h2>
-                  <div className="flex max-h-[27rem] w-full flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
-                    {allAppointments.map((e: any, i) => {
-                      console.log(e);
-                      if (e.student) {
-                        return (
-                          <AppointmentCard
-                            key={i}
-                            id={e.student}
-                            date={e.date}
-                            email={e.prefferedemail}
-                            phone={e.prefferedphone}
-                            others={e.othercontact}
-                            mode={e.mode}
-                            alternateemail={e.alternateemail}
-                          />
-                        );
-                      }
-                    })}
-                  </div>
-                </div>
+          <div className="flex flex-col items-start gap-2 rounded-lg border px-4 py-3 shadow-md">
+            <h2 className="text-lg font-semibold">
+              All Scheduled Appointments:
+            </h2>
+            <div className="flex max-h-[27rem] w-full flex-col gap-3 overflow-y-auto p-2 text-neutral-800">
+              {allAppointments.map((e: any, i) => {
+                console.log(e);
+                if (e.student) {
+                  return (
+                    <AppointmentCard
+                      key={i}
+                      id={e.student}
+                      date={e.date}
+                      email={e.prefferedemail}
+                      phone={e.prefferedphone}
+                      others={e.othercontact}
+                      mode={e.mode}
+                      alternateemail={e.alternateemail}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 
-  function AppointmentCard({ id, date, email, phone, others, mode, alternateemail }: any) {
+  function AppointmentCard({
+    id,
+    date,
+    email,
+    phone,
+    others,
+    mode,
+    alternateemail,
+  }: any) {
     const [studentInfo, setStudentInfo] = useState<any>([]);
     useEffect(() => {
       axios.get(`/api/studentprofile/${id}`).then(({ data }) => {
@@ -212,7 +223,7 @@ export default function StaffAppointment() {
 
     if (studentInfo.length !== 0)
       return (
-        <div className="flex items-center justify-between  rounded px-2 py-1 hover:bg-[#83e8ef]/20">
+        <div className="flex items-center justify-between gap-3 rounded px-2 py-1 hover:bg-[#83e8ef]/20">
           <div className="w-full">
             <p>{`${studentInfo.firstname.toUpperCase()} ${studentInfo.lastname.toUpperCase()}`}</p>
             <p className="flex gap-8 text-[#28407f]">
@@ -223,22 +234,33 @@ export default function StaffAppointment() {
           </div>
           <Dialog>
             <DialogTrigger className="self-center">
-              <p className="text-sm cursor-pointer whitespace-nowrap hover:underline">
+              <p className="cursor-pointer whitespace-nowrap text-sm hover:underline">
                 View Appointment Details
               </p>
             </DialogTrigger>
+            <CgCloseO
+              size={30}
+              className="cursor-pointer text-red-400"
+              onClick={async () => {
+                console.log(id);
+                await axios.delete(`/api/studentappointment?id=${id}`);
+                setAllAppointments((old) => {
+                  return old.filter((e: any) => e.student !== id);
+                });
+              }}
+            />
             <DialogContent>
               <DialogHeader className="text-xl font-semibold">
                 Contact Info:
               </DialogHeader>
-              <div className="grid items-center grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 items-center gap-4">
                 <label htmlFor="email" className="whitespace-nowrap">
                   Email Address:
                 </label>
                 <Input
                   type="email"
                   id="email"
-                  className="w-full col-span-2"
+                  className="col-span-2 w-full"
                   value={email}
                   disabled
                 />
@@ -248,7 +270,7 @@ export default function StaffAppointment() {
                 <Input
                   type="email"
                   id="alternateemail"
-                  className="w-full col-span-2"
+                  className="col-span-2 w-full"
                   value={alternateemail}
                   disabled
                 />
@@ -258,14 +280,14 @@ export default function StaffAppointment() {
                 <Input
                   id="phone"
                   value={phone}
-                  className="w-full col-span-2"
+                  className="col-span-2 w-full"
                   disabled
                 />
                 <label htmlFor="other">Other (e.g. Facebook):</label>
                 <Input
                   id="other"
                   value={others}
-                  className="w-full col-span-2"
+                  className="col-span-2 w-full"
                   disabled
                 />
               </div>
