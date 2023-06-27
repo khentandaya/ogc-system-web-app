@@ -186,6 +186,7 @@ export default function StaffAppointment() {
                   return (
                     <AppointmentCard
                       key={i}
+                      doc_id={e._id}
                       id={e.student}
                       date={e.date}
                       email={e.prefferedemail}
@@ -205,6 +206,7 @@ export default function StaffAppointment() {
   );
 
   function AppointmentCard({
+    doc_id,
     id,
     date,
     email,
@@ -242,10 +244,10 @@ export default function StaffAppointment() {
               size={30}
               className="cursor-pointer text-red-400"
               onClick={async () => {
-                console.log(id);
-                await axios.delete(`/api/studentappointment?id=${id}`);
+                console.log(doc_id);
+                await axios.delete(`/api/studentappointment?id=${doc_id}`);
                 setAllAppointments((old) => {
-                  return old.filter((e: any) => e.student !== id);
+                  return old.filter((e: any) => e._id !== doc_id);
                 });
               }}
             />

@@ -32,7 +32,7 @@ export default async function handler(
 
     case "DELETE":
       const id = req.query.id;
-      const deleted = await StudentAppointment.findOneAndDelete({student: id})
+      const deleted = await StudentAppointment.findOneAndDelete({_id: id})
       res.status(200).json(deleted);
 
     default:
