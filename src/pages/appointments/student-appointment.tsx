@@ -26,6 +26,7 @@ import axios from "axios";
 import log from "@/utils/log";
 import toDayString from "@/utils/toDayString";
 import timeSlice from "@/utils/timeSlice";
+import WeeklySched from "@/models/WeeklySched";
 
 export async function getServerSideProps({
   req,
@@ -82,12 +83,11 @@ export default function StudentAppointment() {
 
   useEffect(() => {
     if (Object.keys(appointmentForm).length === 0) {
-      console.log("emty");
+
     } else if (Object.keys(appointmentForm).length !== 0) {
       const response = axios
         .post("/api/studentappointment", appointmentForm)
         .then(({ data }) => {
-          console.log(data);
           return data;
         });
     }
@@ -119,7 +119,10 @@ export default function StudentAppointment() {
               `/api/staff/weeklysched?college=${session.data?.user.college}`
             );
             setSelectedDay(date);
-            console.log(session.data?.user.college);
+            if(!weeklysched){
+              disableAll();
+              return
+            }
 
             const nextDate = new Date(date + "");
             const newdate = new Date(date + "");
@@ -133,7 +136,7 @@ export default function StudentAppointment() {
                   session.data?.user.college
                 }`
               );
-              console.log(getApp.data);
+    
               if (getApp.data.length !== 0) {
                 getApp.data.forEach((e: any) => {
                   disableTimeslot(new Date(e.date));
@@ -143,7 +146,6 @@ export default function StudentAppointment() {
               // weekly schedule disable
               const adlaw = date.getDay();
               const day = toDayString(adlaw);
-              // console.log(day)
               if (weeklysched?.data[day].length !== 0) {
                 let disabledTime: Date[] = [];
                 for (const dates of weeklysched.data[day]) {
